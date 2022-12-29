@@ -6,33 +6,33 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:25:26 by agouet            #+#    #+#             */
-/*   Updated: 2022/12/22 18:15:32 by agouet           ###   ########.fr       */
+/*   Updated: 2022/12/29 13:42:10 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include <string>
-#include <deque>
-#if 1 //CREATE A REAL STL EXAMPLE
-	#include <map>
-	#include <stack>
-	#include <vector>
-	namespace ft = std;
-#else
-	#include <map.hpp>
-	#include <stack.hpp>
-	#include <vector.hpp>
-#endif
+// #include <string>
+// #include <deque>
+// #if 1 //CREATE A REAL STL EXAMPLE
+	// #include <map>
+// 	// #include <stack>
+// 	#include <vector>
+// 	namespace ft = std;
+// #else
+	// #include <map.hpp>
+	// #include <stack.hpp>
+	#include <Vector.hpp>
+// #endif
 
 #include <stdlib.h>
 
-#define MAX_RAM 4294967296
-#define BUFFER_SIZE 4096
-struct Buffer
-{
-	int idx;
-	char buff[BUFFER_SIZE];
-};
+// #define MAX_RAM 4294967296
+// #define BUFFER_SIZE 4096
+// struct Buffer
+// {
+// 	int idx;
+// 	char buff[BUFFER_SIZE];
+// };
 
 
 // #define COUNT (MAX_RAM / (int)sizeof(Buffer))
@@ -57,15 +57,17 @@ struct Buffer
 // };
 
 int main(int argc, char** argv) {
-// 	if (argc != 2)
-// 	{
-// 		std::cerr << "Usage: ./test seed" << std::endl;
-// 		std::cerr << "Provide a seed please" << std::endl;
-// 		std::cerr << "Count value:" << COUNT << std::endl;
-// 		return 1;
-// 	}
-// 	const int seed = atoi(argv[1]);
-// 	srand(seed);
+	// if (argc != 2)
+	// {
+	// 	std::cerr << "Usage: ./test seed" << std::endl;
+	// 	std::cerr << "Provide a seed please" << std::endl;
+	// 	std::cerr << "Count value:" << COUNT << std::endl;
+	// 	return 1;
+	// }
+	// const int seed = atoi(argv[1]);
+	// srand(seed);
+
+	ft::vector <int> v;
 
 // 	ft::vector<std::string> vector_str;
 // 	ft::vector<int> vector_int;
