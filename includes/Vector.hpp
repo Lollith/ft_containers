@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:04 by agouet            #+#    #+#             */
-/*   Updated: 2022/12/29 18:27:04 by agouet           ###   ########.fr       */
+/*   Updated: 2022/12/30 17:24:10 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,21 @@ namespace ft {
 		
 		typedef std::ptrdiff_t									diference_type;
 		typedef std::size_t										size_type;
-	//iterators??
+
+		// typedef typename random_access_iterator<pointer>		iterator;
+		// typedef typename random_access_iterator<const_pointer>	const_iterator;
+		// typedef reverse_iterator<iterator>						reverse_iterator;
+		// typedef reverse_iterator<const_iterator>				const_reverse_iterator;
+
+	
+		
 //---------------------------------------------constructor----------------------
 //(1)empty
 // Vector();
  		explicit vector( const Allocator &alloc = Allocator() );
 
 //(2)fill count element , initialized with a Value val
-		explicit vector( size_type count, const T& value = T(), const Allocator& alloc = Allocator() ); // appel class T par default et class Allocator par defaut
+		// explicit vector( size_type count, const T& value = T(), const Allocator& alloc = Allocator() ); // appel class T par default et class Allocator par defaut
 
 // Vector( size_t n );
 // //(3)range
@@ -51,19 +58,26 @@ namespace ft {
 // ~Vector( void );
 //operator=
 
+//---------------------------------------------iterators------------------------
+
+		// iterator	begin(void);
+		// this function returns a random access iterator pointing to it.
+
+
 //---------------------------------------------members fct----------------------
 //capacity
 		size_type	size( void ) const;
+		void resize (size_type n, value_type val= value_type());
 
 // modifier
 		void clear( void );
-		void assign(size_type count, const T &value);
+		void pop_back( void);
+		// void assign(size_type count, const T &value);
 		
 //---------------------------------------------overloards-----------------------
 
 //---------------------------------------------non member fct-------------------
 
-//---------------------------------------------iterators------------------------
 
 		
 	
