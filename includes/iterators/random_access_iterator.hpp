@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 13:55:07 by agouet            #+#    #+#             */
-/*   Updated: 2022/12/30 18:53:49 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/03 17:50:58 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@
 namespace ft {
 	
 	template < typename It >
-	class random_access_iterator//: public std::iterator<std::random_access_iterator_tag, It> 
+	class random_access_iterator: : public std::iterator<typename iterator_traits<Iter>::iterator_category,
+		typename iterator_traits<Iter>::value_type,
+		typename iterator_traits<Iter>::difference_type,
+		typename iterator_traits<Iter>::pointer,
+		typename iterator_traits<Iter>::reference>
 	{
 
 		public:
@@ -39,7 +43,7 @@ namespace ft {
 			typedef typename iterator_traits<It>::pointer			pointer;
 			typedef typename iterator_traits<It>::reference			reference;
 
-		private:
+		protected:
 			pointer								_current;
 		
 		public:
@@ -49,11 +53,36 @@ namespace ft {
 		explicit random_access_iterator(pointer pt);
 		
 		template< class U >
-		random_access_iterator( const random_access_iterator<U> &other);
+		random_access_iterator( const random_access_iterator<U> &other );
 		
-		~random_access_iterator( void ); 	
+		~random_access_iterator( void ); 
+		
+	
+		//-------------------------------members--------------------------------	
+
+		template< class U >
+		random_access_iterator &operator=(const random_access_iterator<U> &other);
+		pointer base() const;
+		
+		reference operator*() const;
+		pointer operator->() const;
+		reference operator[] ( difference_type n);
+		
+		random_access_iterator &operator++();
+		random_access_iterator &operator--();
+		random_access_iterator operator++( int );
+		random_access_iterator operator--( int );
+		
+		random_access_iterator operator+( difference_type n ) const;
+		random_access_iterator operator-( difference_type n ) const;
+		
+		random_access_iterator &operator+=( diference_type n );
+		random_access_iterator &operator-=( diference_type n );
 	
 	};
+
+	template< class T1, class T2>
+	
 
 } //namespace ft
 
