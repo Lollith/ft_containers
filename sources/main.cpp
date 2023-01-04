@@ -6,23 +6,25 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:25:26 by agouet            #+#    #+#             */
-/*   Updated: 2022/12/29 13:42:10 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/04 15:25:01 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 // #include <string>
 // #include <deque>
-// #if 1 //CREATE A REAL STL EXAMPLE
-	// #include <map>
-// 	// #include <stack>
-// 	#include <vector>
-// 	namespace ft = std;
-// #else
+
+#ifdef FT //CREATE A REAL STL EXAMPLE
+	#include <Vector.hpp>
 	// #include <map.hpp>
 	// #include <stack.hpp>
-	#include <Vector.hpp>
-// #endif
+	namespace NAME_USE = ft;
+#else
+	// #include <map>
+// 	// #include <stack>
+	#include <vector>
+	namespace NAME_USE = std;
+#endif
 
 #include <stdlib.h>
 
@@ -67,7 +69,7 @@ int main(int argc, char** argv) {
 	// const int seed = atoi(argv[1]);
 	// srand(seed);
 
-	ft::vector <int> v;
+	NAME_USE::vector <int> v;
 
 // 	ft::vector<std::string> vector_str;
 // 	ft::vector<int> vector_int;

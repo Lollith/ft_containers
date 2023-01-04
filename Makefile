@@ -6,12 +6,22 @@
 #    By: agouet <agouet@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/22 16:12:52 by agouet            #+#    #+#              #
-#    Updated: 2022/12/29 16:25:50 by agouet           ###   ########.fr        #
+#    Updated: 2023/01/04 18:04:44agouet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= ft_containers
-NAME_VECTOR = ft_vector
+#make : creer ft_containers et std_containers avec le main du sujet
+#make vector : ft_vector et std_vectors : test de mes vecteurs
+
+################################################################################
+#                                 tools
+################################################################################
+
+NAME			= ft_containers
+NAME_STD		= std_containers
+
+NAME_VECTOR_FT	= ft_vector
+NAME_VECTOR_STD	= std_vector
 
 CXX			= c++
 
@@ -19,51 +29,79 @@ RM			= rm -rf
 
 MKDIR		= mkdir -p 
 
-
-
-SRC_PATH	= sources/
-
-SRC			= $(addprefix $(SRC_PATH), main.cpp)
-SRC_VECTOR	= $(addprefix $(SRC_PATH), main_vector.cpp)
-
-OBJ_PATH 	= objects/
-
-OBJ					= $(SRC:${SRC_PATH}%.cpp=${OBJ_PATH}%.o)
-OBJ_VECTOR			= $(SRC_VECTOR:${SRC_PATH}%.cpp=${OBJ_PATH}%.o)
-
-DEPS		= $(SRC:${SRC_PATH}%.cpp=${OBJ_PATH}%.d)
-DEPS_VECTOR	= $(SRC_VECTOR:${SRC_PATH}%.cpp=${OBJ_PATH}%.d)
-
 CXXFLAGS	= -MMD -Wall -Wextra -Werror -std=c++98 -fsanitize=address 
 
-INC			= -I ./includes/
+################################################################################
+#                                 files
+################################################################################
 
+SRC_PATH		= sources/
+OBJ_PATH 		= objects/
 
+SRC				= $(addprefix $(SRC_PATH), main.cpp)
+OBJ_FT				= $(SRC:${SRC_PATH}%.cpp=${OBJ_PATH}%_ft.o)
+OBJ_STD			= $(SRC:${SRC_PATH}%.cpp=${OBJ_PATH}%_std.o)
 
-all				: $(NAME)
-vector          : $(NAME_VECTOR)
+SRC_VECTOR		= $(addprefix $(SRC_PATH), main_vector.cpp)
+OBJ_VECTOR_FT	= $(SRC_VECTOR:${SRC_PATH}%.cpp=${OBJ_PATH}%_ft.o) #_ft.o
+OBJ_VECTOR_STD	= $(SRC_VECTOR:${SRC_PATH}%.cpp=${OBJ_PATH}%_std.o)
 
-$(OBJ_PATH)%.o	: $(SRC_PATH)%.cpp
+DEPS			= ${OBJ_PATH}%.o=${OBJ_PATH}%.d) \
+					 $(OBJ_VECTOR_FT:${OBJ_PATH}%.o=${OBJ_PATH}%.d)\
+					 $(OBJ_VECTOR_STD:${OBJ_PATH}%.o=${OBJ_PATH}%.d)
+#   pour check les .tpp passer par .o au lieu de .cpp
+
+INC				= -I ./includes/
+
+################################################################################
+#                                rules
+################################################################################
+
+$(OBJ_PATH)%_ft.o	: $(SRC_PATH)%.cpp    #si _ft_o ou si _std.o => define FT
 					$(MKDIR) ${dir $@}
-					$(CC) $(CFLAGS) $(INC) -c $< -o $@
+					$(CXX) $(CXXFLAGS) $(INC) -DFT -c $< -o $@
 
-$(NAME)			: $(OBJ)
-					$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
+$(OBJ_PATH)%_std.o	: $(SRC_PATH)%.cpp
+					$(MKDIR) ${dir $@}
+					$(CXX) $(CXXFLAGS) $(INC) -c $< -o $@
 
-$(NAME_VECTOR)	: $(OBJ_VECTOR)
-					$(CXX) $(CXXFLAGS) $(OBJ_VECTOR) -o $(NAME_VECTOR)
 
+all				: $(NAME) $(NAME_STD)
+
+$(NAME)			: $(OBJ_FT)
+					$(CXX) $(CXXFLAGS) $(OBJ_FT) -o $(NAME)
+
+$(NAME_STD)		: $(OBJ_STD)
+					$(CXX) $(CXXFLAGS) $(OBJ_STD) -o $(NAME_STD)
+
+
+vector          : $(NAME_VECTOR_FT) $(NAME_VECTOR_STD) 
+
+$(NAME_VECTOR_FT)	: $(OBJ_VECTOR_FT)
+					$(CXX) $(CXXFLAGS) $(OBJ_VECTOR_FT) -o $(NAME_VECTOR_FT)
+
+$(NAME_VECTOR_STD)	: $(OBJ_VECTOR_STD)
+					$(CXX) $(CXXFLAGS) $(OBJ_VECTOR_STD) -o $(NAME_VECTOR_STD)
+
+
+################################################################################
+#                                clean
+################################################################################
 
 clean:
 		$(RM) objects
 
 fclean: clean
-		$(RM) $(NAME) $(NAME_VECTOR)
+		$(RM) $(NAME) $(NAME_STD) $(NAME_VECTOR_FT) $(NAME_VECTOR_STD)  
 
 re: fclean
 	make -C .
 
+
+################################################################################
+#                                 utils
+################################################################################
+
 .PHONY: all re clean fclean
 
--include $(DEPS) $(DEPS_VECTOR)
-
+-include $(DEPS)
