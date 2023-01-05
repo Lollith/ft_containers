@@ -29,7 +29,7 @@ RM			= rm -rf
 
 MKDIR		= mkdir -p 
 
-CXXFLAGS	= -MMD -Wall -Wextra -Werror -std=c++98 -fsanitize=address 
+CXXFLAGS	= -MMD -Wall -Wextra -Werror -std=c++98 #-fsanitize=address 
 
 ################################################################################
 #                                 files

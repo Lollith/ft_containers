@@ -40,19 +40,37 @@ template < typename T, typename Allocator>
 vector<T, Allocator>::vector( size_type n, const value_type& value, const allocator_type& alloc ): // appel class T par default et class Allocator par defaut
 		_start(NULL), _size(0), _capacity(0), _alloc(alloc){
 		assign( n, value);
+}
+
+//initialise lhs = copie construite // rhs : ce que je copie
+template < typename T, typename Allocator>
+vector<T, Allocator>::vector( vector const &copy ){
+	_start = NULL;
+	_size = 0;
+	_capacity = 0;
+	*this = copy;
+}
+
+template < typename T, typename Allocator>
+	vector& operator=( vector const& rhs ){
+		if ( this != &rhs )
+		{
+en cours
+		}
+		return (*this);
 	}
 
 
 template < typename T, typename Allocator>
 vector<T, Allocator>::~vector( void )
 {
-	// clear();
-	if (_capacity != 0)
-	{
-		_alloc.deallocate(_start, sizeof(value_type) * _capacity); // libere
-		// _capacity= 0;
-	}
+	std:: cout << "delete" << std::endl;
+		// clear();
+	// for (size_type i = 0; i < _size; i++)
+	// 	_alloc.destroy(_start + i); //  l objet est detruit // ne libere pas
+	_alloc.deallocate(_start, sizeof(value_type) * _capacity); // libere
 }
+		
 //---------------------------------------------iterators------------------------
 // template < typename T, typename Allocator>
 // typename vector<T,Allocator>::iterator vector<T, Allocator>::begin(void){
@@ -113,7 +131,7 @@ void vector<T, Allocator>::reserve(size_type n)
 	for (size_type i = 0; i < _size; i++)
 	{
 		_alloc.construct(new_stock + i, _start[i]);
-		_alloc.destroy(_start+i); //  l objet est detruit // ne libere pas
+		_alloc.destroy(_start + i); //  l objet est detruit // ne libere pas
 	}
 	if (_capacity != 0)
 		_alloc.deallocate(_start, sizeof(value_type) * _capacity); // libere le pointeur
@@ -144,7 +162,7 @@ void vector<T, Allocator>::clear( void ){
 template < typename T, typename Allocator>
 void vector<T, Allocator>::assign(size_type n, const T &val){
 	clear();
-	// reserve(n);
+	reserve(n);
 	this->_size = n;
 	for (size_type i = 0; i < _size; i++)
 		_alloc.construct(_start + i, val);

@@ -52,14 +52,14 @@ namespace ft {
 //(2)fill count element , initialized with a Value val
 		explicit vector( size_type n, const T& value = T(), const Allocator& alloc = Allocator() ); // appel class T par default et class Allocator par defaut
 
-// Vector( size_t n );
 // //(3)range
 // Vector ( T first, T last);
 // //(4)copy
-// Vector (Vector const &copy);
+		vector (vector const &copy);
 // //destructeur
 		~vector( void );
 //operator=
+		vector& operator=( vector const& rhs );
 
 //---------------------------------------------iterators------------------------
 
