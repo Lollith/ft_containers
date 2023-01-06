@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:17 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/04 17:39:09 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/06 11:39:55 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,27 @@ int main()
 	std::cout <<"\e[1;31m"<< "constructor (2) :"<< "\e[0m"<< std::endl;
 	display(v1);
 
-	NAME_USE::vector <int> v2(v1);	
-	std::cout <<"\e[1;31m"<< "constructor par copy :"<< "\e[0m"<< std::endl;
+	NAME_USE::vector <int> v2;
+	v2 = v1;
+	std::cout <<"\e[1;31m"<< "operator= :"<< "\e[0m"<< std::endl;
 	display(v2);
-	// // leak
+	v2.assign(5, 4);
+	std::cout <<"\e[1;31m"<< "assign :"<< "\e[0m"<< std::endl;
+	display(v2);
+
+	NAME_USE::vector <int> v3(v1);	
+	std::cout <<"\e[1;31m"<< "constructor par copy :"<< "\e[0m"<< std::endl;
+	display(v3);
+	v3.resize(2,0);
+	std::cout <<"\e[1;31m"<< "resize + petit :"<< "\e[0m"<< std::endl;
+	display(v3);
+	v3.resize(10,0);
+	std::cout <<"\e[1;31m"<< "resize + grand:"<< "\e[0m"<< std::endl;
+	display(v3);
+	v3.resize(10,1);
+	std::cout <<"\e[1;31m"<< "resize  egal :"<< "\e[0m"<< std::endl;
+	display(v3);
+
 
 
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:53 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/04 18:22:08 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/06 11:47:18 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 //Cela signifie que vous pouvez appeler la fonction sans fournir de valeur pour le paramètre alloc,
 
 # include <iostream>
-
 
 //---------------------------------------------constructor----------------------
 namespace ft {
@@ -52,10 +51,13 @@ vector<T, Allocator>::vector( vector const &copy ){
 }
 
 template < typename T, typename Allocator>
-	vector& operator=( vector const& rhs ){
+vector<T, Allocator> &vector<T, Allocator>::operator=( vector<T, Allocator> const& rhs ){
 		if ( this != &rhs )
 		{
-en cours
+			clear();
+			reserve(rhs._size);
+			this->_size = rhs._size;
+			this->_capacity = rhs._capacity;
 		}
 		return (*this);
 	}
@@ -64,10 +66,7 @@ en cours
 template < typename T, typename Allocator>
 vector<T, Allocator>::~vector( void )
 {
-	std:: cout << "delete" << std::endl;
-		// clear();
-	// for (size_type i = 0; i < _size; i++)
-	// 	_alloc.destroy(_start + i); //  l objet est detruit // ne libere pas
+		clear();
 	_alloc.deallocate(_start, sizeof(value_type) * _capacity); // libere
 }
 		
@@ -92,14 +91,16 @@ typename vector<T, Allocator>::size_type vector<T, Allocator>::max_size( void ) 
 	return (_alloc.max_size());
 }
 
-// template < typename T, typename Allocator>
-// void vector<T, Allocator>::resize (size_type n, value_type val){
-// 	// if(n < this->size())
-// 	// {
-// 	// 	_alloc.destroy(_data)
-// 	// 	this->_size = n;
-// 	// }
-// }
+template < typename T, typename Allocator>
+void vector<T, Allocator>::resize (size_type n, value_type val){
+	if (n < _size)
+		_alloc.destroy(_start);
+	else if  (n > _size && n > _capacity * 2)
+		assign(n, val);
+	else if (n > _size)
+		assign(_capacity * 2, val);
+	this->_size = n;
+}
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::size_type vector<T, Allocator>::capacity( void ) const{
@@ -118,6 +119,8 @@ bool vector<T, Allocator>::empty( void ) const{
 // In all other cases, the function call does not cause a reallocation and the 
 //vector capacity is not affected.
 // This function has no effect on the vector size and cannot alter its elements.
+
+// alloc.construc => n alloue pas, cnstruit lobjet value  au niveau du pointer
 template < typename T, typename Allocator>
 void vector<T, Allocator>::reserve(size_type n)
 {
@@ -141,20 +144,13 @@ void vector<T, Allocator>::reserve(size_type n)
 
 
 //-------------------------------------members fct modifier---------------------
-//clear = remove all element s , destroyed(pointer), size =0
+//clear = remove all element s , destroyed the objet( not the pointer), size =0
 template < typename T, typename Allocator>
 void vector<T, Allocator>::clear( void ){
 	for(size_type i = 0; i < _size; i++)
 		_alloc.destroy(_start + i);
 	this->_size = 0;
 }
-
-// template < typename T, typename Allocator>
-// void vector<T, Allocator>::pop_back( void ){
-// 	_alloc.destroy(_data[a remplir])
-// 	this->_size --;
-// }
-
 
 
 //assign new values to the vector elements by replacing old ones. 
@@ -168,6 +164,18 @@ void vector<T, Allocator>::assign(size_type n, const T &val){
 		_alloc.construct(_start + i, val);
 	// _end = _start + _ size;
 }
+
+
+template < typename T, typename Allocator>
+void push_back (const value_type &val);
+
+// template < typename T, typename Allocator>
+// void vector<T, Allocator>::pop_back( void ){
+// 	_alloc.destroy(_data[a remplir])
+// 	this->_size --;
+// }
+
+
 //-----------------------------------------------------en plus-----------------//
 // template < typename T, typename Allocator>
 // std::ostream& operator<<(std::ostream& o, vector<T, Allocator> const &instance){

@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:04 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/04 17:38:19 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/06 11:47:05 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ namespace ft {
 // //destructeur
 		~vector( void );
 //operator=
-		vector& operator=( vector const& rhs );
+		vector &operator=( vector const& rhs );
 
 //---------------------------------------------iterators------------------------
 
@@ -70,22 +70,21 @@ namespace ft {
 //---------------------------------------------members fct----------------------
 //capacity
 		size_type	size( void ) const;
-		// void resize (size_type n, value_type val= value_type());
+		void resize (size_type n, value_type val= value_type());
 		size_type max_size ( void ) const;
 		size_type capacity( void ) const;
 		bool empty( void ) const;
 		void reserve(size_type n);
-		//shrink_to_fit
 
 // modifier
+		void clear( void );
 		void assign(size_type n, const T &value);
-		//pushback
+		void push_back (const value_type &val);
 		//insert
 		//erase
 		//swap
 		//emplae
 		//emplace_back
-		void clear( void );
 		void pop_back( void);
 
 //access
