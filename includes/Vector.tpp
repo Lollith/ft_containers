@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:53 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/06 11:47:18 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/06 18:10:14 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ template < typename T, typename Allocator>
 vector<T, Allocator> &vector<T, Allocator>::operator=( vector<T, Allocator> const& rhs ){
 		if ( this != &rhs )
 		{
-			clear();
-			reserve(rhs._size);
+			this->reserve(rhs._size);
+			this->clear();
+			for (size_type i = 0; i < rhs._size; i++)
+				_alloc.construct(this->_start + i, *(rhs._start + i));
 			this->_size = rhs._size;
 			this->_capacity = rhs._capacity;
 		}
@@ -95,10 +97,18 @@ template < typename T, typename Allocator>
 void vector<T, Allocator>::resize (size_type n, value_type val){
 	if (n < _size)
 		_alloc.destroy(_start);
-	else if  (n > _size && n > _capacity * 2)
-		assign(n, val);
+	else if (n > _size && n > _capacity * 2)
+	{
+		reserve(n);
+		for (size_type i = _size; i < n; i++)
+			_alloc.construct(_start + i, val);
+	}
 	else if (n > _size)
-		assign(_capacity * 2, val);
+	{
+		reserve(n);
+		for (size_type i = _size; i < n; i++)
+			_alloc.construct(_start + i, val);
+	}
 	this->_size = n;
 }
 
@@ -109,9 +119,9 @@ typename vector<T, Allocator>::size_type vector<T, Allocator>::capacity( void ) 
 
 template < typename T, typename Allocator>
 bool vector<T, Allocator>::empty( void ) const{
-	if (_size == 0 )
-		return ( true );
-	return ( false );
+	if (_size > 0 )
+		return ( false );
+	return ( true );
 }
 //reserve: Requests that the vector capacity be at least enough to contain n elements.
 // If n is greater than the current vector capacity, the function causes the 
@@ -162,25 +172,106 @@ void vector<T, Allocator>::assign(size_type n, const T &val){
 	this->_size = n;
 	for (size_type i = 0; i < _size; i++)
 		_alloc.construct(_start + i, val);
-	// _end = _start + _ size;
 }
 
 
 template < typename T, typename Allocator>
-void push_back (const value_type &val);
+void vector<T, Allocator>::push_back(const value_type &val){
+	if (_capacity == 0)
+		reserve(1);
+	else if (_size + 1 > _capacity)
+		reserve(_capacity * 2);
+	_alloc.construct(_start + _size, val);
+	_size++;
+}
 
-// template < typename T, typename Allocator>
-// void vector<T, Allocator>::pop_back( void ){
-// 	_alloc.destroy(_data[a remplir])
-// 	this->_size --;
-// }
+template < typename T, typename Allocator>
+void vector<T, Allocator>::pop_back( void ){	
+	_alloc.destroy(_start + _size - 1);
+	if (_size == 0)
+		throw std::overflow_error("size < 0");
+	this->_size --;
+}
 
+template < typename T, typename Allocator>
+void vector<T, Allocator>::swap(vector& x){
+	pointer tmp;
+	
+	tmp = this->_start;
+	this->_start = x._start;
+	x._start = tmp;
+	std::swap(_size, x._size); // meme chose que ligne prcedente
+	std::swap(_capacity, x._capacity);
+	std::swap(_alloc, x._alloc);
+}
 
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator position){
+	if (position >= end() && position < _start)
+		return (NULL);
+	_alloc.destroy(position);
+	for (iterator it = position; it != end(); it++)
+		 *it = *(it + 1);
+	_alloc.destroy(end());
+	_size --;
+	return (position);
+}
+//nserting new elements before the element at the specified position,
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::iterator	vector<T, Allocator>::insert (iterator position, const value_type& val){
+	if (_capacity == 0)
+		reserve(1);
+	if (_size == _capacity)
+		reserve(_capacity * 2);
+			
+	for (iterator it = end(); it != position; it--)
+	{
+		*it = *(it - 1);
+		if (it == position)
+		{
+			_alloc.construct(it, val);
+		}
+	}
+		_size++;
+		return (position); // good??
+		// en cours <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<ICI
+}
+
+//-------------------------------------members fct iterator---------------------
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::iterator vector<T, Allocator>::begin(){
+	return (_start);
+}
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::const_iterator vector<T, Allocator>::begin() const{
+	return (_start);
+}
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::iterator vector<T, Allocator>::end(){
+	return (_start + _size);
+}
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::const_iterator vector<T, Allocator>::end() const{
+	return (_start + _size);
+}
 //-----------------------------------------------------en plus-----------------//
 // template < typename T, typename Allocator>
 // std::ostream& operator<<(std::ostream& o, vector<T, Allocator> const &instance){
 // 	o << instance.size();
 // 	return (o);
 // }
+
+
+//---------------------------------------------non member fct-------------------
+
+template < typename T, typename Allocator>
+void swap(vector<T, Allocator> &lhs, vector<T, Allocator> &rhs){
+	lhs.swap(rhs);	
+}
+
 
 }// namespace ft
