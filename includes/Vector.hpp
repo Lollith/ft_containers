@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:04 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/06 17:40:01 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/09 18:11:46 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include <iostream>
 # include <memory> //class Allocator
+# include "iterators/iterator_traits.hpp"
+# include "iterators/Reverse_Iterator.hpp"
+
 
 namespace ft {
 	//allocator = class
@@ -36,8 +39,8 @@ namespace ft {
 
 		typedef T*												iterator;
 		typedef const T*										const_iterator;
-		// typedef reverse_iterator<iterator>						reverse_iterator;
-		// typedef reverse_iterator<const_iterator>				const_reverse_iterator;
+		typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
+		typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 	
 		
@@ -65,16 +68,14 @@ namespace ft {
 
 //---------------------------------------------iterators------------------------
 
-		iterator		begin( void );
-		const_iterator	begin( void ) const;
-		iterator		end( void );
-		const_iterator	end( void ) const;
-	//rbegin
-	//rend
-	//cbegin
-	//cend
-	//crbegin
-	//crend
+		iterator				begin( void );
+		const_iterator			begin( void ) const;
+		iterator				end( void );
+		const_iterator			end( void ) const;
+		reverse_iterator 		rbegin();
+		const_reverse_iterator	rbegin() const;
+		reverse_iterator 		rend();
+		const_reverse_iterator	rend() const;
 
 //---------------------------------------------members fct----------------------
 //capacity
@@ -99,13 +100,20 @@ namespace ft {
 		iterator		insert (iterator position, const value_type& val);
     	void			insert (iterator position, size_type n, const value_type& val);
 		//insert (3)
-//access
 
+//---------------------------------------------access---------------------------
+  reference operator[] (size_type n);
+  const_reference operator[] (size_type n) const;
 
-		
-//---------------------------------------------overloards-----------------------
+  reference at (size_type n);
+  const_reference at (size_type n) const;
+//front
+//back
+//data
 
+//---------------------------------------------get_allocator------------------------
 
+		allocator_type get_allocator() const;
 	
 //---------------------------------------------attributs------------------------
 		//The container keeps an internal copy of alloc, which is used to allocate storage throughout its lifetime.
@@ -120,8 +128,6 @@ namespace ft {
 //size = ce qui est demander par le main
 
 	};
-	// template < class T, class Allocator = std::allocator<T> >
-	// std::ostream &	operator<<( std::ostream & o, const vector<T, Allocator> &rhs);
 
 //---------------------------------------------non member fct-------------------
 

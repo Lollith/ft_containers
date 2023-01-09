@@ -6,13 +6,15 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:17 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/06 18:08:23 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/09 18:24:10 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include "Vector.hpp"
 #include <vector>
+#include <iterator>
+
 
 #ifdef FT
 	#include <Vector.hpp>
@@ -29,14 +31,20 @@
 template <typename T, typename Allocator>
 static void display(NAME_USE::vector<T, Allocator>& vect)
 {
+	std::cout << "iterator :"<< std::endl;
 	for (typename NAME_USE::vector<T>::iterator it = vect.begin(); it != vect.end(); it++)
-		std::cout << *it << std::endl;
+		std::cout << *it << ", ";
+	std::cout << std::endl;
+	std::cout <<"reverse ite :" << std::endl;
+	for (typename NAME_USE::vector<T>::reverse_iterator it2 = vect.rbegin(); it2 != vect.rend(); it2++)
+		std::cout << *it2 << ", ";
+	std::cout << std::endl;
 	std::cout << "size: " << vect.size() << std::endl;
 	std::cout << "max_size: " << vect.max_size() << std::endl;
 	std::cout << "capacity: " << vect.capacity() << std::endl;
 	std::cout << "empty: " << vect.empty() << std::endl;
-	// std::cout << "empty: " << vect[] << std::endl;
-	// std::cout << "empty: " << vect.at << std::endl;
+	if (vect.size() > 0)
+		std::cout << "vect[1]: " << vect[1] << std::endl;
 	std::cout <<  std::endl;
 }
 
@@ -121,16 +129,36 @@ int main()
 	// display(v5);
 
 	NAME_USE::vector <int> v6;
-	std::cout <<"\e[1;31m"<< "erase :"<< "\e[0m"<< std::endl;
-	v6.push_back(0);
-	v6.push_back(1);
-	v6.push_back(2);
+	std::cout <<"\e[1;31m"<< "insert :"<< "\e[0m"<< std::endl;
 	display(v6);
+	v6.insert(v6.begin(), 0);
+	v6.insert(v6.begin(), 1);
+	v6.push_back(2);
+	v6.push_back(3);
+	v6.push_back(4);
+	display(v6);
+	std::cout <<"\e[1;31m"<< "erase :"<< "\e[0m"<< std::endl;
 	v6.erase(v6.begin()+1);
 	display(v6);
-	v6.insert(v6.begin()+1, 4);
+	std::cout <<"\e[1;31m"<< "insert (2):"<< "\e[0m"<< std::endl;
+	v6.insert(v6.begin() + 3,5, 0);
 	display(v6);
 	
+	try{
+	NAME_USE::vector <int> v7;
+	v7.insert(v7.begin(), 0);
+	v7.insert(v7.begin(), 1);
+	v7.push_back(2);
+	v7.push_back(3);
+	v7.push_back(4);
+	std::cout <<"\e[1;31m"<< "at:"<< "\e[0m"<< std::endl;
+	std::cout << "at(3): " << v7.at(1) << std::endl;
+	std::cout << "at(10): " << v7.at(10) << std::endl;
+	}
+
+	catch(std::out_of_range const &e){
+		std::cerr << "ERREUR: "<< e.what() << std::endl;
+	}
 	return (0);
 }
 

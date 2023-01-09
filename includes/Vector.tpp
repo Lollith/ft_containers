@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:53 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/06 18:10:14 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/09 18:17:59 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,6 @@ vector<T, Allocator>::~vector( void )
 	_alloc.deallocate(_start, sizeof(value_type) * _capacity); // libere
 }
 		
-//---------------------------------------------iterators------------------------
-// template < typename T, typename Allocator>
-// typename vector<T,Allocator>::iterator vector<T, Allocator>::begin(void){
-// 	return (_data);			
-// }
 
 //-------------------------------------members fct  capacity--------------------
 //allocator::destroy = detruit le pointeur sur lobjet, ne desaloue pas le stockage pour liberer l place
@@ -217,26 +212,58 @@ typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator pos
 	return (position);
 }
 //nserting new elements before the element at the specified position,
+// calcl la nouvelle pos ds new tableau de capacite *2 ou 1;
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::iterator	vector<T, Allocator>::insert (iterator position, const value_type& val){
+
+	size_type dist_before_res = position - _start;
 	if (_capacity == 0)
 		reserve(1);
-	if (_size == _capacity)
+	if (_size + 1 > _capacity)
 		reserve(_capacity * 2);
+	iterator new_pos = _start + dist_before_res;
 			
-	for (iterator it = end(); it != position; it--)
+	for (iterator it = end(); it != new_pos; it--)
 	{
-		*it = *(it - 1);
-		if (it == position)
-		{
-			_alloc.construct(it, val);
-		}
+		_alloc.construct(it, *(it - 1)); // met a case davant ds la case suivante
+		_alloc.destroy(it - 1);
+			
 	}
+		_alloc.construct(new_pos, val);
 		_size++;
-		return (position); // good??
-		// en cours <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<ICI
+		return (new_pos);
 }
 
+template < typename T, typename Allocator>
+void	vector<T,Allocator>::insert (iterator position, size_type n, const value_type& val){
+	
+	if (n <= 0)
+		return ;
+	size_type dist_sp = (position - _start);
+	size_type new_size = _size + n;
+	if (_capacity == 0)
+		reserve(1);
+	if (new_size > _capacity)
+	{
+		if (new_size > _size * 2)
+			reserve(new_size);
+		else
+			reserve(_size * 2);
+	}
+	position = _start + dist_sp;
+	
+	iterator new_pos = (end() - 1) + n;
+	for (iterator it = end() - 1; it != (position - 1); it--) 
+	{
+		_alloc.construct(new_pos, *it);
+		_alloc.destroy(it);
+		new_pos--;
+	}
+	new_pos++;
+	for (;position != new_pos; position++)
+		_alloc.construct(position, val);
+	_size = _size + n;
+}
 //-------------------------------------members fct iterator---------------------
 
 template < typename T, typename Allocator>
@@ -250,6 +277,16 @@ typename vector<T, Allocator>::const_iterator vector<T, Allocator>::begin() cons
 }
 
 template < typename T, typename Allocator>
+typename vector<T, Allocator>::reverse_iterator vector<T, Allocator>::rbegin(){
+	return (reverse_iterator(_start + _size));
+}
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::const_reverse_iterator vector<T, Allocator>::rbegin() const{
+	return (const_reverse_iterator(_start + _size));
+}
+
+template < typename T, typename Allocator>
 typename vector<T, Allocator>::iterator vector<T, Allocator>::end(){
 	return (_start + _size);
 }
@@ -258,13 +295,55 @@ template < typename T, typename Allocator>
 typename vector<T, Allocator>::const_iterator vector<T, Allocator>::end() const{
 	return (_start + _size);
 }
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::reverse_iterator vector<T, Allocator>::rend(){
+	return (reverse_iterator(_start));
+}
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::const_reverse_iterator vector<T, Allocator>::rend() const{
+	return (const_reverse_iterator(_start));
+}
+
+//---------------------------------------------get_allocator------------------------
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::allocator_type vector<T, Allocator>::get_allocator() const{
+	return (allocator_type (_alloc));
+}
+
+//---------------------------------------------access---------------------------
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::reference vector<T, Allocator>::operator[] (size_type n){
+	return (_start[n]);
+}
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::const_reference vector<T, Allocator>::operator[] (size_type n) const{
+	return (_start[n]);
+}
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::reference vector<T, Allocator>::at (size_type n){
+	if (n >= _size)
+		throw std::out_of_range("vector::at");
+	return (_start[n]);
+}
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::const_reference vector<T, Allocator>::at (size_type n) const{
+	if (n >= _size)
+		throw std::out_of_range("vector::at");
+	return (_start[n]);
+}
 //-----------------------------------------------------en plus-----------------//
 // template < typename T, typename Allocator>
 // std::ostream& operator<<(std::ostream& o, vector<T, Allocator> const &instance){
 // 	o << instance.size();
 // 	return (o);
 // }
-
 
 //---------------------------------------------non member fct-------------------
 
