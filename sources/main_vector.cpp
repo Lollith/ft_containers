@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:17 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/09 18:24:10 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/11 15:00:09 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,34 +131,42 @@ int main()
 	NAME_USE::vector <int> v6;
 	std::cout <<"\e[1;31m"<< "insert :"<< "\e[0m"<< std::endl;
 	display(v6);
-	v6.insert(v6.begin(), 0);
 	v6.insert(v6.begin(), 1);
-	v6.push_back(2);
+	v6.insert(v6.begin() + 1, 2);
+	v6.insert(v6.begin(), 0);
 	v6.push_back(3);
 	v6.push_back(4);
+	v6.push_back(5);
 	display(v6);
-	std::cout <<"\e[1;31m"<< "erase :"<< "\e[0m"<< std::endl;
+	std::cout <<"\e[1;31m"<< "erase [1]:"<< "\e[0m"<< std::endl;
 	v6.erase(v6.begin()+1);
+	display(v6);
+	v6.insert(v6.begin()+1, 1);
+	display(v6);
+	std::cout <<"\e[1;31m"<< "erase [2-4[:"<< "\e[0m"<< std::endl;
+	v6.erase(v6.begin() +2,v6.begin() +4);
 	display(v6);
 	std::cout <<"\e[1;31m"<< "insert (2):"<< "\e[0m"<< std::endl;
 	v6.insert(v6.begin() + 3,5, 0);
 	display(v6);
 	
-	try{
-	NAME_USE::vector <int> v7;
-	v7.insert(v7.begin(), 0);
-	v7.insert(v7.begin(), 1);
-	v7.push_back(2);
-	v7.push_back(3);
-	v7.push_back(4);
-	std::cout <<"\e[1;31m"<< "at:"<< "\e[0m"<< std::endl;
-	std::cout << "at(3): " << v7.at(1) << std::endl;
-	std::cout << "at(10): " << v7.at(10) << std::endl;
-	}
+	// try{
+	// NAME_USE::vector <int> v7;
+	// v7.insert(v7.begin(), 0);
+	// v7.insert(v7.begin(), 1);
+	// v7.push_back(2);
+	// v7.push_back(3);
+	// v7.push_back(4);
+	// std::cout <<"\e[1;31m"<< "at:"<< "\e[0m"<< std::endl;
+	// std::cout << "at(3): " << v7.at(1) << std::endl;
+	// std::cout<< "front(): "<< v7.front() << std::endl;
+	// std::cout<< "back(): "<< v7.back() << std::endl;
+	// std::cout << "at(10): " << v7.at(10) << std::endl;
+	// }
 
-	catch(std::out_of_range const &e){
-		std::cerr << "ERREUR: "<< e.what() << std::endl;
-	}
+	// catch(std::out_of_range const &e){
+	// 	std::cerr << "ERREUR: "<< e.what() << std::endl;
+	// }
 	return (0);
 }
 

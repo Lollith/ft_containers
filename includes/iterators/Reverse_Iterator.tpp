@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 13:26:42 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/09 15:21:39 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/11 12:51:08 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,49 +110,49 @@ typename reverse_iterator<Iterator>::reference reverse_iterator<Iterator>::opera
 //L'utilisation des fonctions inline permet accélérer l'exécution de votre programme, 
 //car celles-ci éliminent la surcharge associée aux appels de fonction
 
-template < typename Iterator >
-inline bool operator==(const reverse_iterator<Iterator>& lhs, 
-	const reverse_iterator<Iterator>& rhs){
+template < typename Iterator1, typename Iterator2 >
+inline bool operator==(const reverse_iterator<Iterator1>& lhs, 
+	const reverse_iterator<Iterator2>& rhs){
 	return (lhs.base() == rhs.base());
 }
 
-template < class Iterator >
-inline bool operator<(const reverse_iterator<Iterator>& lhs, 
-	const reverse_iterator<Iterator>& rhs){
+template < typename Iterator1, typename Iterator2 >
+inline bool operator<(const reverse_iterator<Iterator1>& lhs, 
+	const reverse_iterator<Iterator2>& rhs){
 	return (lhs.base() > rhs.base());
 }
 
-template <class Iterator>
-inline bool operator!=( const reverse_iterator<Iterator>& x, 
-	const reverse_iterator<Iterator>& y){
+template < typename Iterator1, typename Iterator2 >
+inline bool operator!=( const reverse_iterator<Iterator1>& x, 
+	const reverse_iterator<Iterator2>& y){
 	return (x.base() != y.base());
 }
 
-template <class Iterator>
-inline bool operator>(const reverse_iterator<Iterator>& x, 
-	const reverse_iterator<Iterator>& y){
+template < typename Iterator1, typename Iterator2 >
+inline bool operator>(const reverse_iterator<Iterator1>& x, 
+	const reverse_iterator<Iterator2>& y){
 	return (x.base() < y.base());
 }
 
-template <class Iterator>
-inline bool operator>=(const reverse_iterator<Iterator>& x, 
-	const reverse_iterator<Iterator>& y){
+template < typename Iterator1, typename Iterator2 >
+inline bool operator>=(const reverse_iterator<Iterator1>& x, 
+	const reverse_iterator<Iterator2>& y){
 	return (x._current <= y._current);
 }
 
-template <class Iterator>
-inline bool operator<=(const reverse_iterator<Iterator>& x, 
-	const reverse_iterator<Iterator>& y){
+template < typename Iterator1, typename Iterator2 >
+inline bool operator<=(const reverse_iterator<Iterator1>& x, 
+	const reverse_iterator<Iterator2>& y){
 	return (x._current >= y._current);
 }
 
-template <class Iterator>
-typename reverse_iterator<Iterator>::difference_type operator-(const reverse_iterator<Iterator>& x, 
-	const reverse_iterator<Iterator>& y){
+template < typename Iterator1, typename Iterator2 >
+typename reverse_iterator<Iterator1>::difference_type operator-(const reverse_iterator<Iterator1>& x, 
+	const reverse_iterator<Iterator2>& y){
 	return (y._current - x._current);
 }
 
-template <class Iterator>
+template < typename Iterator >
 reverse_iterator<Iterator> operator+(typename reverse_iterator<Iterator>::difference_type n, 
 	const reverse_iterator<Iterator>& x){
 	reverse_iterator<Iterator> (x._current - n);	

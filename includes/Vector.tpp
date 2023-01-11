@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:53 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/09 18:17:59 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/11 15:13:25 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,17 +200,37 @@ void vector<T, Allocator>::swap(vector& x){
 	std::swap(_alloc, x._alloc);
 }
 
+//Removes from the vector either a single element (position) 
+//or a range of elements ([first,last)).
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator position){
-	if (position >= end() && position < _start)
-		return (NULL);
-	_alloc.destroy(position);
-	for (iterator it = position; it != end(); it++)
-		 *it = *(it + 1);
-	_alloc.destroy(end());
-	_size --;
+	for (size_type i = 1; position + i != end(); i++)
+	{
+		_alloc.destroy(position + i - 1);
+		_alloc.construct(position + i - 1, *(position + i));
+	}
+	_alloc.destroy(end() - 1);
+	_size--;
 	return (position);
 }
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator first, iterator last){
+	for (iterator it = first; it < last ; it++)
+	{
+		_alloc.destroy(it);
+		_size--;
+	}
+	for (iterator it = first; it != end() ; it++)
+	{
+		_alloc.construct(it, *(last)); // met a case davant ds la case suivante
+		_alloc.destroy(last);
+		last++;
+	}
+	
+	return (first);
+}
+
 //nserting new elements before the element at the specified position,
 // calcl la nouvelle pos ds new tableau de capacite *2 ou 1;
 template < typename T, typename Allocator>
@@ -264,6 +284,9 @@ void	vector<T,Allocator>::insert (iterator position, size_type n, const value_ty
 		_alloc.construct(position, val);
 	_size = _size + n;
 }
+
+
+
 //-------------------------------------members fct iterator---------------------
 
 template < typename T, typename Allocator>
@@ -337,6 +360,26 @@ typename vector<T, Allocator>::const_reference vector<T, Allocator>::at (size_ty
 	if (n >= _size)
 		throw std::out_of_range("vector::at");
 	return (_start[n]);
+}
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::reference vector<T, Allocator>::front(){
+	return (*_start);
+}
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::const_reference vector<T, Allocator>::front() const{
+	return (*_start);
+}
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::reference vector<T, Allocator>::back(){
+	return (*(end() - 1));
+}
+
+template < typename T, typename Allocator>
+typename vector<T, Allocator>::const_reference vector<T, Allocator>::back() const{
+	return (*(end() - 1));
 }
 //-----------------------------------------------------en plus-----------------//
 // template < typename T, typename Allocator>

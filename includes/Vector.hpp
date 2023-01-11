@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:04 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/09 18:11:46 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/11 17:17:07 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,31 +89,34 @@ namespace ft {
 // modifier
 		void			clear( void );
 		void			assign( size_type n, const T &value );
-		void			push_back ( const value_type &val );
+		// template <class InputIterator>  
+		// void assign (InputIterator first, InputIterator last);
+		void			push_back( const value_type &val );
 		void			pop_back( void );
-		void			swap(vector& x);
+		void			swap( vector& x);
 		iterator		erase( iterator position );
-		// iterator erase (iterator first, iterator last);
-		//emplae
-		//emplace_back
+		iterator 		erase( iterator first, iterator last );
+		iterator		insert( iterator position, const value_type& val );
+    	void			insert( iterator position, size_type n, const value_type& val );
+		
+		template <class InputIterator>    
+		// void insert (iterator position, InputIterator first, InputIterator last);
 
-		iterator		insert (iterator position, const value_type& val);
-    	void			insert (iterator position, size_type n, const value_type& val);
-		//insert (3)
 
-//---------------------------------------------access---------------------------
-  reference operator[] (size_type n);
-  const_reference operator[] (size_type n) const;
+//access
+  		reference 		operator[] (size_type n);
+  		const_reference operator[] (size_type n) const;
 
-  reference at (size_type n);
-  const_reference at (size_type n) const;
-//front
-//back
-//data
+  		reference 		at(size_type n);
+  		const_reference at (size_type n) const;
+  		reference 		front();
+  		const_reference front() const;
+  		reference 		back();
+  		const_reference back() const;
 
 //---------------------------------------------get_allocator------------------------
 
-		allocator_type get_allocator() const;
+		allocator_type	get_allocator() const;
 	
 //---------------------------------------------attributs------------------------
 		//The container keeps an internal copy of alloc, which is used to allocate storage throughout its lifetime.
