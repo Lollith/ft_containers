@@ -72,10 +72,10 @@ namespace ft {
 		const_iterator			begin( void ) const;
 		iterator				end( void );
 		const_iterator			end( void ) const;
-		reverse_iterator 		rbegin();
-		const_reverse_iterator	rbegin() const;
-		reverse_iterator 		rend();
-		const_reverse_iterator	rend() const;
+		reverse_iterator 		rbegin( void );
+		const_reverse_iterator	rbegin( void ) const;
+		reverse_iterator 		rend( void );
+		const_reverse_iterator	rend( void ) const;
 
 //---------------------------------------------members fct----------------------
 //capacity
@@ -104,19 +104,19 @@ namespace ft {
 
 
 //access
-  		reference 		operator[] (size_type n);
-  		const_reference operator[] (size_type n) const;
+  		reference 		operator[]( size_type n );
+  		const_reference operator[]( size_type n ) const;
 
-  		reference 		at(size_type n);
-  		const_reference at (size_type n) const;
-  		reference 		front();
-  		const_reference front() const;
-  		reference 		back();
-  		const_reference back() const;
+  		reference 		at( size_type n );
+  		const_reference at( size_type n ) const;
+  		reference 		front( void );
+  		const_reference front( void ) const;
+  		reference 		back( void );
+  		const_reference back( void ) const;
 
 //---------------------------------------------get_allocator------------------------
 
-		allocator_type	get_allocator() const;
+		allocator_type	get_allocator( void ) const;
 	
 //---------------------------------------------attributs------------------------
 		//The container keeps an internal copy of alloc, which is used to allocate storage throughout its lifetime.
