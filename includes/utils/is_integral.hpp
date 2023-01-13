@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:34:27 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/11 17:02:02 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/13 10:49:56 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@
 
 namespace ft
 {
-	
-	//----------------------------const-----------------------------------------
-	template< class T >
-	struct is_integral<const T>: is_integral<T> {};
-	
 	//-------------------------false--------------------------------------------
 	template< class T >
 	struct is_integral: false_type {};
@@ -31,7 +26,11 @@ namespace ft
 	//equivalent a : 
 	//struct is_integral: integral_constant< bool, false >{};
 	//heritage de la struct, (struc sont public par default))
-
+	
+	//----------------------------const-----------------------------------------
+	template< class T >
+	struct is_integral<const T>: is_integral<T> {};
+	
 	// -----------------------------true----------------------------------------
 
 	template <>
@@ -74,4 +73,4 @@ namespace ft
 	struct is_integral<unsigned long long int> : true_type {};
 }
 
-#endif;
+#endif

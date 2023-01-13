@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:53 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/11 15:13:25 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/13 17:35:37 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,20 @@ vector<T, Allocator>::vector( size_type n, const value_type& value, const alloca
 		_start(NULL), _size(0), _capacity(0), _alloc(alloc){
 		assign( n, value);
 }
+
+template < typename T, typename Allocator>
+template< class InputIterator >
+vector<T,Allocator>::vector( InputIterator first, InputIterator last, const Allocator& alloc,
+	typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type*)
+{
+	_start = NULL;
+	_size = 0;
+	_capacity = 0;
+	_alloc = alloc;
+	for (InputIterator it = first; it != last; ++it)
+		push_back(*it);
+}
+
 
 //initialise lhs = copie construite // rhs : ce que je copie
 template < typename T, typename Allocator>
@@ -169,6 +183,12 @@ void vector<T, Allocator>::assign(size_type n, const T &val){
 		_alloc.construct(_start + i, val);
 }
 
+template < typename T, typename Allocator>
+template <class InputIterator> 
+void vector<T, Allocator>::assign (InputIterator first, InputIterator last, 
+	typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type*){
+	_assignHelper(first, last, typename ft::iterator_traits<InputIterator>::iterator_category());
+}
 
 template < typename T, typename Allocator>
 void vector<T, Allocator>::push_back(const value_type &val){
@@ -285,6 +305,12 @@ void	vector<T,Allocator>::insert (iterator position, size_type n, const value_ty
 	_size = _size + n;
 }
 
+template < typename T, typename Allocator>
+template< class InputIterator >
+void vector<T, Allocator>::insert(iterator pos, InputIterator first, InputIterator last,
+	typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type*){
+	_insertHelper(pos, first, last, typename ft::iterator_traits<InputIterator>::iterator_category());
+}
 
 
 //-------------------------------------members fct iterator---------------------
@@ -339,12 +365,12 @@ typename vector<T, Allocator>::allocator_type vector<T, Allocator>::get_allocato
 //---------------------------------------------access---------------------------
 
 template < typename T, typename Allocator>
-typename vector<T, Allocator>::reference vector<T, Allocator>::operator[] (size_type n){
+typename vector<T, Allocator>::reference vector<T, Allocator>::operator[]( size_type n ){
 	return (_start[n]);
 }
 
 template < typename T, typename Allocator>
-typename vector<T, Allocator>::const_reference vector<T, Allocator>::operator[] (size_type n) const{
+typename vector<T, Allocator>::const_reference vector<T, Allocator>::operator[]( size_type n ) const{
 	return (_start[n]);
 }
 
@@ -381,18 +407,236 @@ template < typename T, typename Allocator>
 typename vector<T, Allocator>::const_reference vector<T, Allocator>::back() const{
 	return (*(end() - 1));
 }
-//-----------------------------------------------------en plus-----------------//
-// template < typename T, typename Allocator>
-// std::ostream& operator<<(std::ostream& o, vector<T, Allocator> const &instance){
-// 	o << instance.size();
-// 	return (o);
-// }
+//---------------------------------------InputIt && forwardIt-----------------//
+template < typename T, typename Allocator>
+template<typename _InputIterator>
+void vector<T, Allocator>::_insertHelper(iterator pos, _InputIterator first, _InputIterator last, std::input_iterator_tag)
+{
+	if (pos == end())
+	{
+		while (first != last)
+		{
+			insert(end(), *first);
+			++first;
+		}
+	}
+	else if (first != last)
+	{
+		size_type pos_index = std::distance(begin(), pos);
+		size_type count = 0;
+		_InputIterator tmp(first);
 
-//---------------------------------------------non member fct-------------------
+		while (tmp != last)
+			++count;
+
+		if (_capacity == 0)
+			reserve(count);
+		size_type	target_capacity = _capacity;
+		while (_size + count > target_capacity)
+			target_capacity *= 2;
+		reserve(target_capacity);
+		
+		iterator it = begin();
+		iterator pos_after_resize(begin() + pos_index);
+
+		while ( it != pos_after_resize && it != end()) {
+			++it;
+		}
+		
+		if (it == end())
+		{
+			while (first != last)
+			{
+				_alloc.construct(&(*it), *first);
+				++_size;
+				++first;
+				++it;
+			}
+			return ;
+		}
+		
+		iterator new_range_start = it;
+		it = end() + count - 1;
+		for (size_type i = 0; i < count; ++i) {
+			_alloc.construct(&(*it), *(it - count));
+			--it;
+		}
+		
+		for (size_type i = 0; i < _size - pos_index; ++i) {
+			*new_range_start = *first;
+			++new_range_start;
+			++first;
+		}
+		_size += count;
+	}
+}
+
+template < typename T, typename Allocator>
+template<typename _ForwardIterator>
+void vector<T, Allocator>::_insertHelper(iterator pos, _ForwardIterator first, _ForwardIterator last, std::forward_iterator_tag)
+{
+	size_t pos_index = std::distance(begin(), pos);
+
+	if (std::distance(first, last) <= 0)
+		return ;
+
+	size_type count = std::distance(first, last);
+
+	if (_capacity == 0)
+		reserve(count);
+	size_type	target_capacity = _capacity;
+	while (_size + count > target_capacity)
+		target_capacity *= 2;
+	reserve(target_capacity);
+
+	iterator it = begin();
+	iterator pos_after_resize(begin() + pos_index);
+
+	while ( it != pos_after_resize && it != end()) {
+		++it;
+	}
+
+	if (it == end())
+	{
+		while (first != last)
+		{
+			_alloc.construct(&(*it), *first);
+			++it;
+			++_size;
+			++first;
+		}
+		return ;
+	}
+
+	iterator new_range_start = pos_after_resize;
+	it = end() + count - 1; // the future end()
+
+	// extend the end of the vector with constructions
+	while(it - count >= new_range_start && it >= end())
+	{
+		_alloc.construct(&(*it), *(it - count));
+		--it;
+	}
+
+	// translate the remaining values
+	if (_size > pos_index + count)
+	{
+		for (size_type i = 0; i < _size - pos_index - count; ++i) {
+				*it = *(it - count);
+				--it;
+			}
+	}
+		
+	// populate new values
+	while (new_range_start <= it)
+	{
+		if (new_range_start < end())
+			*new_range_start = *first;
+		else
+			_alloc.construct(&(*new_range_start), *first);
+		++first;
+		++new_range_start;
+	}
+
+	_size += count;
+}
+
+template < typename T, typename Allocator>
+template<typename _InputIterator>
+void vector<T, Allocator>::_assignHelper(_InputIterator first, _InputIterator last, std::input_iterator_tag)
+{
+	pointer tmp = _start;
+	size_type	count = 0;
+	
+	while (first != last && tmp != (_start + _size))
+	{
+		*tmp = *first;
+		++tmp;
+		++first;
+		++count;
+	}
+
+	if (first == last)
+	{
+		resize(count);
+	}
+	else
+	{
+		insert(end(), first, last);
+	}
+}
+
+template < typename T, typename Allocator>
+template<typename _ForwardIterator>
+void vector<T, Allocator>::_assignHelper(_ForwardIterator first, _ForwardIterator last, std::forward_iterator_tag)
+{
+	size_type count = std::distance(first, last);
+	T* tmp = _alloc.allocate(count);
+
+	_ForwardIterator it = first;
+	for (size_type i = 0; i < count; ++i)
+		_alloc.construct(tmp + i, *(it++));
+	if (_size > 0 ) // reset array
+	{
+		for (size_type i = 0; i < _size; ++i)
+			_alloc.destroy(&_start[i]);
+		_size = 0;
+	}
+
+	if (_start)
+	{
+		_alloc.deallocate(_start, _capacity);
+		_capacity = 0;
+		_start = NULL;
+	}
+	_size = count;
+	_capacity = count;
+	_start = _alloc.allocate(_capacity);
+	for (size_type i = 0; i < _size; ++i)
+		_alloc.construct(_start + i, tmp[i]);
+
+	for (size_type i = 0; i < _size; ++i)
+		_alloc.destroy(tmp + i);
+	_alloc.deallocate(tmp, count);
+}
+
+//---------------------------------------------algo-----------------------------
 
 template < typename T, typename Allocator>
 void swap(vector<T, Allocator> &lhs, vector<T, Allocator> &rhs){
 	lhs.swap(rhs);	
+}
+
+//-----------------------------------------relational operators-----------------
+
+template < class T, class Allocator >
+inline bool operator==( const vector<T, Allocator>& lhs, const vector<T, Allocator>& rhs){
+	return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+}
+
+template < class T, class Allocator >
+inline bool operator!=( const vector<T, Allocator >& lhs, const vector< T, Allocator >& rhs){
+	return !(lhs == rhs); //utilise la fct==
+}
+
+template < class T, class Allocator >
+inline bool operator<( const vector< T, Allocator >& lhs, const vector< T, Allocator >& rhs){
+	return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+}
+
+template < class T, class Allocator >
+inline bool operator<=( const vector< T, Allocator >& lhs, const vector< T, Allocator >& rhs){
+	return !(rhs < lhs);// utilise la fct < precedente
+}
+
+template < class T, class Allocator >
+inline bool operator>( const vector< T, Allocator >& lhs, const vector< T, Allocator >& rhs){
+	return rhs < lhs;
+}
+
+template < class T, class Allocator >
+inline bool operator>=( const vector< T, Allocator >& lhs, const vector< T, Allocator >& rhs ){
+	return !(lhs < rhs);
 }
 
 

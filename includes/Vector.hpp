@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:04 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/11 17:17:07 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/13 18:26:19 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,14 @@
 
 # include <iostream>
 # include <memory> //class Allocator
-# include "iterators/iterator_traits.hpp"
-# include "iterators/Reverse_Iterator.hpp"
+# include "iterator_traits.hpp" //iterator/
+# include "reverse_iterator.hpp" //iterator/
+# include "utils/is_integral.hpp"
+# include "utils/enable_if.hpp"
+# include "utils/equal.hpp"
+# include "utils/lexicographical_compare.hpp"
+#include <iterator>
+
 
 
 namespace ft {
@@ -56,8 +62,9 @@ namespace ft {
 		explicit vector( size_type n, const T& value = T(), const Allocator& alloc = Allocator() ); // appel class T par default et class Allocator par defaut
 
 // //(3)range
-		// template <class InputIterator>         
-		// vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type() );
+		template< class InputIterator >
+		vector( InputIterator first, InputIterator last, const Allocator& alloc = Allocator(),
+			typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type* = NULL);
 
 // //(4)copy
 		vector (vector const &copy);
@@ -89,8 +96,6 @@ namespace ft {
 // modifier
 		void			clear( void );
 		void			assign( size_type n, const T &value );
-		// template <class InputIterator>  
-		// void assign (InputIterator first, InputIterator last);
 		void			push_back( const value_type &val );
 		void			pop_back( void );
 		void			swap( vector& x);
@@ -100,7 +105,12 @@ namespace ft {
     	void			insert( iterator position, size_type n, const value_type& val );
 		
 		template <class InputIterator>    
-		// void insert (iterator position, InputIterator first, InputIterator last);
+		void insert(iterator pos, InputIterator first, InputIterator last,
+			typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type* = NULL);
+			
+		template <class InputIterator> 
+		void assign (InputIterator first, InputIterator last, 
+			typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type* = NULL);
 
 
 //access
@@ -121,21 +131,53 @@ namespace ft {
 //---------------------------------------------attributs------------------------
 		//The container keeps an internal copy of alloc, which is used to allocate storage throughout its lifetime.
 		private:
+			template<typename _InputIterator>
+			void _insertHelper(iterator pos, _InputIterator first, 
+				_InputIterator last, std::input_iterator_tag);
+			template<typename _ForwardIterator>
+			void _insertHelper(iterator pos, _ForwardIterator first, 
+				_ForwardIterator last, std::forward_iterator_tag);
+
+			template<typename _InputIterator>
+			void _assignHelper(_InputIterator first, _InputIterator last, 
+				std::input_iterator_tag);
+			template<typename _ForwardIterator>
+			void _assignHelper(_ForwardIterator first, _ForwardIterator last, 
+				std::forward_iterator_tag);
 		
 			pointer			_start;// Un pointeur sur un tableau de valeurs de type générique T. Cela représentera notre espace de stockage pour les éléments du vecteur.
 			size_type		_size;//Un entier size qui indiquera le nombre d'éléments actuellement contenus dans le vecteur.
 			size_type		_capacity;// indique la capacité actuelle de l'espace de stockage alloué pour le vecteur.
 			allocator_type	_alloc;
 
-//capacity = ce que je donne en previsionnel = size a linitialisation 
-//size = ce qui est demander par le main
+			//capacity = ce que je donne en previsionnel = size a linitialisation 
+			//size = ce qui est demander par le main
 
 	};
 
-//---------------------------------------------non member fct-------------------
+//---------------------------------------------algo-----------------------------
 
-template < typename T, typename Allocator>
+template < typename T, typename Allocator >
 inline void swap (vector<T, Allocator> &a, vector<T, Allocator> &b);
+
+//-----------------------------------------relational operators-----------------
+template < class T, class Allocator >  
+bool operator==( const vector<T, Allocator >& lhs, const vector< T, Allocator >& rhs );	
+template < class T, class Allocator >
+bool operator!=( const vector< T, Allocator >& lhs, const vector< T, Allocator >& rhs );
+template < class T, class Allocator >  
+bool operator<( const vector< T, Allocator >& lhs, const vector< T, Allocator >& rhs );
+template < class T, class Allocator >
+bool operator<=( const vector< T, Allocator >& lhs, const vector<T, Allocator >& rhs );
+template < class T, class Allocator >
+bool operator>( const vector< T, Allocator >& lhs, const vector< T, Allocator >& rhs );
+template < class T, class Allocator >
+bool operator>=( const vector< T, Allocator >& lhs, const vector< T, Allocator >& rhs );
+
+
+
+
+
 
 } //ft
 

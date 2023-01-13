@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 17:37:40 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/11 17:38:53 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/13 17:24:02 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ namespace ft {
 		return (first2 != last2);
 	}
 }
-	
-}
+//comp
+//Binary function that accepts two arguments of the types pointed by the iterators,
+// and returns a value convertible to bool.Binary function that accepts two arguments 
+//of the types pointed by the iterators, and returns a value convertible to bool.	
 
 
 #endif

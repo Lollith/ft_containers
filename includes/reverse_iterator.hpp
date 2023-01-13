@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Reverse_Iterator.hpp                               :+:      :+:    :+:   */
+/*   reverse_iterator.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 13:26:25 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/11 13:18:19 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/13 18:04:05 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
  #define REVERSE_ITERATOR_HPP
 
 # include "iterator_traits.hpp"
-#include <iterator>
+# include <iterator>
  
 namespace ft {
 template <class Iterator>
@@ -90,6 +90,6 @@ class reverse_iterator : public std::iterator <typename iterator_traits<Iterator
 	
 } // ft
 
-#include "Reverse_Iterator.tpp"
+#include "reverse_iterator.tpp"
 
 #endif

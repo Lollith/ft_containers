@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enable_if.hpp                                      :+:      :+:    :+:   */
+/*   make_pair.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/11 16:11:05 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/13 10:53:08 by agouet           ###   ########.fr       */
+/*   Created: 2023/01/13 14:34:09 by agouet            #+#    #+#             */
+/*   Updated: 2023/01/13 14:50:42 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENABLE_IF_HPP
-#define ENABLE_IF_HPP
+#ifndef MAKE_PAIR_HPP
+# define MAKE_PAIR_HPP
 
-// The type T is enabled as member type enable_if::type if Cond is true.
-namespace ft
-{
-	template <bool Cond, class T = void>
-	struct enable_if
-	{
-	};
+# include"pair.hpp"
 
-	template <class T>
-	struct enable_if<true, T>
-	{
-		typedef T type;
-	};
+namespace ft{
 
+template <class T1, class T2>
+pair<T1,T2> make_pair (T1 x, T2 y){
+	return (pair<T1, T2>(x,y));
 }
+	
+}
+
 #endif

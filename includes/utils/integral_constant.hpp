@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:34:27 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/11 16:44:01 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/13 10:47:36 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,13 @@ namespace ft
 		typedef T 							value_type;
 		typedef integral_constant<T, v>		type;
 		
-		static constexpr 					T value = v;
-		constexpr operator T() {
-			return v; 
-		}
+		static const						T value = v;
+		
+		operator T() const {return v;}
 	};
 
 	typedef integral_constant< bool, true >		true_type;
 	typedef integral_constant< bool, false >	false_type;
 }
 
-#endif;
+#endif
