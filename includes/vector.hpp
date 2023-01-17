@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Vector.hpp                                         :+:      :+:    :+:   */
+/*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:04 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/13 18:26:19 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/17 17:03:56 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 # include <iostream>
 # include <memory> //class Allocator
-# include "iterator_traits.hpp" //iterator/
-# include "reverse_iterator.hpp" //iterator/
+# include "iterators/iterator_traits.hpp" //iterator/
+# include "iterators/reverse_iterator.hpp" //iterator/
 # include "utils/is_integral.hpp"
 # include "utils/enable_if.hpp"
 # include "utils/equal.hpp"
 # include "utils/lexicographical_compare.hpp"
-#include <iterator>
-
+# include <iterator>
+# include <iostream>
 
 
 namespace ft {
@@ -105,12 +105,12 @@ namespace ft {
     	void			insert( iterator position, size_type n, const value_type& val );
 		
 		template <class InputIterator>    
-		void insert(iterator pos, InputIterator first, InputIterator last,
-			typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type* = NULL);
+		typename enable_if<!ft::is_integral< InputIterator >::value, void >::type
+		insert(iterator pos, InputIterator first, InputIterator last);
 			
 		template <class InputIterator> 
 		void assign (InputIterator first, InputIterator last, 
-			typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type* = NULL);
+		typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type* = NULL);
 
 
 //access
@@ -181,6 +181,6 @@ bool operator>=( const vector< T, Allocator >& lhs, const vector< T, Allocator >
 
 } //ft
 
-#include "Vector.tpp"
+#include "vector.tpp"
 
 #endif

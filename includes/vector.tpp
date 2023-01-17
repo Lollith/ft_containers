@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Vector.tpp                                         :+:      :+:    :+:   */
+/*   vector.tpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:53 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/13 17:35:37 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/17 18:13:06 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 //une instance par défaut de Allocator sera créée et utilisée à la place. 
 //Cela signifie que vous pouvez appeler la fonction sans fournir de valeur pour le paramètre alloc,
 
-# include <iostream>
 
 //---------------------------------------------constructor----------------------
 namespace ft {
@@ -68,12 +67,11 @@ template < typename T, typename Allocator>
 vector<T, Allocator> &vector<T, Allocator>::operator=( vector<T, Allocator> const& rhs ){
 		if ( this != &rhs )
 		{
-			this->reserve(rhs._size);
 			this->clear();
+			this->reserve(rhs._size); //modifie deja la capacite
 			for (size_type i = 0; i < rhs._size; i++)
 				_alloc.construct(this->_start + i, *(rhs._start + i));
 			this->_size = rhs._size;
-			this->_capacity = rhs._capacity;
 		}
 		return (*this);
 	}
@@ -83,7 +81,7 @@ template < typename T, typename Allocator>
 vector<T, Allocator>::~vector( void )
 {
 		clear();
-	_alloc.deallocate(_start, sizeof(value_type) * _capacity); // libere
+	_alloc.deallocate(_start, _capacity); // libere
 }
 		
 
@@ -103,23 +101,37 @@ typename vector<T, Allocator>::size_type vector<T, Allocator>::max_size( void ) 
 }
 
 template < typename T, typename Allocator>
-void vector<T, Allocator>::resize (size_type n, value_type val){
-	if (n < _size)
-		_alloc.destroy(_start);
-	else if (n > _size && n > _capacity * 2)
-	{
-		reserve(n);
-		for (size_type i = _size; i < n; i++)
-			_alloc.construct(_start + i, val);
-	}
-	else if (n > _size)
-	{
-		reserve(n);
-		for (size_type i = _size; i < n; i++)
-			_alloc.construct(_start + i, val);
-	}
-	this->_size = n;
-}
+void vector<T, Allocator>::resize (size_type n, value_type value){
+                if (n < _size) {
+                    while (n != _size)
+                        pop_back();
+                }
+                else if (n > _size)
+                    insert(end(), n - _size, value);
+  };
+
+
+
+// 	if (n < _size)
+// 	{
+// 		// _alloc.destroy(_start); // ne marche pas , double free
+// 		for (size_type i = n - 1; i < _size ; i++)
+// 			_alloc.destroy(_start + i);
+// 	}
+// 	else if (n > _size && n > _capacity * 2)
+// 	{
+// 		reserve(n);
+// 		for (size_type i = _size; i < n; i++)
+// 			_alloc.construct(_start + i, value);
+// 	}
+// 	else if (n > _size)
+// 	{
+// 		reserve(n);
+// 		for (size_type i = _size; i < n; i++)
+// 			_alloc.construct(_start + i, value);
+// 	}
+// 	this->_size = n;
+// }
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::size_type vector<T, Allocator>::capacity( void ) const{
@@ -143,6 +155,31 @@ bool vector<T, Allocator>::empty( void ) const{
 template < typename T, typename Allocator>
 void vector<T, Allocator>::reserve(size_type n)
 {
+
+//  if (n > _capacity) {
+//                     if (n > max_size())
+//                         throw std::length_error("cannot create std::vector larger than max_size()");
+//                     pointer newp = _alloc.allocate(n);
+//                     for (size_type i = 0; i < _size; i ++) {
+//                         _alloc.construct(newp + i, _start[i]);
+//                         _alloc.destroy(_start + i);
+//                     }
+//                     if (_capacity > 0)
+//                         _alloc.deallocate(_start, _capacity);
+//                     _start = newp;
+//                     _capacity = n;
+//                 }
+//             }
+
+
+
+
+
+
+
+
+
+
 	pointer new_stock;
 	
 	if (n <= _capacity)
@@ -156,10 +193,11 @@ void vector<T, Allocator>::reserve(size_type n)
 		_alloc.destroy(_start + i); //  l objet est detruit // ne libere pas
 	}
 	if (_capacity != 0)
-		_alloc.deallocate(_start, sizeof(value_type) * _capacity); // libere le pointeur
+		_alloc.deallocate(_start, _capacity); // libere le pointeur
 	_start = new_stock;
 	_capacity = n;
 }
+
 
 
 //-------------------------------------members fct modifier---------------------
@@ -187,7 +225,8 @@ template < typename T, typename Allocator>
 template <class InputIterator> 
 void vector<T, Allocator>::assign (InputIterator first, InputIterator last, 
 	typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type*){
-	_assignHelper(first, last, typename ft::iterator_traits<InputIterator>::iterator_category());
+	clear();
+	_insertHelper(begin(), first, last, typename ft::iterator_traits<InputIterator>::iterator_category());
 }
 
 template < typename T, typename Allocator>
@@ -276,13 +315,36 @@ typename vector<T, Allocator>::iterator	vector<T, Allocator>::insert (iterator p
 
 template < typename T, typename Allocator>
 void	vector<T,Allocator>::insert (iterator position, size_type n, const value_type& val){
-	
+
+// 	size_type tot_between_begin_position = std::distance(begin(), position);
+// 	if (n > 0) {
+// 		if (_size + n > _capacity) {
+// 			if (_capacity == 0)
+// 				reserve(n);
+// 			else if ( _size + n <= _size* 2)
+// 				reserve(_size * 2);
+// 			else
+// 				reserve(_size + n);
+// 		}
+// 		for (size_type i = _size + n - 1; i > tot_between_begin_position + n - 1; i --) {
+// 			_alloc.construct(_start + i, _start[i - n]);
+// 			_alloc.destroy(_start + i - n);
+// 		}
+// 		for (size_type i = tot_between_begin_position; i < tot_between_begin_position ; i ++) 
+// 			_alloc.construct(_start + i, val);
+// 		_size += n;
+// 	}
+// }
+
+
+
+
 	if (n <= 0)
 		return ;
 	size_type dist_sp = (position - _start);
 	size_type new_size = _size + n;
 	if (_capacity == 0)
-		reserve(1);
+		reserve(n);
 	if (new_size > _capacity)
 	{
 		if (new_size > _size * 2)
@@ -305,13 +367,17 @@ void	vector<T,Allocator>::insert (iterator position, size_type n, const value_ty
 	_size = _size + n;
 }
 
-template < typename T, typename Allocator>
-template< class InputIterator >
-void vector<T, Allocator>::insert(iterator pos, InputIterator first, InputIterator last,
-	typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type*){
+
+
+
+
+template <typename T, typename Allocator>
+template <class InputIterator>
+typename enable_if<!ft::is_integral<InputIterator>::value, void >::type 
+vector<T, Allocator>::insert(iterator pos, InputIterator first, InputIterator last)
+{
 	_insertHelper(pos, first, last, typename ft::iterator_traits<InputIterator>::iterator_category());
 }
-
 
 //-------------------------------------members fct iterator---------------------
 
@@ -410,136 +476,113 @@ typename vector<T, Allocator>::const_reference vector<T, Allocator>::back() cons
 //---------------------------------------InputIt && forwardIt-----------------//
 template < typename T, typename Allocator>
 template<typename _InputIterator>
-void vector<T, Allocator>::_insertHelper(iterator pos, _InputIterator first, _InputIterator last, std::input_iterator_tag)
+void vector<T, Allocator>::_insertHelper(iterator position, _InputIterator first, _InputIterator last, std::input_iterator_tag)
 {
-	if (pos == end())
-	{
-		while (first != last)
-		{
-			insert(end(), *first);
-			++first;
-		}
-	}
-	else if (first != last)
-	{
-		size_type pos_index = std::distance(begin(), pos);
-		size_type count = 0;
-		_InputIterator tmp(first);
-
-		while (tmp != last)
-			++count;
-
-		if (_capacity == 0)
-			reserve(count);
-		size_type	target_capacity = _capacity;
-		while (_size + count > target_capacity)
-			target_capacity *= 2;
-		reserve(target_capacity);
-		
-		iterator it = begin();
-		iterator pos_after_resize(begin() + pos_index);
-
-		while ( it != pos_after_resize && it != end()) {
-			++it;
-		}
-		
-		if (it == end())
-		{
-			while (first != last)
-			{
-				_alloc.construct(&(*it), *first);
-				++_size;
-				++first;
-				++it;
-			}
-			return ;
-		}
-		
-		iterator new_range_start = it;
-		it = end() + count - 1;
-		for (size_type i = 0; i < count; ++i) {
-			_alloc.construct(&(*it), *(it - count));
-			--it;
-		}
-		
-		for (size_type i = 0; i < _size - pos_index; ++i) {
-			*new_range_start = *first;
-			++new_range_start;
-			++first;
-		}
-		_size += count;
-	}
+    size_type tot_between_begin_position = std::distance(begin(), position);
+    for (_InputIterator it = first; it != last; ++ it, tot_between_begin_position ++)
+        insert(iterator(begin() + tot_between_begin_position), *it);
 }
-
+		
+		
 template < typename T, typename Allocator>
 template<typename _ForwardIterator>
-void vector<T, Allocator>::_insertHelper(iterator pos, _ForwardIterator first, _ForwardIterator last, std::forward_iterator_tag)
+void vector<T, Allocator>::_insertHelper(iterator position, _ForwardIterator first, _ForwardIterator last, std::forward_iterator_tag)
 {
-	size_t pos_index = std::distance(begin(), pos);
+				size_type dist_lf = std::distance(first, last);
+				size_type dist_sp = (position - _start);
 
-	if (std::distance(first, last) <= 0)
-		return ;
+				size_type new_size = _size + dist_lf;
+				if (_capacity == 0)
+					reserve(1);
+				if (new_size > _capacity)
+				{
+					if (new_size > _size * 2)
+						reserve(new_size);
+					else
+						reserve(_size * 2);
+				}
+				position = _start + dist_sp;
 
-	size_type count = std::distance(first, last);
+				iterator tmp = end() - 1;
+				iterator new_place = (end() - 1) + dist_lf;
+				for (;tmp != (position - 1); tmp--, new_place--) 
+				{
+					_alloc.construct(new_place, *tmp);
+					_alloc.destroy(tmp);
+				}
 
-	if (_capacity == 0)
-		reserve(count);
-	size_type	target_capacity = _capacity;
-	while (_size + count > target_capacity)
-		target_capacity *= 2;
-	reserve(target_capacity);
-
-	iterator it = begin();
-	iterator pos_after_resize(begin() + pos_index);
-
-	while ( it != pos_after_resize && it != end()) {
-		++it;
-	}
-
-	if (it == end())
-	{
-		while (first != last)
-		{
-			_alloc.construct(&(*it), *first);
-			++it;
-			++_size;
-			++first;
-		}
-		return ;
-	}
-
-	iterator new_range_start = pos_after_resize;
-	it = end() + count - 1; // the future end()
-
-	// extend the end of the vector with constructions
-	while(it - count >= new_range_start && it >= end())
-	{
-		_alloc.construct(&(*it), *(it - count));
-		--it;
-	}
-
-	// translate the remaining values
-	if (_size > pos_index + count)
-	{
-		for (size_type i = 0; i < _size - pos_index - count; ++i) {
-				*it = *(it - count);
-				--it;
+				for (;first != last; position++, first++)
+					_alloc.construct(position, *(first));
+				_size = new_size;
 			}
-	}
-		
-	// populate new values
-	while (new_range_start <= it)
-	{
-		if (new_range_start < end())
-			*new_range_start = *first;
-		else
-			_alloc.construct(&(*new_range_start), *first);
-		++first;
-		++new_range_start;
-	}
 
-	_size += count;
-}
+
+	
+// 	size_t pos_index = std::distance(begin(), pos);
+
+// 	if (std::distance(first, last) <= 0)
+// 		return ;
+
+// 	size_type count = std::distance(first, last);
+
+// 	if (_capacity == 0)
+// 		reserve(count);
+// 	size_type	target_capacity = _capacity;
+// 	while (_size + count > target_capacity)
+// 		target_capacity *= 2;
+// 	reserve(target_capacity);
+
+// 	iterator it = begin();
+// 	iterator pos_after_resize(begin() + pos_index);
+
+// 	while ( it != pos_after_resize && it != end()) {
+// 		++it;
+// 	}
+
+// 	if (it == end())
+// 	{
+// 		while (first != last)
+// 		{
+// 			_alloc.construct(&(*it), *first);
+// 			++it;
+// 			++_size;
+// 			++first;
+// 		}
+// 		return ;
+// 	}
+
+// 	iterator new_range_start = pos_after_resize;
+// 	it = end() + count - 1; // the future end()
+
+// 	// extend the end of the vector with constructions
+// 	while(it - count >= new_range_start && it >= end())
+// 	{
+// 		_alloc.construct(&(*it), *(it - count));
+// 		--it;
+// 	}
+
+// 	// translate the remaining values
+// 	if (_size > pos_index + count)
+// 	{
+// 		for (size_type i = 0; i < _size - pos_index - count; ++i) {
+// 				*it = *(it - count);
+// 				--it;
+// 			}
+// 	}
+		
+// 	// populate new values
+// 	while (new_range_start <= it)
+// 	{
+// 		if (new_range_start < end())
+// 			*new_range_start = *first;
+// 		else
+// 			_alloc.construct(&(*new_range_start), *first);
+// 		++first;
+// 		++new_range_start;
+// 	}
+
+// 	_size += count;
+// }
 
 template < typename T, typename Allocator>
 template<typename _InputIterator>
