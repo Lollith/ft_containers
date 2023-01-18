@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:04 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/17 17:03:56 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/18 13:43:07 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ namespace ft {
 
 // //(3)range
 		template< class InputIterator >
-		vector( InputIterator first, InputIterator last, const Allocator& alloc = Allocator(),
-			typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type* = NULL);
+		vector (typename enable_if<!ft::is_integral< InputIterator >::value, 
+			InputIterator >::type first, InputIterator last, const allocator_type& alloc = Allocator());
 
 // //(4)copy
 		vector (vector const &copy);
@@ -108,9 +108,9 @@ namespace ft {
 		typename enable_if<!ft::is_integral< InputIterator >::value, void >::type
 		insert(iterator pos, InputIterator first, InputIterator last);
 			
-		template <class InputIterator> 
-		void assign (InputIterator first, InputIterator last, 
-		typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type* = NULL);
+		template <class InputIterator>
+		void assign(typename enable_if<!ft::is_integral< InputIterator >::value, 
+			InputIterator >::type first, InputIterator last);
 
 
 //access
