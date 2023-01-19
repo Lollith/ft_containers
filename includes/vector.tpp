@@ -25,7 +25,7 @@
 namespace ft {
 	//size_type :: redefinir la class vector pour appeler le size_type
 
-template < typename T, typename Allocator>// si pas de precision Alloc va compiler comme type T de la classe std::allocator
+template < typename T, typename Allocator >// si pas de precision Alloc va compiler comme type T de la classe std::allocator
 vector<T, Allocator>::vector( const Allocator &alloc ) : // = Allocator , permet dappeler le template int seul et sans avoir a demander le template Alloc qui est aors appele par default
 		_start(NULL), _size(0), _capacity(0), _alloc(alloc)// appel le constructeur allocator qui sert a allouer de la memoire
 {
@@ -34,7 +34,7 @@ vector<T, Allocator>::vector( const Allocator &alloc ) : // = Allocator , permet
 
 // un constructeur avec un taille de base, le deuxieme argument est la valeur a 
 //de remplissage, si elle n'est as presente la valeur du constructeur par default est utilise
-template < typename T, typename Allocator>
+template < typename T, typename Allocator >
 vector<T, Allocator>::vector( size_type n, const value_type& value, const allocator_type& alloc ): // appel class T par default et class Allocator par defaut
 		_start(NULL), _size(n), _capacity(n), _alloc(alloc){
 		// assign( n, value); 
@@ -46,9 +46,18 @@ vector<T, Allocator>::vector( size_type n, const value_type& value, const alloca
 }
 
 
-template < typename T, typename Allocator>
+// =>std::enable_if pour rendre une surcharge de fonction template disponible
+//  uniquement si la substitution réussit
+// std::enable_if metafunction is used to enable this constructor only if the 
+// type of the input iterator (InputIterator) is not an integral type (i.e. a 
+// type that can be used as an integer, such as int or long). This is to prevent
+//  the constructor from being called with arguments that are not iterators, 
+// which would result in a compile-time error.
+//  a metafunction is a function that operates on types rather than on values. 
+template < typename T, typename Allocator >
 template <class InputIterator>
-vector<T, Allocator>::vector (typename enable_if<!ft::is_integral< InputIterator >::value, InputIterator >::type first, InputIterator last, const allocator_type& alloc)
+vector<T, Allocator>::vector(typename enable_if< !ft::is_integral< InputIterator >::value,
+	InputIterator >::type first, InputIterator last, const allocator_type& alloc)
 {
 	_start = NULL;
 	_size = 0;
@@ -58,20 +67,20 @@ vector<T, Allocator>::vector (typename enable_if<!ft::is_integral< InputIterator
 }
 
 //initialise lhs = copie construite // rhs : ce que je copie
-template < typename T, typename Allocator>
+template < typename T, typename Allocator >
 vector<T, Allocator>::vector( vector const &copy ){
-	_start = NULL;
+	_start = NULL; // util?? a tester??????????????????????????????????????????????
 	_size = 0;
 	_capacity = 0;
 	*this = copy;
 }
 
-template < typename T, typename Allocator>
+template < typename T, typename Allocator >
 vector<T, Allocator> &vector<T, Allocator>::operator=( vector<T, Allocator> const& rhs ){
 		if ( this != &rhs )
 		{
 			this->clear();
-			this->reserve(rhs._size); //modifie deja la capacite
+			this->reserve(rhs._size); //modifie  la capacite
 			for (size_type i = 0; i < rhs._size; i++)
 				_alloc.construct(this->_start + i, *(rhs._start + i));
 			this->_size = rhs._size;
@@ -80,10 +89,10 @@ vector<T, Allocator> &vector<T, Allocator>::operator=( vector<T, Allocator> cons
 	}
 
 
-template < typename T, typename Allocator>
+template < typename T, typename Allocator >
 vector<T, Allocator>::~vector( void )
 {
-		clear();
+	clear(); //destroy 1 par 1
 	if (_capacity > 0)
 		_alloc.deallocate(_start, _capacity); // libere
 	_capacity = 0;
@@ -93,19 +102,19 @@ vector<T, Allocator>::~vector( void )
 //-------------------------------------members fct  capacity--------------------
 //allocator::destroy = detruit le pointeur sur lobjet, ne desaloue pas le stockage pour liberer l place
 //allocator::deallocate = libere le block de stckage alloue, non detruit
-template < typename T, typename Allocator>
+template < typename T, typename Allocator >
 typename vector<T, Allocator>::size_type vector<T, Allocator>::size( void ) const
 { 
 	return (this->_size);
 }
 
-template < typename T, typename Allocator>
+template < typename T, typename Allocator >
 typename vector<T, Allocator>::size_type vector<T, Allocator>::max_size( void ) const
 {
 	return (_alloc.max_size());
 }
 
-template < typename T, typename Allocator>
+template < typename T, typename Allocator >
 void vector<T, Allocator>::resize (size_type new_size, value_type value){
 	if (new_size < _size)
 	{
@@ -118,17 +127,18 @@ void vector<T, Allocator>::resize (size_type new_size, value_type value){
 }
 
 
-template < typename T, typename Allocator>
+template < typename T, typename Allocator >
 typename vector<T, Allocator>::size_type vector<T, Allocator>::capacity( void ) const{
 	return (_capacity);
 }
 
-template < typename T, typename Allocator>
+template < typename T, typename Allocator >
 bool vector<T, Allocator>::empty( void ) const{
 	if (_size > 0 )
 		return ( false );
 	return ( true );
 }
+
 //reserve: Requests that the vector capacity be at least enough to contain n elements.
 // If n is greater than the current vector capacity, the function causes the 
 //container to reallocate its storage increasing its capacity to n (or greater).
@@ -158,8 +168,6 @@ void vector<T, Allocator>::reserve(size_type n)
 	_capacity = n;
 } 
 
-
-
 //-------------------------------------members fct modifier---------------------
 //clear = remove all element s , destroyed the objet( not the pointer), size =0
 template < typename T, typename Allocator>
@@ -183,7 +191,8 @@ void vector<T, Allocator>::assign(size_type n, const T &val){
 
 template < typename T, typename Allocator>
 template <class InputIterator> 
-void vector<T, Allocator>::assign(typename enable_if<!ft::is_integral< InputIterator >::value, InputIterator >::type first, InputIterator last){
+void vector<T, Allocator>::assign(typename enable_if<!ft::is_integral< InputIterator >::value,
+	InputIterator >::type first, InputIterator last){
 	clear();
 	_insertHelper(begin(), first, last, typename ft::iterator_traits<InputIterator>::iterator_category());
 }
@@ -405,9 +414,20 @@ typename vector<T, Allocator>::const_reference vector<T, Allocator>::back() cons
 }
 
 //---------------------------------------InputIt && forwardIt-----------------//
+// Input iterators are iterators that can be used in sequential input operations,
+// where each value pointed by the iterator is read only once and then the
+// iterator is incremented.
+
+// All forward, bidirectional and random-access iterators are
+// also valid input iterators.
+
+// les moins permissifs, reiteration une seule fois possible et pas de retour en arriere possible
+
+
 template < typename T, typename Allocator>
 template<typename _InputIterator>
-void vector<T, Allocator>::_insertHelper(iterator position, _InputIterator first, _InputIterator last, std::input_iterator_tag)
+void vector<T, Allocator>::_insertHelper(iterator position, _InputIterator first, 
+	_InputIterator last, std::input_iterator_tag)
 {
     size_type tot_between_begin_position = std::distance(begin(), position);
     for (_InputIterator it = first; it != last; ++ it, tot_between_begin_position ++)
@@ -416,7 +436,8 @@ void vector<T, Allocator>::_insertHelper(iterator position, _InputIterator first
 		
 template < typename T, typename Allocator>
 template<typename _ForwardIterator>
-void vector<T, Allocator>::_insertHelper(iterator position, _ForwardIterator first, _ForwardIterator last, std::forward_iterator_tag)
+void vector<T, Allocator>::_insertHelper(iterator position, _ForwardIterator first, 
+	_ForwardIterator last, std::forward_iterator_tag)
 {
 
 	size_type dist_begin_position = std::distance(begin(), position);

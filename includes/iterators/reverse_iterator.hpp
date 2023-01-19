@@ -9,6 +9,9 @@
 /*   Updated: 2023/01/13 18:04:05 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+// n herite pas forcement des caracteristiques de la class iterator , 
+	//mais signale quelle appartient au genre des iterators, pour etre 
+	//reconnaissable et utilisable en tant que tel car iterator obeissent a une certaine interface
 
 #ifndef REVERSE_ITERATOR_HPP
  #define REVERSE_ITERATOR_HPP
@@ -28,6 +31,8 @@ class reverse_iterator : public std::iterator <typename iterator_traits<Iterator
 		Iterator _current;
 
 	public:
+		//Définissez les types de pointeur et de référence pour itérateur 
+		// en utilisant les types de votre conteneur comme modèle. 
 		typedef Iterator											iterator_type;
 		typedef typename iterator_traits<Iterator>::difference_type	difference_type;
 		typedef typename iterator_traits<Iterator>::reference		reference;

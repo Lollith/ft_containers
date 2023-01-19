@@ -175,10 +175,6 @@ template < class T, class Allocator >
 bool operator>=( const vector< T, Allocator >& lhs, const vector< T, Allocator >& rhs );
 
 
-
-
-
-
 } //ft
 
 #include "vector.tpp"

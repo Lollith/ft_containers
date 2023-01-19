@@ -12,9 +12,10 @@
 
 #ifndef IS_INTEGRAL_HPP
 #define IS_INTEGRAL_HPP
+
+# include "integral_constant.hpp"
 // It inherits from integral_constant as being either true_type or false_type,
 //  depending on whether T is an integral type
-# include "integral_constant.hpp"
 
 
 namespace ft
@@ -33,7 +34,7 @@ namespace ft
 	
 	// -----------------------------true----------------------------------------
 
-	template <>
+	template <> // specialisation complete
 	struct is_integral<bool> : true_type {};
 
 	template <>

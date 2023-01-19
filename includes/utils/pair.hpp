@@ -44,7 +44,8 @@ namespace ft{
 	~pair(){ };
 	
 	
-	pair& operator=( const pair& pr ){
+	pair& operator=( const pair& pr )
+	{
 		if( this != &pr )
 		{
 			this->first = pr.first;
