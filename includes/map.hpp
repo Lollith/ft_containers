@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/20 10:39:31 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/20 17:45:02 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
-# include <memory> 
+# include <memory>
+#include "pair.hpp" 
 
 namespace ft{
 
@@ -37,7 +38,7 @@ namespace ft{
 		// two elements to get whether the key of the first one goes before the second.
 			class value_comp 
 			{
-				 friend class map; // peut utiliser tous les membres privees ou proteges de map
+				//  friend class map; // peut utiliser tous les membres privees ou proteges de map ??
 
 				 protected:
 					Compare 						comp;
