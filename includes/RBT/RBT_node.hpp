@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:24 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/20 18:17:06 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/24 16:31:02 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define RBT_NODE_HPP
 #include <memory>
 #include <iostream>
+#include "../utils/pair.hpp"
+#include "../utils/make_pair.hpp"
 
 namespace ft {
 	
@@ -49,25 +51,21 @@ namespace ft {
 
 // In each node, there is a boolean value x.leaf which is true if x is a leaf.
 // https://www.programiz.com/dsa/b-tree
-	template < class Key, class T >
+	template < class Key , class T >
 	struct RBT_node
 	{
-			typedef pair< const Key, T>		value_type;
-// voir mamhed
+			typedef ft::pair< Key, T>		value_type;
 	
-			// T				_value;
 			t_color			_color;
 			RBT_node		*_parent;
 			RBT_node		*_left;
 			RBT_node		*_right;
-			value_type		pair_data;
-			bool 			leaf;
+			value_type		_pair_data;
+			bool 			_leaf;
 
 			RBT_node( void );
 			RBT_node( value_type pair_init );
 			~RBT_node( void );
-
-
 	
 
 	};
