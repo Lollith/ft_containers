@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/20 17:45:02 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/25 15:15:16 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,8 @@ namespace ft{
 // Objects of this class can be used on standard algorithms
 // returning whether the first argument compares less than the second (x<y)
 // class compare = std::less<key> => par deffaut va tier du plus petit au plus grand
-
 // Compare: A binary predicate that takes two element keys as arguments and returns a bool.
-
-
+// va transmettre le less au RBT
 
 	template < typename Key, typename T, typename Compare = std::less< Key >, typename Alloc = std::allocator<ft::pair<const Key, T> > >
 	class map {

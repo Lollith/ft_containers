@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 14:16:54 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/24 16:31:47 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/25 17:50:36 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ namespace ft{
 // 	_parent = parent;
 // }
 
-
+//------------------------------------------------------------------------------
 
 // template < class Key, class T >
 // RBT_node< Key, T >::RBT_node( void ):_pair_data ( Key(), T()){
@@ -74,6 +74,22 @@ namespace ft{
 template < class Key, class T >
 RBT_node< Key, T >::RBT_node( void ){
     _pair_data = ft::make_pair(Key(), T());
+	_color = BLACK;
+	_left = NULL;
+	_right = NULL;
+	_parent = NULL;
+	_leaf = true;
+}
+
+template < class Key, class T >
+RBT_node< Key, T >::RBT_node( RBT_node *parent ){
+    _pair_data = ft::make_pair(Key(), T());
+	_color = BLACK;
+	_left = NULL;
+	_right = NULL;
+	_parent = parent;
+	_leaf = true;
+	
 }
 
 template < class Key, class T >
@@ -84,6 +100,26 @@ RBT_node< Key, T >::RBT_node( value_type pair_init ){
 template < class Key, class T >
 RBT_node< Key, T >::~RBT_node( void ){
 }
+
+template < class Key, class T >
+RBT_node< Key, T >::RBT_node(RBT_node const &copy){
+	*this = copy;
+}
+
+template < class Key, class T >
+RBT_node< Key, T> &RBT_node< Key, T >::operator=(const RBT_node &rhs){
+	if (this != &rhs )
+	{
+    	_pair_data = rhs._pair_data;
+		this->_color = rhs._color;
+		_left = rhs._left;
+		_right = rhs._right;
+		_parent = rhs._parent;
+		_leaf = rhs._leaf;
+	}
+	return (*this);
+}
+
 
 
 }//ft 
