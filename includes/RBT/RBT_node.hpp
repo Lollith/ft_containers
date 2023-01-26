@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:24 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/25 17:49:43 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/26 16:43:12 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ namespace ft {
 	template < class Key , class T >
 	struct RBT_node
 	{
-			typedef ft::pair< Key, T>		value_type;
+			typedef ft::pair< Key, T >		value_type;
 	
 			t_color			_color;
 			RBT_node		*_parent;
 			RBT_node		*_left;
 			RBT_node		*_right;
 			value_type		_pair_data;
-			bool 			_leaf;
+			// bool 			_leaf;
 
 			RBT_node( void );
 			RBT_node( value_type pair_init );
@@ -69,7 +69,9 @@ namespace ft {
 			RBT_node( RBT_node const &copy );
 			RBT_node &operator=( const RBT_node &rhs );
 	
-			RBT_node( RBT_node *parent );
+			RBT_node( RBT_node *parent );// utile?
+			
+			RBT_node( t_color color, RBT_node *parent, RBT_node *left, RBT_node *right, value_type pair_data );
 
 	};
 	

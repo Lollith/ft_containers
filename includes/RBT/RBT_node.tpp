@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 14:16:54 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/25 17:50:36 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/26 17:19:13 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ RBT_node< Key, T >::RBT_node( void ){
 	_left = NULL;
 	_right = NULL;
 	_parent = NULL;
-	_leaf = true;
+	// _leaf = true;
 }
 
 template < class Key, class T >
@@ -88,8 +88,18 @@ RBT_node< Key, T >::RBT_node( RBT_node *parent ){
 	_left = NULL;
 	_right = NULL;
 	_parent = parent;
-	_leaf = true;
+	// _leaf = true;
 	
+}
+
+
+template < class Key, class T >
+RBT_node< Key, T >::RBT_node( t_color color, RBT_node *parent, RBT_node *left, RBT_node *right, value_type pair_data ){
+	_pair_data = pair_data;
+	_color = color;
+	_left = left;
+	_right = right;
+	_parent = parent;
 }
 
 template < class Key, class T >
@@ -115,7 +125,6 @@ RBT_node< Key, T> &RBT_node< Key, T >::operator=(const RBT_node &rhs){
 		_left = rhs._left;
 		_right = rhs._right;
 		_parent = rhs._parent;
-		_leaf = rhs._leaf;
 	}
 	return (*this);
 }

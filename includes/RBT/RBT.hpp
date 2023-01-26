@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:48 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/25 17:58:38 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/26 17:56:12 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ namespace ft{
 
 		private:
 			pt_node										_root;
-			pt_node										_null;
+			pt_node										_leaf;//TNULL
 			allocator_type								_alloc;
 			Compare										_comp; //save  ma fonction de comparaison,
 			
@@ -45,15 +45,27 @@ namespace ft{
 		RBT( const RBT &copy);
 		RBT &operator=(const RBT &rhs);
 
-	//--------------------------------------- rotation -------------------------
+	//----------------------------------- search------------------------
+ 		pt_node searchTreeHelper(pt_node node, Key k);
+		pt_node searchTree(Key k);
+	
+
+	//--------------------------------------- operations -------------------------
+		
+	void insert( value_type data );
 	
 	//----------------------------------------affichage ------------------------
-		void preOrderHelper	(pt_node node);
+		// void preOrderHelper	(pt_node node);
+
+		//helper permettent d appeler des attribut prive => appel dune 2eme fct 
+		//qui appel helper qui elle peut etre utlisee ds le main
+		void display_helper(pt_node &root, std::string indent, bool last);
+		void display( void );
 			
 	};	
 
 
-
+	//
 
 	
 }//ft
