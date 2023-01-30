@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:48 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/26 17:56:12 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/30 17:26:12 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 #define RBT_HPP
 # include "RBT_node.hpp"
 # include <memory>
+# include <iostream>
 
+//https://www.programiz.com/dsa/red-black-tree
 // Compare et Allocator = default envoye par map
 
 namespace ft{
 
-	template < typename Key, typename T, typename Compare = std::less< Key >, typename Allocator = std::allocator<ft::pair<const Key, T> > >
+	template < typename Key, typename T, typename Compare = std::less< Key >, 
+		    typename Allocator = std::allocator<ft::pair<const Key, T> > >
 	// template< class Key, class T, class Compare, class Allocator>
 	class RBT
 	{
@@ -52,14 +55,21 @@ namespace ft{
 
 	//--------------------------------------- operations -------------------------
 		
-	void insert( value_type data );
+	void insert( value_type pair_data );
+
+	void rbTransplant( pt_node u, pt_node v );
+	void delete_helper( pt_node node, int key );
+
+	//---------------------------------------- tools----------------------------
 	
+	pt_node minimum( pt_node node );	
+	void delete_tree( pt_node root );
 	//----------------------------------------affichage ------------------------
 		// void preOrderHelper	(pt_node node);
 
 		//helper permettent d appeler des attribut prive => appel dune 2eme fct 
 		//qui appel helper qui elle peut etre utlisee ds le main
-		void display_helper(pt_node &root, std::string indent, bool last);
+		void display_helper( pt_node &root, std::string indent, bool last );
 		void display( void );
 			
 	};	

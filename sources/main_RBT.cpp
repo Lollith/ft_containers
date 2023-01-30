@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:46:37 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/26 17:43:13 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/30 18:08:51 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ int main()
 	std::cout << std::endl;
 	ft::RBT<int, int, int > rbt1;
 	ft::RBT<int, int, int > rbt2(rbt1);
-	// rbt2.preOrderHelper(0);
-	std::cout<< "tree display: "<<std::endl;
-	rbt2.display();
-	std::cout << std::endl;
-	rbt2.insert(ft::pair< int, int>(2,3));
-	rbt2.display();
+	// // rbt2.preOrderHelper(0);
+	// std::cout<< "tree display: "<<std::endl;
+	// rbt2.display();
+	// std::cout << std::endl;
+	rbt1.insert(ft::pair< int, int>(2,3));
+	rbt1.display();
 	
 }

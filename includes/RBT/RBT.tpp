@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:32 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/26 18:05:48 by agouet           ###   ########.fr       */
+/*   Updated: 2023/01/30 18:09:22 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ template< class Key, class T, class Compare, class Allocator >
 RBT<Key, T, Compare, Allocator>::RBT( const Compare &comp, const allocator_type &alloc ){
 	_alloc = alloc;
 	_comp = comp;
-
 	_leaf = new node_type();
 	_root = _leaf;
 	
@@ -45,12 +44,12 @@ RBT<Key, T, Compare, Allocator>::RBT( const Compare &comp, const allocator_type 
 	
 template< class Key, class T, class Compare, class Allocator >
 RBT<Key, T, Compare, Allocator>::~RBT( void ){
-    pt_node find = this->_root;
-
-		
-	//parcourir l arbre pour delete // A FAIRE	
-
 	
+	delete_tree( _root );
+	if (_root == _leaf )
+		std::cout << "Tree Successfully Deleted"<< std::endl;
+	delete _leaf;
+	// _leaf = NULL;
 	return;
 }
 
@@ -66,7 +65,8 @@ RBT<Key, T, Compare, Allocator> &RBT<Key, T, Compare, Allocator>::operator=( con
 	{
 		_comp = rhs._comp;
 		_alloc = rhs._alloc;
-		_root = rhs._root;
+		_leaf = rhs._leaf;
+		_root = rhs._leaf;
 
 		//....
 		
@@ -95,6 +95,16 @@ typename RBT<Key, T, Compare, Allocator>::pt_node RBT<Key, T, Compare, Allocator
 
 //--------------------------------------- operations -----------------------------
 // inserting a red node does not violate the depth property of a red-black tree.
+
+// newnode = RED,  childs du newnode = NULL
+// find = depart de root => descend  vers leaf
+// check if the three is empty (find is NULL?) 
+//oui : insert newNode comme Roor et color en Noir
+//sinon : compare newkey avec rootkey => traverse larbre a droite / a gauche
+//le parent de leaf devient le parent de newnode
+//compare leafkey avec newkey =>  newnode devient right oou left child
+// reequilibrage = fix larbre
+
 template< class Key, class T, class Compare, class Allocator >
 void RBT<Key, T, Compare, Allocator>::insert( value_type pair_data ){
 	pt_node new_node = new node_type(RED, NULL, _leaf, _leaf, pair_data);
@@ -129,6 +139,125 @@ void RBT<Key, T, Compare, Allocator>::insert( value_type pair_data ){
 	// insertFix(new_node); // a faire
 }
 
+// si le node supprime est noir => viole les proprietes => reequilibage
+// graft = greffon (partie qui va etre transplntee a la place du node supprime), sauvegarde
+// https://www.programiz.com/dsa/binary-search-tree : principe de deletion de larbre binaire
+template< class Key, class T, class Compare, class Allocator >
+void RBT<Key, T, Compare, Allocator>::delete_helper( pt_node nodeToDelete, int key )
+{
+	pt_node 	to_find = _leaf;
+    pt_node		graft; 
+	pt_node		successor;
+
+	//cherche la position ds l arbre du node a supprimer => devient to_find
+	// sinon return
+    while (nodeToDelete != _leaf) 
+	{
+     	if (nodeToDelete->_pair_data.first == key) 
+      		to_find = nodeToDelete;
+    	if (nodeToDelete->_pair_data.first <= key) 
+	  		nodeToDelete = nodeToDelete->_right;
+		else
+        	nodeToDelete = nodeToDelete->_left;
+	}
+	if (to_find == _leaf) {
+      std::cout << "Key not found in the tree" << std::endl;
+      return;
+    }
+
+	//sauvegarde de la couleur du node a supprimer (car si noire => reequilibage)
+	// In case I, the node to be deleted is the leaf node. In such a case, 
+	// simply delete the node from the tree.
+	// si l enfant_gauche de mon node a suprimer = leaf, j assigne lenfant _droit a x 
+	//et transplant x a la place de mon node a supprimer ( remonte ma leaf a la place)
+	//case III:	the node to be deleted has two children. In such a case follow the steps below:
+	//- Get the inorder successor of that node.(copy)
+	//- Replace the node with the inorder successor.
+	//- Remove the inorder successor from its original position.
+	
+	// y prend l valeur de l enfant  le + petit de la sous partie droite de larbre en dessous de mon node a suprimer
+	
+	//case I : repositionne la _leaf  sur le paarent de mon tofind 
+	successor = to_find;
+    int successor_original_color = successor->_color;
+    if (to_find->_left == _leaf) 
+	{
+      graft = to_find->_right;
+      rbTransplant(to_find, to_find->_right); 
+    } 
+	else if (to_find->_right == _leaf) 
+	{
+      graft = to_find->_left;
+      rbTransplant(to_find, to_find->_left);
+    } 
+	//case III
+	else 
+	{
+      successor = minimum(to_find->_right);
+      successor_original_color = successor->_color;
+      graft = successor->_right;
+      if (successor->_parent == to_find)
+		graft->_parent = successor;
+	  else 
+	  {
+        rbTransplant(successor, successor->_right);
+        successor->_right = to_find->_right;
+        successor->_right->_parent = successor;
+      }	
+	  
+	  rbTransplant(to_find, successor);
+      successor->_left = to_find->_left;
+	  successor->_left->_parent = successor;
+      successor->_color = to_find->_color;
+    }
+    delete (to_find);
+    // if (successor_original_color == 0) {
+    //   deleteFix(graft);  // A FAIRE
+    // }
+}
+
+
+
+
+//raccroche l enfant de mon node a supprimer au parent du node
+//node->_parent = remonte le prent , _parent->_left => ancienne place de mon node , colle mon child
+template< class Key, class T, class Compare, class Allocator >
+void RBT<Key, T, Compare, Allocator>::rbTransplant( pt_node node, pt_node child )
+{
+	if (node->_parent == _leaf) 
+      _root = child;
+	else if (node == node->_parent->_left) 
+      node->_parent->_left = child;
+	else 
+      node->_parent->_right = child;
+	//reassocie mon pointeur parent
+    child->_parent = node->_parent;
+}
+
+//cherche la Key minimum ( branche la + a guche)
+template< class Key, class T, class Compare, class Allocator >
+typename RBT<Key, T, Compare, Allocator>::pt_node RBT<Key, T, Compare, Allocator>::minimum( pt_node node_min )
+{
+	while (node_min->left != _leaf)
+		node_min = node_min->_left;
+	return (node_min);
+}
+
+//---------------------------------------------tools----------------------------
+template< class Key, class T, class Compare, class Allocator >
+void RBT<Key, T, Compare, Allocator>::delete_tree(pt_node root)
+{
+    if (root == _leaf) 
+		return;
+	// if (root->_left)
+   	delete_tree(root->_left);
+	// if (root->_right)
+ 	delete_tree(root->_right);
+    delete root;
+    // root = _leaf;
+}
+
+
 //----------------------------------------affichage ------------------------
 
 // template< class Key, class T, class Compare, class Allocator >
@@ -141,6 +270,9 @@ void RBT<Key, T, Compare, Allocator>::insert( value_type pair_data ){
 // 	}
 // }
 
+// Le parcours en profondeur d’un arbre binaire non vide consiste à le parcourir 
+// récursivement : on parcourt son sous-arbre gauche, puis son sous-arbre droit,
+//  sa racine pouvant être traitée au début, entre les deux parcours ou à la fin.
 
 
 template< class Key, class T, class Compare, class Allocator >
@@ -173,5 +305,8 @@ void RBT<Key, T, Compare, Allocator>::display( void )
 	if(_root)
 		display_helper(_root, "", true);	
 }
+
+
+
 
 }// ft
