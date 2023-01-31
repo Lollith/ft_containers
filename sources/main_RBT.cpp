@@ -32,12 +32,20 @@ int main()
 	//-------------------------------------------------------------------------
 	std::cout << std::endl;
 	ft::RBT<int, int, int > rbt1;
-	ft::RBT<int, int, int > rbt2(rbt1);
-	// // rbt2.preOrderHelper(0);
 	// std::cout<< "tree display: "<<std::endl;
-	// rbt2.display();
-	// std::cout << std::endl;
+	rbt1.insert(ft::pair< int, int>(3,3));
 	rbt1.insert(ft::pair< int, int>(2,3));
+	rbt1.insert(ft::pair< int, int>(4,3));
+	rbt1.insert(ft::pair< int, int>(1,3));
+	rbt1.insert(ft::pair< int, int>(5,3));
+	rbt1.insert(ft::pair< int, int>(8,3));
+	ft::RBT<int, int, int > rbt2(rbt1);
+	// rbt1.display();
+	rbt1.delete_node(2);
+	rbt1.delete_node(3);
 	rbt1.display();
+	std::cout << std::endl;
+	rbt2.display();
+	return 0;
 	
 }

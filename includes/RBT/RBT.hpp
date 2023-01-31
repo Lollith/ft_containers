@@ -43,39 +43,52 @@ namespace ft{
 			
 		public:
 		//-----------------------------------constructor------------------------
-		RBT( const Compare &comp = Compare(), const allocator_type &alloc = allocator_type());
-		~RBT( void );
-		RBT( const RBT &copy);
-		RBT &operator=(const RBT &rhs);
+					
+					RBT( const Compare &comp = Compare(), const allocator_type &alloc = allocator_type());
+					~RBT( void );
+					RBT( const RBT &copy);
+		RBT 		&operator=( const RBT &rhs);
 
 	//----------------------------------- search------------------------
- 		pt_node searchTreeHelper(pt_node node, Key k);
-		pt_node searchTree(Key k);
+ 		
+		pt_node		searchTreeHelper(pt_node node, Key k);
+		pt_node		searchTree(Key k);
 	
-
 	//--------------------------------------- operations -------------------------
 		
-	void insert( value_type pair_data );
+		void		insert( value_type pair_data );
+		void		insert_balancing( pt_node new_node );
 
-	void rbTransplant( pt_node u, pt_node v );
-	void delete_helper( pt_node node, int key );
+		void		delete_helper( pt_node node, key_type key );
+		void		delete_balancing( pt_node x );
+
 
 	//---------------------------------------- tools----------------------------
 	
-	pt_node minimum( pt_node node );	
-	void delete_tree( pt_node root );
+		pt_node		minimum( pt_node node );	
+		void		delete_tree( pt_node root );
+		void		copy_tree(pt_node old_root, RBT &new_rbt );
+
+		void		rightRotate( pt_node x);
+		void		leftRotate( pt_node x);
+		void		rbTransplant( pt_node u, pt_node v );
 	//----------------------------------------affichage ------------------------
 		// void preOrderHelper	(pt_node node);
 
 		//helper permettent d appeler des attribut prive => appel dune 2eme fct 
 		//qui appel helper qui elle peut etre utlisee ds le main
-		void display_helper( pt_node &root, std::string indent, bool last );
-		void display( void );
+		void		display_helper( pt_node &root, std::string indent, bool last );
+
+//----------------------------------------getter--------------------------------
+		
+		void		display( void );
+		void		delete_node( key_type key );
 			
+	
+	
 	};	
 
 
-	//
 
 	
 }//ft

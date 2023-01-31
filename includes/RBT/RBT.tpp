@@ -38,18 +38,14 @@ RBT<Key, T, Compare, Allocator>::RBT( const Compare &comp, const allocator_type 
 	_leaf = new node_type();
 	_root = _leaf;
 	
-//...	
 	return ;
 }
 	
 template< class Key, class T, class Compare, class Allocator >
 RBT<Key, T, Compare, Allocator>::~RBT( void ){
-	
-	delete_tree( _root );
-	if (_root == _leaf )
-		std::cout << "Tree Successfully Deleted"<< std::endl;
+
+	delete_tree( this->_root );
 	delete _leaf;
-	// _leaf = NULL;
 	return;
 }
 
@@ -60,35 +56,34 @@ RBT<Key, T, Compare, Allocator>::RBT( const RBT &copy ){
 }
 
 template< class Key, class T, class Compare, class Allocator >
-RBT<Key, T, Compare, Allocator> &RBT<Key, T, Compare, Allocator>::operator=( const RBT &rhs ){
+RBT<Key, T, Compare, Allocator> &RBT<Key, T, Compare, Allocator>::operator=( const RBT &rhs )
+{
 	if ( this != &rhs )
 	{
 		_comp = rhs._comp;
 		_alloc = rhs._alloc;
-		_leaf = rhs._leaf;
-		_root = rhs._leaf;
-
-		//....
-		
+		_leaf = new node_type();
+		_root = _leaf;
+		copy_tree(rhs._root, *this);
 	}
 	return (*this);
-}	
+}
+
 //----------------------------------------search -------------------------------
 template< class Key, class T, class Compare, class Allocator >
-typename RBT<Key, T, Compare, Allocator>::pt_node RBT<Key, T, Compare, Allocator>::searchTree(Key k) {
+typename RBT<Key, T, Compare, Allocator>::pt_node RBT<Key, T, Compare, Allocator>::searchTree(Key k) 
+{
     return searchTreeHelper(this->_root, k);
-  }
+}
 
 
 template< class Key, class T, class Compare, class Allocator >
-typename RBT<Key, T, Compare, Allocator>::pt_node RBT<Key, T, Compare, Allocator>::searchTreeHelper(pt_node node, Key k) {
-    if (node == _leaf || k == node->_pair_data.first) {
-      return node;
-    }
-
-    if (k < node->_pair_data.first) {
-      return searchTreeHelper(node->_left, k);
-    }
+typename RBT<Key, T, Compare, Allocator>::pt_node RBT<Key, T, Compare, Allocator>::searchTreeHelper(pt_node node, Key k) 
+{
+    if (node == _leaf || k == node->_pair_data.first)
+		return node;
+    if (k < node->_pair_data.first)
+		return searchTreeHelper(node->_left, k);
     return searchTreeHelper(node->_right, k);
   }
 
@@ -106,7 +101,8 @@ typename RBT<Key, T, Compare, Allocator>::pt_node RBT<Key, T, Compare, Allocator
 // reequilibrage = fix larbre
 
 template< class Key, class T, class Compare, class Allocator >
-void RBT<Key, T, Compare, Allocator>::insert( value_type pair_data ){
+void RBT<Key, T, Compare, Allocator>::insert( value_type pair_data )
+{
 	pt_node new_node = new node_type(RED, NULL, _leaf, _leaf, pair_data);
 	pt_node parent = _leaf;
     pt_node find = this->_root;
@@ -136,14 +132,77 @@ void RBT<Key, T, Compare, Allocator>::insert( value_type pair_data ){
 	if (new_node->_parent->_parent == _leaf)
 		return;
 	
-	// insertFix(new_node); // a faire
+	insert_balancing(new_node);
 }
+
+// 1. a fire jusauq ce que le parent du nouveau noeud soit RED
+template< class Key, class T, class Compare, class Allocator >
+void RBT<Key, T, Compare, Allocator>::insert_balancing(pt_node new_node) 
+{
+    pt_node u;
+
+    while (new_node->_parent->_color == RED) 
+	{
+      if (new_node->_parent == new_node->_parent->_parent->_right) 
+	  {
+        u = new_node->_parent->_parent->_left;
+        if (u->_color == RED) 
+		{
+          u->_color = BLACK;
+          new_node->_parent->_color = BLACK;
+          new_node->_parent->_parent->_color = RED;
+          new_node = new_node->_parent->_parent;
+        } 
+		else 
+		{
+          if (new_node == new_node->_parent->_left) {
+            new_node = new_node->_parent;
+            rightRotate(new_node);
+          }
+          new_node->_parent->_color = BLACK;
+          new_node->_parent->_parent->_color = RED;
+          leftRotate(new_node->_parent->_parent);
+        }
+      }
+	   else
+	   {
+        u = new_node->_parent->_parent->_right;
+        if (u->_color == RED) 
+		{
+          u->_color = BLACK;
+          new_node->_parent->_color = BLACK;
+          new_node->_parent->_parent->_color = RED;
+          new_node = new_node->_parent->_parent;
+        } 
+		else 
+		{
+          if (new_node == new_node->_parent->_right) 
+		  {
+            new_node = new_node->_parent;
+            leftRotate(new_node);
+          }
+          new_node->_parent->_color = BLACK;
+          new_node->_parent->_parent->_color = RED;
+          rightRotate(new_node->_parent->_parent);
+        }
+      }
+      if (new_node == _root) {
+        break;
+      }
+    }
+    _root->_color = BLACK;
+}
+
+
+
+
+
 
 // si le node supprime est noir => viole les proprietes => reequilibage
 // graft = greffon (partie qui va etre transplntee a la place du node supprime), sauvegarde
 // https://www.programiz.com/dsa/binary-search-tree : principe de deletion de larbre binaire
 template< class Key, class T, class Compare, class Allocator >
-void RBT<Key, T, Compare, Allocator>::delete_helper( pt_node nodeToDelete, int key )
+void RBT<Key, T, Compare, Allocator>::delete_helper( pt_node nodeToDelete, key_type key )
 {
 	pt_node 	to_find = _leaf;
     pt_node		graft; 
@@ -211,14 +270,88 @@ void RBT<Key, T, Compare, Allocator>::delete_helper( pt_node nodeToDelete, int k
       successor->_color = to_find->_color;
     }
     delete (to_find);
-    // if (successor_original_color == 0) {
-    //   deleteFix(graft);  // A FAIRE
-    // }
+    if (successor_original_color == 0) 
+	{
+      delete_balancing(graft);
+    }
 }
 
 
+template< class Key, class T, class Compare, class Allocator >
+void RBT<Key, T, Compare, Allocator>::delete_balancing(pt_node x) 
+{
+    pt_node s;
+    while (x != _root && x->_color == BLACK) {
+      if (x == x->_parent->_left) {
+        s = x->_parent->_right;
+        if (s->_color == RED) 
+		{
+          s->_color = BLACK;
+          x->_parent->_color = RED;
+          leftRotate(x->_parent);
+          s = x->_parent->_right;
+        }
+        if (s->_left->_color == BLACK && s->_right->_color == BLACK) 
+		{
+          s->_color = RED;
+          x = x->_parent;
+        } 
+		else 
+		{
+          if (s->_right->_color == BLACK) 
+		  {
+            s->_left->_color = BLACK;
+            s->_color = RED;
+            rightRotate(s);
+            s = x->_parent->_right;
+          }
+          s->_color = x->_parent->_color;
+          x->_parent->_color = BLACK;
+          s->_right->_color = BLACK;
+          leftRotate(x->_parent);
+          x = _root;
+        }
+      } 
+	  else 
+	  {
+        s = x->_parent->_left;
+        if (s->_color == RED) 
+		{
+          s->_color = BLACK;
+          x->_parent->_color = RED;
+          rightRotate(x->_parent);
+          s = x->_parent->_left;
+        }
+
+        if (s->_right->_color == BLACK && s->_right->_color == BLACK) 
+		{
+          s->_color = RED;
+          x = x->_parent;
+        } 
+		else 
+		{
+          if (s->_left->_color == BLACK) {
+            s->_right->_color = BLACK;
+            s->_color = RED;
+            leftRotate(s);
+            s = x->_parent->_left;
+          }
+
+          s->_color = x->_parent->_color;
+          x->_parent->_color = BLACK;
+          s->_left->_color = BLACK;
+          rightRotate(x->_parent);
+          x = _root;
+        }
+      }
+    }
+    x->_color = BLACK;
+  }
 
 
+
+
+//---------------------------------------------tools----------------------------
 //raccroche l enfant de mon node a supprimer au parent du node
 //node->_parent = remonte le prent , _parent->_left => ancienne place de mon node , colle mon child
 template< class Key, class T, class Compare, class Allocator >
@@ -238,25 +371,72 @@ void RBT<Key, T, Compare, Allocator>::rbTransplant( pt_node node, pt_node child 
 template< class Key, class T, class Compare, class Allocator >
 typename RBT<Key, T, Compare, Allocator>::pt_node RBT<Key, T, Compare, Allocator>::minimum( pt_node node_min )
 {
-	while (node_min->left != _leaf)
+	while (node_min->_left != _leaf)
 		node_min = node_min->_left;
 	return (node_min);
 }
 
-//---------------------------------------------tools----------------------------
+
 template< class Key, class T, class Compare, class Allocator >
 void RBT<Key, T, Compare, Allocator>::delete_tree(pt_node root)
 {
     if (root == _leaf) 
 		return;
-	// if (root->_left)
    	delete_tree(root->_left);
-	// if (root->_right)
  	delete_tree(root->_right);
     delete root;
-    // root = _leaf;
+    root = _leaf;
 }
 
+template< class Key, class T, class Compare, class Allocator >
+void RBT<Key, T, Compare, Allocator>::copy_tree(pt_node old_root, RBT &new_rbt )
+{
+	(void) new_rbt;
+    if (old_root == _leaf || !old_root->_left ) 
+		return;
+   	copy_tree(old_root->_left, new_rbt);
+ 	copy_tree(old_root->_right, new_rbt);
+	new_rbt.insert(old_root->_pair_data);
+}
+
+// In right-rotation, the arrangement of the nodes on the left x is transformed into
+//  the arrangements on the right node y.
+template< class Key, class T, class Compare, class Allocator >
+void RBT<Key, T, Compare, Allocator>::rightRotate(pt_node x) 
+{
+    pt_node y = x->_left;
+    x->_left = y->_right;
+
+    if (y->_right != _leaf) 
+		y->_right->_parent = x;
+    y->_parent = x->_parent;
+    if (x->_parent == _leaf)
+    	this->_root = y;
+	else if (x == x->_parent->_right)
+    	x->_parent->_right = y;
+	else
+    	x->_parent->_left = y;
+    y->_right = x;
+    x->_parent = y;
+}
+
+template< class Key, class T, class Compare, class Allocator >
+void RBT<Key, T, Compare, Allocator>::leftRotate(pt_node x)
+{
+    pt_node y = x->_right;
+    x->_right = y->_left;
+    if (y->_left != _leaf)
+    	y->_left->_parent = x;
+    y->_parent = x->_parent;
+    if (x->_parent == _leaf)
+		this->_root = y;
+    else if (x == x->_parent->_left)
+    	x->_parent->_left = y;
+    else
+    	x->_parent->_right = y;
+    y->_left = x;
+    x->_parent = y;
+}
 
 //----------------------------------------affichage ------------------------
 
@@ -299,6 +479,7 @@ void RBT<Key, T, Compare, Allocator>::display_helper(pt_node &root, std::string 
 	}
 }
 
+//----------------------------------------getter--------------------------------
 template< class Key, class T, class Compare, class Allocator >
 void RBT<Key, T, Compare, Allocator>::display( void )
 {
@@ -307,6 +488,11 @@ void RBT<Key, T, Compare, Allocator>::display( void )
 }
 
 
+template< class Key, class T, class Compare, class Allocator >
+void RBT<Key, T, Compare, Allocator>::delete_node( key_type key )
+{
+	delete_helper( this->_root, key);
+}
 
 
 }// ft
