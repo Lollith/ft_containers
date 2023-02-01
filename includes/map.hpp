@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/01 13:42:51 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/01 17:52:56 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ class map {
 //--------------------------Alias for intern class-------------------------------		
 			typedef	Key												key_type;
 			typedef	T												mapped_type;
-			typedef	typename ft::pair<const key_type, mapped_type>	value_type;
+			typedef	typename ft::pair< const key_type, mapped_type>	value_type; 
 
 //------------------------------------intern class-------------------------------
 		// class interne value_comp :Returns a comparison object that can be used to compare 
 		// two elements to get whether the key of the first one goes before the second.
-		class value_compare 
+		class value_compare : public std::binary_function<value_type,value_type,bool>
 		{
-			//  friend class map; // peut utiliser tous les membres privees ou proteges de map ??
+			 friend class map; // peut utiliser tous les membres privees ou proteges de map ??
 
 			protected:
 			Compare 						comp;
@@ -88,7 +88,7 @@ class map {
 
 			key_compare 							_comp;
 			allocator_type 							_alloc;
-			RBT<value_type, Compare, Alloc> 		_tree;
+			RBT< Key, T, key_compare, Alloc> 		_tree;  // remlaer key  T par value type ?????????????
 
 
 	public: 
@@ -102,39 +102,93 @@ class map {
 		InputIterator>::type first, InputIterator last, const key_compare& comp = key_compare(), 
 		const allocator_type& alloc = allocator_type());
 // //copy (3)	
-		map ( const map &copy );
-
+		map(const map & cpy);
 		~map( void );
 
 
 			//------------------------------operator=---------------------------
-		map &operator=( const map &rhs );
-
+			map &operator=(const map& rhs);
+			
 			//-------------------------iterators--------------------------------
-
+// iterator begin();
+// const_iterator begin() const;
+// iterator end();
+// const_iterator end() const;
+// reverse_iterator rbegin();
+// const_reverse_iterator rbegin() const;
+// reverse_iterator rend();
+// const_reverse_iterator rend() const;
 
 			//----------------------------capacity------------------------------
 		
 		bool empty() const;
 
-
+// size_type size() const;
+// size_type max_size() const;
 			//----------------------------access--------------------------------
 
-
+// T& operator[](const key_type& x);
 
 			//------------------------modifier----------------------------------
+// pair<iterator, bool> insert(const value_type& x);
+// iterator insert(iterator position, const value_type& x);
+// template <class InputIterator>
+// void insert(InputIterator first, InputIterator last);
 
-
+// void erase(iterator position);
+// size_type erase(const key_type& x);
+// void erase(iterator first, iterator last);
+// void swap(map<Key,T,Compare,Allocator>&);
+// void clear();
 
 			//-----------------------observers----------------------------------
-
+// key_compare key_comp() const;
+// value_compare value_comp() const;
 
 			//---------------------------------operations-----------------------
-
+// iterator find(const key_type& x);
+// const_iterator find(const key_type& x) const;
+// size_type count(const key_type& x) const;
+// iterator lower_bound(const key_type& x);
+// const_iterator lower_bound(const key_type& x) const;
+// iterator upper_bound(const key_type& x);
+// const_iterator upper_bound(const key_type& x) const;
+// pair<iterator,iterator>
+// equal_range(const key_type& x);
+// pair<const_iterator,const_iterator>
+// equal_range(const key_type& x) const;
 
 			//--------------------------------allocator-------------------------
 	
 	}; //map
+
+
+// template <class Key, class T, class Compare, class Allocator>
+// bool operator==(const map<Key,T,Compare,Allocator>& x,
+// const map<Key,T,Compare,Allocator>& y);
+// template <class Key, class T, class Compare, class Allocator>
+// bool operator< (const map<Key,T,Compare,Allocator>& x,
+// const map<Key,T,Compare,Allocator>& y);
+// template <class Key, class T, class Compare, class Allocator>
+// bool operator!=(const map<Key,T,Compare,Allocator>& x,
+// const map<Key,T,Compare,Allocator>& y);
+// template <class Key, class T, class Compare, class Allocator>
+// bool operator> (const map<Key,T,Compare,Allocator>& x,
+// const map<Key,T,Compare,Allocator>& y);
+// template <class Key, class T, class Compare, class Allocator>
+// bool operator>=(const map<Key,T,Compare,Allocator>& x,
+// const map<Key,T,Compare,Allocator>& y);
+// template <class Key, class T, class Compare, class Allocator>
+// bool operator<=(const map<Key,T,Compare,Allocator>& x,
+// const map<Key,T,Compare,Allocator>& y);
+// // specialized algorithms:
+// template <class Key, class T, class Compare, class Allocator>
+// void swap(map<Key,T,Compare,Allocator>& x,
+// map<Key,T,Compare,Allocator>& y);
+
+
+
+	
 }// ft
 
 #include "map.tpp"

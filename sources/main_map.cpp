@@ -6,11 +6,12 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 11:14:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/01 12:55:38 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/01 17:11:06 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../includes/map.hpp" // a modif pour makefile
+#include <map>
 
 int main()
 {

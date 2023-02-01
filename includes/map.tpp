@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/01 13:38:19 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/01 17:20:01 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ map<K, T, C, A>::map(typename ft::enable_if< !ft::is_integral< InputIterator> ::
 
 // Constructs a container with a copy of each of the elements in x.
 template < typename K, typename T, typename C, typename A >
-map<K, T, C, A>::map(const map &copy)
+map<K, T, C, A>::map( const map &copy )
 {
 	*this = copy;
 }
@@ -76,6 +76,9 @@ map< K, T, C, A> &map< K, T, C, A>::operator=( const map &rhs ){
 	return (*this);
 }
 
+//----------------------------------------access--------------------------------
+
+// T& operator[](const key_type& x);
 
 
 }//ft

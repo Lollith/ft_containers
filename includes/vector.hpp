@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:04 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/01 12:36:49 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/01 15:40:59 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ namespace ft {
 			size_type		_capacity;// indique la capacité actuelle de l'espace de stockage alloué pour le vecteur.
 			allocator_type	_alloc;
 
-			//capacity = ce que je donne en previsionnel = size a linitialisation 
+			//capacity = ce que je donne en previsionnel = size a linitialisation// capacite entre le first et le last 
 			//size = ce qui est demander par le main
 
 	};
