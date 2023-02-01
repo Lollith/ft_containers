@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 11:10:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/24 16:03:57 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/01 13:44:22 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 namespace ft{
 
 	template <class T1, class T2> 
-	struct pair{ // struc car pas besoin de declarer de private, ms class marche
+	struct pair{ // struct car pas besoin de declarer de private, ms class marche
 		typedef	T1		first_type;
 		typedef	T2		second_type;
 
