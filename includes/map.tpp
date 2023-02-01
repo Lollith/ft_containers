@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/20 10:39:40 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/01 11:27:21 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ namespace ft{
 //---------------------------constructor// destructor---------------------------
 // Constructs an empty container, with no elements.
 template < typename K, typename T, typename C, typename A >
-explicit map<K, T, C, A>::map(const key_compare& comp, const allocator_type& alloc){
+map<K, T, C, A>::map(const key_compare& comp, const allocator_type& alloc){
 	this->_comp = comp;
 	this->_alloc = alloc;
 }

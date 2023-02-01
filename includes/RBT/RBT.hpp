@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:48 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/30 17:26:12 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/01 11:01:36 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,10 @@ namespace ft{
 		void		delete_tree( pt_node root );
 		void		copy_tree(pt_node old_root, RBT &new_rbt );
 
-		void		rightRotate( pt_node x);
-		void		leftRotate( pt_node x);
+		void		rightRotate( pt_node x );
+		void		leftRotate( pt_node x );
 		void		rbTransplant( pt_node u, pt_node v );
+		
 	//----------------------------------------affichage ------------------------
 		// void preOrderHelper	(pt_node node);
 

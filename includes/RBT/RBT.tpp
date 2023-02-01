@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:32 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/30 18:09:22 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/01 10:59:17 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ template< class Key, class T, class Compare, class Allocator >
 typename RBT<Key, T, Compare, Allocator>::pt_node RBT<Key, T, Compare, Allocator>::searchTreeHelper(pt_node node, Key k) 
 {
     if (node == _leaf || k == node->_pair_data.first)
-		return node;
+      return node;
     if (k < node->_pair_data.first)
-		return searchTreeHelper(node->_left, k);
+		  return searchTreeHelper(node->_left, k);
     return searchTreeHelper(node->_right, k);
   }
 

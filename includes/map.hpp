@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/25 15:15:16 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/01 11:37:13 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define MAP_HPP
 
 # include <memory>
-#include "pair.hpp" 
+#include "utils/pair.hpp" 
 
 namespace ft{
 
@@ -28,38 +28,8 @@ namespace ft{
 
 	template < typename Key, typename T, typename Compare = std::less< Key >, typename Alloc = std::allocator<ft::pair<const Key, T> > >
 	class map {
-
 		
-	
-		public:
-		// class interne value_comp :Returns a comparison object that can be used to compare 
-		// two elements to get whether the key of the first one goes before the second.
-			class value_comp 
-			{
-				//  friend class map; // peut utiliser tous les membres privees ou proteges de map ??
-
-				 protected:
-					Compare 						comp;
-
-					value_compare (Compare c) : comp(c) {};  // constructed with map's comparison object
-				
-				public:
-					typedef bool 					result_type;
-					typedef value_type 				first_argument_type;
-					typedef value_type 				second_argument_type;
-
-					bool 	operator() (const value_type& x, const value_type& y) const{
-						return comp(x.first, y.first);
-					}
-
-			}; // class value_comp
-private:
-// 			typedef	ft::RBT_node<value_type, allocator_type>	node;
-
-			key_compare 							_comp;
-			allocator_type 							_alloc;
-			// RBT<value_type, Compare, Alloc> 		_tree;
-
+//------------------------------------------Alias-------------------------------		
 		public: 
 			typedef	Key												key_type;
 			typedef	T												mapped_type;
@@ -80,12 +50,47 @@ private:
 			typedef	size_t											size_type;
 	
 			typedef	value_comp										value_compare;
+			
+	
+//------------------------------------intern class-------------------------------
+		// class interne value_comp :Returns a comparison object that can be used to compare 
+		// two elements to get whether the key of the first one goes before the second.
+			class value_compare 
+			{
+				//  friend class map; // peut utiliser tous les membres privees ou proteges de map ??
+
+				 protected:
+					Compare 						comp;
+
+					value_compare (Compare c) : comp(c) {};  // constructed with map's comparison object
+				
+				public:
+					typedef bool 					result_type;
+					typedef value_type 				first_argument_type;
+					typedef value_type 				second_argument_type;
+
+					bool 	operator() (const value_type& x, const value_type& y) const{
+						return comp(x.first, y.first);
+					}
+
+			}; // class value_comp
+
+//-------------------------------------attributs--------------------------------			
+private:
+// 			typedef	ft::RBT_node<value_type, allocator_type>	node;
+
+			key_compare 							_comp;
+			allocator_type 							_alloc;
+			// RBT<value_type, Compare, Alloc> 		_tree;
+
+		
 
 
 			//---------------------------constructor// destructor---------------
 //empty (1)	
-		explicit map( const key_compare& comp = key_compare(), 
-			const allocator_type& alloc = allocator_type() );
+			template < class InputIterator >  
+			explicit map( const key_compare& comp = key_compare(), 
+				const allocator_type& alloc = allocator_type() );
 //range (2)	
 // 		template <class InputIterator>  
 // 		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), 
