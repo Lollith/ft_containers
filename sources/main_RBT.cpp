@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:46:37 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/30 18:08:51 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/02 15:17:20 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int main()
 	rbt1.display();
 	std::cout << std::endl;
 	rbt2.display();
+	
 	return 0;
 	
 }

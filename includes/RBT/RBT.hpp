@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:48 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/01 17:52:00 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/02 18:15:26 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 
 namespace ft{
 
-	template < typename Key, typename T, typename Compare = std::less< Key >, 
-		    typename Allocator = std::allocator<ft::pair<const Key, T> > >
-	// template< class Key, class T, class Compare, class Allocator>
+	// template < typename Key, typename T, typename Compare = std::less< Key >, 
+		    // typename Allocator = std::allocator<ft::pair<const Key, T> > >
+	template< class Key, class T, class Compare, class Allocator>
 	class RBT
 	{
 		public:
@@ -33,26 +33,39 @@ namespace ft{
 			typedef Allocator							allocator_type;
 			typedef pair<const key_type, mapped_type>	value_type;
 			typedef node_type*							pt_node;
-
+			typedef std::size_t							size_type;
+			typedef typename Allocator::template rebind<RBT_node<Key, T> >::other node_allocator; //rebind
+			//map=>aloc=> aaloue des paires,  RBT, objet de map =+ alloc => dc des paires => 
+			//ms je veux allouer des node et non des paris => rebind permet de redefinir ce 
+			//que je veux allouer, le template de l allocator
+			
 		private:
 			pt_node										_root;
-			pt_node										_leaf;//TNULL
+			pt_node										_leaf;//TNULL _null_node
 			allocator_type								_alloc;
 			Compare										_comp; //save  ma fonction de comparaison,
 			
+			node_allocator								_node_alloc; //rebind
+			
 			
 		public:
-		//-----------------------------------constructor------------------------
+	//-----------------------------------constructor------------------------
 					
 					RBT( const Compare &comp = Compare(), const allocator_type &alloc = allocator_type());
 					~RBT( void );
 					RBT( const RBT &copy);
 		RBT 		&operator=( const RBT &rhs);
 
+	//-------------------------------- capacity-----------------------------
+		
+		bool		empty( void )  const;
+		void		size_helper( pt_node nd, size_t *i ) const;
+		size_type	size( void ) const;
+
 	//----------------------------------- search------------------------
  		
-		pt_node		searchTreeHelper(pt_node node, Key k);
-		pt_node		searchTree(Key k);
+		pt_node		searchTreeHelper( pt_node node, Key k );
+		pt_node		searchTree( Key k );
 	
 	//--------------------------------------- operations -------------------------
 		
@@ -60,6 +73,8 @@ namespace ft{
 		void		insert_balancing( pt_node new_node );
 
 		void		delete_helper( pt_node node, key_type key );
+		void		delete_node( key_type key );
+		
 		void		delete_balancing( pt_node x );
 
 
@@ -79,12 +94,9 @@ namespace ft{
 		//helper permettent d appeler des attribut prive => appel dune 2eme fct 
 		//qui appel helper qui elle peut etre utlisee ds le main
 		void		display_helper( pt_node &root, std::string indent, bool last );
-
-//----------------------------------------getter--------------------------------
-		
 		void		display( void );
-		void		delete_node( key_type key );
-			
+
+		
 	
 	
 	};	

@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 14:16:54 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/26 17:19:13 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/02 18:45:04 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,26 +81,26 @@ RBT_node< Key, T >::RBT_node( void ){
 	// _leaf = true;
 }
 
-template < class Key, class T >
-RBT_node< Key, T >::RBT_node( RBT_node *parent ){
-    _pair_data = ft::make_pair(Key(), T());
-	_color = BLACK;
-	_left = NULL;
-	_right = NULL;
-	_parent = parent;
-	// _leaf = true;
+// template < class Key, class T >
+// RBT_node< Key, T >::RBT_node( RBT_node *parent ){
+//     _pair_data = ft::make_pair(Key(), T());
+// 	_color = BLACK;
+// 	_left = NULL;
+// 	_right = NULL;
+// 	_parent = parent;
+// 	// _leaf = true;
 	
-}
+// }
 
 
-template < class Key, class T >
-RBT_node< Key, T >::RBT_node( t_color color, RBT_node *parent, RBT_node *left, RBT_node *right, value_type pair_data ){
-	_pair_data = pair_data;
-	_color = color;
-	_left = left;
-	_right = right;
-	_parent = parent;
-}
+// template < class Key, class T >
+// RBT_node< Key, T >::RBT_node( t_color color, RBT_node *parent, RBT_node *left, RBT_node *right, value_type pair_data ){
+// 	_pair_data = pair_data;
+// 	_color = color;
+// 	_left = left;
+// 	_right = right;
+// 	_parent = parent;
+// }
 
 template < class Key, class T >
 RBT_node< Key, T >::RBT_node( value_type pair_init ){

@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:32 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/01 10:59:17 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/02 18:46:40 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ template< class Key, class T, class Compare, class Allocator >
 RBT<Key, T, Compare, Allocator>::RBT( const Compare &comp, const allocator_type &alloc ){
 	_alloc = alloc;
 	_comp = comp;
-	_leaf = new node_type();
+	// _leaf = new node_type(); // ne pas utiliser new cf REBIND , +delete a revoir
+  _leaf = _node_alloc.allocate(sizeof(node_type));
+  _node_alloc = node_allocator();
+  
 	_root = _leaf;
 	
 	return ;
@@ -44,8 +47,9 @@ RBT<Key, T, Compare, Allocator>::RBT( const Compare &comp, const allocator_type 
 template< class Key, class T, class Compare, class Allocator >
 RBT<Key, T, Compare, Allocator>::~RBT( void ){
 
-	delete_tree( this->_root );
-	delete _leaf;
+	delete_tree( this->_root );           //desalouer et nno dilete
+	// delete _leaf;                      /// desalouer et non delete
+  _node_alloc.deallocate(_leaf, sizeof(node_type));
 	return;
 }
 
@@ -62,12 +66,44 @@ RBT<Key, T, Compare, Allocator> &RBT<Key, T, Compare, Allocator>::operator=( con
 	{
 		_comp = rhs._comp;
 		_alloc = rhs._alloc;
-		_leaf = new node_type();
+		// _leaf = new node_type(); // ne pas utiliser NEW  +> cf rebind
+  _leaf = _node_alloc.allocate(sizeof(node_type));
+  _node_alloc = node_allocator();
 		_root = _leaf;
 		copy_tree(rhs._root, *this);
 	}
 	return (*this);
 }
+
+//-------------------------------- capacity-----------------------------
+		
+template< class Key, class T, class Compare, class Allocator >
+bool		RBT<Key, T, Compare, Allocator>::empty( void )  const
+{
+  if (_root == _leaf)
+    return (true);
+  return (false);
+}
+
+template< class Key, class T, class Compare, class Allocator >
+void RBT<Key, T, Compare, Allocator>::size_helper( pt_node node, size_t *i ) const
+{
+    if (node == _leaf)
+      return;
+    size_helper( node->_left, i);
+    size_helper( node->_right, i);
+    (*i)++;
+}
+
+template< class Key, class T, class Compare, class Allocator >
+typename RBT<Key, T, Compare, Allocator>::size_type RBT< Key, T, Compare, Allocator >::size( void ) const
+{
+    size_type i = 0;
+    
+	  size_helper( _root, &i);
+    return (i);
+}
+
 
 //----------------------------------------search -------------------------------
 template< class Key, class T, class Compare, class Allocator >
@@ -103,8 +139,21 @@ typename RBT<Key, T, Compare, Allocator>::pt_node RBT<Key, T, Compare, Allocator
 template< class Key, class T, class Compare, class Allocator >
 void RBT<Key, T, Compare, Allocator>::insert( value_type pair_data )
 {
-	pt_node new_node = new node_type(RED, NULL, _leaf, _leaf, pair_data);
-	pt_node parent = _leaf;
+  
+	// pt_node new_node = new node_type(RED, NULL, _leaf, _leaf, pair_data) ;/// NEW => rebind
+	
+	pt_node new_node = _node_alloc.allocate(sizeof(node_type));
+  node_alloc.construct(new_node, pair_data);
+  new_node->_parent = NULL;
+  new_node->_left = _leaf;
+  new_node->_right = _leaf;
+  new_node->_color = RED;
+  
+  
+  
+  
+  
+  pt_node parent = _leaf;
     pt_node find = this->_root;
 // find decend de root tant quil nest pas a leaf et trouve le parent 
 	while (find != _leaf) 
@@ -269,7 +318,8 @@ void RBT<Key, T, Compare, Allocator>::delete_helper( pt_node nodeToDelete, key_t
 	  successor->_left->_parent = successor;
       successor->_color = to_find->_color;
     }
-    delete (to_find);
+    // delete (to_find);
+    _node_alloc.deallocate(to_find, sizeof(node_type));
     if (successor_original_color == 0) 
 	{
       delete_balancing(graft);
@@ -383,15 +433,15 @@ void RBT<Key, T, Compare, Allocator>::delete_tree(pt_node root)
     if (root == _leaf) 
 		return;
    	delete_tree(root->_left);
- 	delete_tree(root->_right);
-    delete root;
+  	delete_tree(root->_right);
+    // delete root;
+    _node_alloc.deallocate(_leaf, sizeof(node_type));
     root = _leaf;
 }
 
 template< class Key, class T, class Compare, class Allocator >
 void RBT<Key, T, Compare, Allocator>::copy_tree(pt_node old_root, RBT &new_rbt )
 {
-	(void) new_rbt;
     if (old_root == _leaf || !old_root->_left ) 
 		return;
    	copy_tree(old_root->_left, new_rbt);

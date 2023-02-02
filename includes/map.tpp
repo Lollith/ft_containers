@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/01 17:20:01 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/02 17:09:22 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,45 @@ map< K, T, C, A> &map< K, T, C, A>::operator=( const map &rhs ){
 		// clear()//The elements stored in the container before the call are either assigned to or destroyed.
 		this->_alloc= rhs._alloc;
 		this->_comp = rhs._comp;
-		// iterator????????????????????
-		//  insert(other.begin(), other.end());
+		//insert
 	}
 	return (*this);
 }
 
 //----------------------------------------access--------------------------------
+// if k matches the key of an element in the container, the function returns a reference to its mapped value.
 
-// T& operator[](const key_type& x);
+// If k does not match the key of any element in the container, the function inserts a new element with that key and returns a reference to its mapped value. Notice that this always increases the container size by one, even if no mapped value is assigned to the element (the element is constructed using its default constructor).
 
+// A similar member function, map::at, has the same behavior when an element with the key exists, but throws an exception when it does not.
+
+// template < typename K, typename T, typename C, typename A >
+// T &map< K, T, C, A >::operator[](const key_type& x){
+// 	return (*)
+// }
+
+//----------------------------capacity------------------------------
+		
+template < typename K, typename T, typename C, typename A >
+bool map< K, T, C, A>::empty() const{
+	return(_tree.empty());
+}
+
+template < typename K, typename T, typename C, typename A >
+typename map< K, T, C, A>::size_type map< K, T, C, A>::size( void ) const
+{
+	return (_tree.size());
+}
+		
+template < typename K, typename T, typename C, typename A >
+typename map< K, T, C, A>::size_type map< K, T, C, A>::max_size() const
+{
+// 	std::allocator<rbt_node> tmp;
+// 	return (tmp.max_size());
+
+
+
+// rebind???????????????????????????
+// }
 
 }//ft

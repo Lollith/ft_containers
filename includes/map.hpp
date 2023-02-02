@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/01 17:52:56 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/02 17:03:46 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ class map {
 //-------------------------------------attributs--------------------------------			
 			
 	private:
-// 			typedef	ft::RBT_node<value_type, allocator_type>	node;
+			typedef	ft::RBT_node<value_type, allocator_type>	rbt_node;
 
 			key_compare 							_comp;
 			allocator_type 							_alloc;
@@ -122,12 +122,12 @@ class map {
 			//----------------------------capacity------------------------------
 		
 		bool empty() const;
-
-// size_type size() const;
-// size_type max_size() const;
+		size_type size() const;
+		size_type max_size() const;
+		
 			//----------------------------access--------------------------------
 
-// T& operator[](const key_type& x);
+T& operator[](const key_type& x);
 
 			//------------------------modifier----------------------------------
 // pair<iterator, bool> insert(const value_type& x);

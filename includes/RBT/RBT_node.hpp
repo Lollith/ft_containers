@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:24 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/26 16:43:12 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/02 18:44:58 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ namespace ft {
 			RBT_node( RBT_node const &copy );
 			RBT_node &operator=( const RBT_node &rhs );
 	
-			RBT_node( RBT_node *parent );// utile?
+			// RBT_node( RBT_node *parent );// utile?
 			
-			RBT_node( t_color color, RBT_node *parent, RBT_node *left, RBT_node *right, value_type pair_data );
+			// RBT_node( t_color color, RBT_node *parent, RBT_node *left, RBT_node *right, value_type pair_data );
 
 	};
 	
