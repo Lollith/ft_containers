@@ -15,6 +15,7 @@
 # include "RBT_node.hpp"
 # include <memory>
 # include <iostream>
+# include "../iterators/RBT_iterator.hpp"
 
 //https://www.programiz.com/dsa/red-black-tree
 // Compare et Allocator = default envoye par map
@@ -61,6 +62,11 @@ namespace ft{
 		bool		empty( void )  const;
 		void		size_helper( pt_node nd, size_t *i ) const;
 		size_type	size( void ) const;
+		size_type	max_size( void ) const;
+	
+	//------------------------modifier----------------------------------
+
+		void 		clear ( void );
 
 	//----------------------------------- search------------------------
  		
@@ -69,7 +75,7 @@ namespace ft{
 	
 	//--------------------------------------- operations -------------------------
 		
-		void		insert( value_type pair_data );
+		void		insert_node( value_type pair_data );
 		void		insert_balancing( pt_node new_node );
 
 		void		delete_helper( pt_node node, key_type key );

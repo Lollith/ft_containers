@@ -56,7 +56,7 @@ map<K, T, C, A>::map( const map &copy )
 template < typename K, typename T, typename C, typename A >
 map< K, T, C, A >::~map( void )
 {// ???????????????????????????????
-	// clear
+	clear();
 	//deallocate
 }
 
@@ -67,7 +67,7 @@ template < typename K, typename T, typename C, typename A >
 map< K, T, C, A> &map< K, T, C, A>::operator=( const map &rhs ){
 	if (this != &rhs)
 	{
-		// clear()//The elements stored in the container before the call are either assigned to or destroyed.
+		clear();//The elements stored in the container before the call are either assigned to or destroyed.
 		this->_alloc= rhs._alloc;
 		this->_comp = rhs._comp;
 		//insert
@@ -103,12 +103,96 @@ typename map< K, T, C, A>::size_type map< K, T, C, A>::size( void ) const
 template < typename K, typename T, typename C, typename A >
 typename map< K, T, C, A>::size_type map< K, T, C, A>::max_size() const
 {
-// 	std::allocator<rbt_node> tmp;
-// 	return (tmp.max_size());
+	return ( _tree.max_size() );
+}
+
+//------------------------------------modifier----------------------------------
+
+template < typename K, typename T, typename C, typename A >
+void map< K, T, C, A>::clear( void)
+{
+	_tree.clear();
+}
+
+// Extends the container by inserting new elements, effectively increasing the 
+// container size by the number of elements inserted.
+// Because element keys in a map are unique, the insertion operation checks
+// whether each inserted element has a key equivalent to the one of an element already in the container, and if so, the element is not inserted, returning an iterator to this existing element (if the function returns a value).
+//1
+template < typename K, typename T, typename C, typename A >
+typename map< K, T, C, A>::ft::pair<iterator, bool> map< K, T, C, A>::insert(const value_type &value)  // std::iterator?????
+{
+	ft::pair<iterator, bool> ret;                                            //std::it??
+	// iterator searched_key = find(value.first);
+
+	// // if map is empty, insert the node
+	// if (empty())
+	// {
+	// 	ret.first = _tree.insert_node(value);
+	// 	ret.second = true;
+	// }
+	// // key found -> no duplicate allowed
+	// else if (!searched_key.base()->is_nil)
+	// {
+	// 	ret.first = searched_key;
+	// 	ret.second = false;
+	// }
+	// // no key found, proceed with inserting the node
+	// else
+	// {
+	// 	ret.first = _storage.insert_node(value);
+	// 	ret.second = true;
+	// }
+	return ret;
+}
+
+// An alternative way to insert elements in a map is by using member function map::operator[].
+
+//-----------------------------------------operator-----------------------------
+template< class Key, class T, class Compare, class Alloc >
+inline bool operator==( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
+{
+	return !(rhs < lhs) && !(lhs < rhs);
+}
+
+template< class Key, class T, class Compare, class Alloc >
+inline bool operator!=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
+{
+	return !(lhs == rhs);
+}
+
+template< class Key, class T, class Compare, class Alloc >
+inline bool operator<( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
+{
+	return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+}
+
+template< class Key, class T, class Compare, class Alloc >
+inline bool operator<=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
+{
+	return !(rhs < lhs);
+}
+
+template< class Key, class T, class Compare, class Alloc >
+inline bool operator>( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
+{
+	return rhs < lhs;
+}
+
+template< class Key, class T, class Compare, class Alloc >
+inline bool operator>=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
+{
+	return !(lhs < rhs);
+}
+
+template< class Key, class Compare, class Alloc >
+void swap( ft::map<Key,Compare,Alloc>& lhs, ft::map<Key,Compare,Alloc>& rhs )
+{
+	lhs.swap(rhs);
+}
 
 
 
-// rebind???????????????????????????
-// }
+
 
 }//ft

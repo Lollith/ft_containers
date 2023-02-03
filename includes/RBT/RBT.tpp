@@ -10,16 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// If root == NULL 
-//     return NULL;
-// If number == root->data 
-//     return root->data;
-// If number < root->data 
-//     return search(root->left)
-// If number > root->data 
-//     return search(root->right)
-
-
 //std::less
 // Objects of this class can be used on standard algorithms
 // returning whether the first argument compares less than the second (x<y)
@@ -115,6 +105,20 @@ typename RBT<Key, T, Compare, Allocator>::size_type RBT< Key, T, Compare, Alloca
     return (i);
 }
 
+template< class Key, class T, class Compare, class Allocator >
+typename RBT<Key, T, Compare, Allocator>::size_type RBT< Key, T, Compare, Allocator >::max_size( void ) const
+{
+	return (_node_alloc.max_size()); // utilisation du rebind => allocator <node> a la place du pair
+}
+
+//------------------------modifier----------------------------------
+
+template< class Key, class T, class Compare, class Allocator >
+void 		RBT< Key, T, Compare, Allocator >::clear ( void )
+{
+  delete_tree(_root);
+  _root = _leaf;
+}
 
 //----------------------------------------search -------------------------------
 template< class Key, class T, class Compare, class Allocator >
@@ -148,7 +152,7 @@ typename RBT<Key, T, Compare, Allocator>::pt_node RBT<Key, T, Compare, Allocator
 // reequilibrage = fix larbre
 
 template< class Key, class T, class Compare, class Allocator >
-void RBT<Key, T, Compare, Allocator>::insert( value_type pair_data )
+void RBT<Key, T, Compare, Allocator>::insert_node( value_type pair_data )
 {
   
 	// pt_node new_node = new node_type(RED, NULL, _leaf, _leaf, pair_data) ;/// NEW => rebind
@@ -159,10 +163,6 @@ void RBT<Key, T, Compare, Allocator>::insert( value_type pair_data )
   new_node->_left = _leaf;
   new_node->_right = _leaf;
   new_node->_color = RED;
-  
-  
-  
-  
   
   pt_node parent = _leaf;
     pt_node find = this->_root;
@@ -264,9 +264,9 @@ void RBT<Key, T, Compare, Allocator>::insert_balancing(pt_node new_node)
 template< class Key, class T, class Compare, class Allocator >
 void RBT<Key, T, Compare, Allocator>::delete_helper( pt_node nodeToDelete, key_type key )
 {
-	pt_node 	to_find = _leaf;
+	  pt_node 	to_find = _leaf;
     pt_node		graft; 
-	pt_node		successor;
+	  pt_node		successor;
 
 	//cherche la position ds l arbre du node a supprimer => devient to_find
 	// sinon return
@@ -442,7 +442,7 @@ template< class Key, class T, class Compare, class Allocator >
 void RBT<Key, T, Compare, Allocator>::delete_tree(pt_node root)
 {
     if (root == _leaf) 
-		return;
+		  return;
    	delete_tree(root->_left);
   	delete_tree(root->_right);
     // delete root;
@@ -457,7 +457,7 @@ void RBT<Key, T, Compare, Allocator>::copy_tree(pt_node old_root, RBT &new_rbt )
 		return;
   copy_tree(old_root->_left, new_rbt);
  	copy_tree(old_root->_right, new_rbt);
-	new_rbt.insert(old_root->_pair_data);
+	new_rbt.insert_node(old_root->_pair_data);
 }
 
 // In right-rotation, the arrangement of the nodes on the left x is transformed into
