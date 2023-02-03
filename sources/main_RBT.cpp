@@ -27,8 +27,8 @@ int main()
 	ft::RBT_node<int, int> node3(node2);
 	std::cout << "copie de node2: "<<node3._pair_data.first<< std::endl;
 
-	ft::RBT_node<int, int> node4(0);
-	std::cout << "surcharge node4: "<< node4._parent<< std::endl;
+	// ft::RBT_node<int, int> node4(0);
+	// std::cout << "surcharge node4: "<< node4._parent<< std::endl;
 	//-------------------------------------------------------------------------
 	std::cout << std::endl;
 	ft::RBT<int, int, int > rbt1;
@@ -40,7 +40,7 @@ int main()
 	rbt1.insert(ft::pair< int, int>(5,3));
 	rbt1.insert(ft::pair< int, int>(8,3));
 	ft::RBT<int, int, int > rbt2(rbt1);
-	// rbt1.display();
+	rbt1.display();
 	rbt1.delete_node(2);
 	rbt1.delete_node(3);
 	rbt1.display();

@@ -21,9 +21,9 @@
 
 namespace ft{
 
-	// template < typename Key, typename T, typename Compare = std::less< Key >, 
-		    // typename Allocator = std::allocator<ft::pair<const Key, T> > >
-	template< class Key, class T, class Compare, class Allocator>
+	template < typename Key, typename T, typename Compare = std::less< Key >, 
+		    typename Allocator = std::allocator<ft::pair<const Key, T> > >
+	// template< class Key, class T, class Compare, class Allocator>
 	class RBT
 	{
 		public:

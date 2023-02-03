@@ -40,7 +40,12 @@ RBT<Key, T, Compare, Allocator>::RBT( const Compare &comp, const allocator_type 
   _node_alloc = node_allocator();
   
 	_root = _leaf;
-	
+
+// intialisation
+  _leaf->_color = BLACK;
+  _leaf->_left = NULL;
+  _leaf->_right = NULL;
+  _leaf->_parent = NULL;
 	return ;
 }
 	
@@ -67,9 +72,15 @@ RBT<Key, T, Compare, Allocator> &RBT<Key, T, Compare, Allocator>::operator=( con
 		_comp = rhs._comp;
 		_alloc = rhs._alloc;
 		// _leaf = new node_type(); // ne pas utiliser NEW  +> cf rebind
-  _leaf = _node_alloc.allocate(sizeof(node_type));
-  _node_alloc = node_allocator();
+    _leaf = _node_alloc.allocate(sizeof(node_type));
+    _node_alloc = node_allocator();
 		_root = _leaf;
+// intialisation car allocate a la place de new node
+  _leaf->_color = BLACK;
+  _leaf->_left = NULL;
+  _leaf->_right = NULL;
+  _leaf->_parent = NULL;
+
 		copy_tree(rhs._root, *this);
 	}
 	return (*this);
@@ -143,7 +154,7 @@ void RBT<Key, T, Compare, Allocator>::insert( value_type pair_data )
 	// pt_node new_node = new node_type(RED, NULL, _leaf, _leaf, pair_data) ;/// NEW => rebind
 	
 	pt_node new_node = _node_alloc.allocate(sizeof(node_type));
-  node_alloc.construct(new_node, pair_data);
+  _node_alloc.construct(new_node, pair_data);
   new_node->_parent = NULL;
   new_node->_left = _leaf;
   new_node->_right = _leaf;
@@ -435,16 +446,16 @@ void RBT<Key, T, Compare, Allocator>::delete_tree(pt_node root)
    	delete_tree(root->_left);
   	delete_tree(root->_right);
     // delete root;
-    _node_alloc.deallocate(_leaf, sizeof(node_type));
+    _node_alloc.deallocate(root, sizeof(node_type));
     root = _leaf;
 }
 
 template< class Key, class T, class Compare, class Allocator >
 void RBT<Key, T, Compare, Allocator>::copy_tree(pt_node old_root, RBT &new_rbt )
 {
-    if (old_root == _leaf || !old_root->_left ) 
+  if (old_root == _leaf || !old_root->_left || !old_root->_right ) 
 		return;
-   	copy_tree(old_root->_left, new_rbt);
+  copy_tree(old_root->_left, new_rbt);
  	copy_tree(old_root->_right, new_rbt);
 	new_rbt.insert(old_root->_pair_data);
 }
