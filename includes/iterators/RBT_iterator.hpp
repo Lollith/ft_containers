@@ -2,7 +2,8 @@
 #define RBT_ITERATOR_HPP
 
 namespace ft{
-
+// ietrator = adresse dun noeud=> me deplace de noeud en noeud, sachnt que 
+//je vais chercher le +proche existant, deplacement de pas en pas
 
 template <class Key, class T>
 struct RBT_const_iterator; // car present ds ma structure RBT_iterator => ne marche pas
@@ -17,47 +18,50 @@ template <class Key, class T>
 		typedef std::bidirectional_iterator_tag 			iterator_category;
 		typedef std::ptrdiff_t 								difference_type;
 
-		typedef RBT_iterator<Key, T>						iterator;
-		typedef RBT_node<Key, T> 							*base_ptr;
-		typedef const base_ptr								const_base_ptr;
-		typedef RBT_const_iterator<Key, T> 					const_iterator;
+		typedef ft::RBT_node<Key, T> 						node_type;
+		typedef node_type									*pt_node;
+		
+		// typedef RBT_iterator<Key, T>						iterator;
+		// typedef RBT_node<Key, T> 							*base_ptr;
+		// typedef const base_ptr								const_base_ptr;
+		// typedef RBT_const_iterator<Key, T> 					const_iterator;
 
-		base_ptr node_ptr;
+	//--------------------------------------------attribut----------------------
+		pt_node												_current;
 
-		RBT_iterator()
-			: node_ptr() {}
+	//--------------------------------------------constructor----------------------
 
-		RBT_iterator(base_ptr node_ptr_input)
-			: node_ptr(node_ptr_input) {}
+		RBT_iterator() : _current() {}
 
-		RBT_iterator(const RBT_iterator & other)
+
+		RBT_iterator( pt_node input): _current(input){}
+
+		RBT_iterator(const RBT_iterator &cpy) { *this = cpy; }
+
+		RBT_iterator &operator=( const RBT_iterator &other )
 		{
-			node_ptr = other.base();
-		}
-
-		RBT_iterator & operator=( const RBT_iterator & other )
-		{
-			node_ptr = other.base();
+			_current = other.base();
 			return *this;
 		}
 
-		base_ptr
-		base() const
+		~RBT_iterator ( void ){}
+		
+		pt_node base() const
 		{
-			return node_ptr;
+		 	return _current;
 		}
 
-		// reference
-		// operator*() const
-		// {
-		// 	return *static_cast<base_ptr>(node_ptr)->value_ptr();
-		// }
+	//---------------------------------------operator---------------------------
+		reference operator*() const
+		{
+			return (*_current);
+		}
 
-		// pointer
-		// operator->() const
-		// {
-		// 	return static_cast<base_ptr>(node_ptr)->value_ptr();
-		// }
+		pointer operator->() const
+		{
+			return &(operator*());
+		}
+
 
 		// iterator &
 		// operator++()
@@ -89,103 +93,133 @@ template <class Key, class T>
 		// 	return tmp;
 		// }
 
-		iterator operator+( difference_type n ) const
-		{
-			iterator tmp(base());
+	// 	iterator operator+( difference_type n ) const
+	// 	{
+	// 		iterator tmp(base());
 
-			for (difference_type i = 0; i != n; ++i)
-				++tmp;
+	// 		for (difference_type i = 0; i != n; ++i)
+	// 			++tmp;
 				
-			return (tmp);
-		}
+	// 		return (tmp);
+	// 	}
 
-		iterator operator-( difference_type n ) const
-		{
-			iterator tmp(base());
+	// 	iterator operator-( difference_type n ) const
+	// 	{
+	// 		iterator tmp(base());
 
-			for (difference_type i = 0; i != n; ++i)
-				--tmp;
+	// 		for (difference_type i = 0; i != n; ++i)
+	// 			--tmp;
 				
-			return (tmp);
-		}
+	// 		return (tmp);
+	// 	}
 
-		friend bool
-		operator==(const iterator &lhs, const iterator &rhs)
-		{
-			if (lhs.base()->is_nil && rhs.base()->is_nil)
-				return true;
-			return lhs.node_ptr == rhs.node_ptr;
-		}
+	// 	friend bool
+	// 	operator==(const iterator &lhs, const iterator &rhs)
+	// 	{
+	// 		if (lhs.base()->is_nil && rhs.base()->is_nil)
+	// 			return true;
+	// 		return lhs.node_ptr == rhs.node_ptr;
+	// 	}
 
-		friend bool
-		operator==(const iterator &lhs, const const_iterator &rhs)
-		{
-			if (lhs.base()->is_nil && rhs.base()->is_nil)
-				return true;
-			return lhs.node_ptr == rhs.node_ptr;
-		}
+	// 	friend bool
+	// 	operator==(const iterator &lhs, const const_iterator &rhs)
+	// 	{
+	// 		if (lhs.base()->is_nil && rhs.base()->is_nil)
+	// 			return true;
+	// 		return lhs.node_ptr == rhs.node_ptr;
+	// 	}
 
-		friend bool
-		operator!=(const iterator &lhs, const iterator &rhs)
-		{
-			return !(lhs == rhs);
-		}
+	// 	friend bool
+	// 	operator!=(const iterator &lhs, const iterator &rhs)
+	// 	{
+	// 		return !(lhs == rhs);
+	// 	}
 
-		friend bool
-		operator!=(const iterator &lhs, const const_iterator &rhs)
-		{
-			return !(lhs == rhs);
-		}
+	// 	friend bool
+	// 	operator!=(const iterator &lhs, const const_iterator &rhs)
+	// 	{
+	// 		return !(lhs == rhs);
+	// 	}
 	};
 
-	// red-black tree const iterator
+//------------------------------------------------------------------------------
+	//-------------------------- red-black tree const iterator------------------
 
 	template <class Key, class T>
 	struct RBT_const_iterator
 	{
-		typedef pair<const Key, T> value_type;
-		typedef const value_type &reference;
-		typedef const value_type *pointer;
+		typedef pair<const Key, T> 							value_type;
+		typedef const value_type 									&reference;
+		typedef const value_type 									*pointer;
 
-		typedef RBT_iterator<Key, T> iterator;
+		typedef std::bidirectional_iterator_tag 			iterator_category;
+		typedef std::ptrdiff_t 								difference_type;
 
-		typedef std::bidirectional_iterator_tag iterator_category;
-		typedef std::ptrdiff_t difference_type;
+		typedef const ft::RBT_node<Key, T> 						node_type;
+		typedef node_type									*pt_node;
+		
+//--------------------------------------------attribut----------------------
+		pt_node												_current;
 
-		typedef RBT_const_iterator<Key, T> const_iterator;
-		typedef const RBT_node<Key, T> *base_ptr;
+		RBT_const_iterator() : _current() {}
 
-		base_ptr node_ptr;
 
-		RBT_const_iterator()
-			: node_ptr() {}
+		RBT_const_iterator( pt_node input): _current(input){}
 
-		RBT_const_iterator(base_ptr node_ptr_input)
-			: node_ptr(node_ptr_input) {}
+		RBT_const_iterator(const RBT_const_iterator &cpy) { *this = cpy; }
 
-		RBT_const_iterator(const RBT_const_iterator & other)
-			: node_ptr(other.node_ptr) {}
-
-		const_iterator & operator=( const const_iterator & other )
+		RBT_const_iterator &operator=( const RBT_const_iterator &other )
 		{
-			node_ptr = other.base();
+			_current = other.base();
 			return *this;
 		}
 
-		RBT_const_iterator(const iterator & other)
-			: node_ptr(other.node_ptr) {}
-
-		const_iterator & operator=( const iterator & other )
+		~RBT_const_iterator ( void ){}
+		
+		pt_node base() const
 		{
-			node_ptr = other.base();
-			return *this;
+		 	return _current;
 		}
 
-		base_ptr
-		base() const
+	//---------------------------------------operator---------------------------
+		reference operator*() const
 		{
-			return node_ptr;
+			return (*_current);
 		}
+
+		pointer operator->() const
+		{
+			return &(operator*());
+		}
+	// 	RBT_const_iterator()
+	// 		: node_ptr() {}
+
+	// 	RBT_const_iterator(base_ptr node_ptr_input)
+	// 		: node_ptr(node_ptr_input) {}
+
+	// 	RBT_const_iterator(const RBT_const_iterator & other)
+	// 		: node_ptr(other.node_ptr) {}
+
+	// 	const_iterator & operator=( const const_iterator & other )
+	// 	{
+	// 		node_ptr = other.base();
+	// 		return *this;
+	// 	}
+
+	// 	RBT_const_iterator(const iterator & other)
+	// 		: node_ptr(other.node_ptr) {}
+
+	// 	const_iterator & operator=( const iterator & other )
+	// 	{
+	// 		node_ptr = other.base();
+	// 		return *this;
+	// 	}
+
+	// 	base_ptr
+	// 	base() const
+	// 	{
+	// 		return node_ptr;
+	// 	}
 
 		// reference
 		// operator*() const
@@ -229,53 +263,53 @@ template <class Key, class T>
 		// 	return tmp;
 		// }
 
-		const_iterator operator+( difference_type n ) const
-		{
-			const_iterator tmp(base());
+		// const_iterator operator+( difference_type n ) const
+		// {
+		// 	const_iterator tmp(base());
 
-			for (difference_type i = 0; i != n; ++i)
-				++tmp;
+		// 	for (difference_type i = 0; i != n; ++i)
+		// 		++tmp;
 				
-			return (tmp);
-		}
+		// 	return (tmp);
+		// }
 
-		const_iterator operator-( difference_type n ) const
-		{
-			const_iterator tmp(base());
+		// const_iterator operator-( difference_type n ) const
+		// {
+		// 	const_iterator tmp(base());
 
-			for (difference_type i = 0; i != n; ++i)
-				--tmp;
+		// 	for (difference_type i = 0; i != n; ++i)
+		// 		--tmp;
 				
-			return (tmp);
-		}
+		// 	return (tmp);
+		// }
 
-		friend bool
-		operator==(const const_iterator &lhs, const const_iterator &rhs)
-		{
-			if (lhs.base()->is_nil && rhs.base()->is_nil)
-				return true;
-			return lhs.node_ptr == rhs.node_ptr;
-		}
+		// friend bool
+		// operator==(const const_iterator &lhs, const const_iterator &rhs)
+		// {
+		// 	if (lhs.base()->is_nil && rhs.base()->is_nil)
+		// 		return true;
+		// 	return lhs.node_ptr == rhs.node_ptr;
+		// }
 
-		friend bool
-		operator==(const const_iterator &lhs, const iterator &rhs)
-		{
-			if (lhs.base()->is_nil && rhs.base()->is_nil)
-				return true;
-			return lhs.node_ptr == rhs.node_ptr;
-		}
+		// friend bool
+		// operator==(const const_iterator &lhs, const iterator &rhs)
+		// {
+		// 	if (lhs.base()->is_nil && rhs.base()->is_nil)
+		// 		return true;
+		// 	return lhs.node_ptr == rhs.node_ptr;
+		// }
 
-		friend bool
-		operator!=(const const_iterator &lhs, const const_iterator &rhs)
-		{
-			return !(lhs == rhs);
-		}
+		// friend bool
+		// operator!=(const const_iterator &lhs, const const_iterator &rhs)
+		// {
+		// 	return !(lhs == rhs);
+		// }
 
-		friend bool
-		operator!=(const const_iterator &lhs, const iterator &rhs)
-		{
-			return !(lhs == rhs);
-		}
+		// friend bool
+		// operator!=(const const_iterator &lhs, const iterator &rhs)
+		// {
+		// 	return !(lhs == rhs);
+		// }
 
 		
 	};

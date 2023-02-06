@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/02 17:09:22 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/06 17:50:36 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,13 @@ map< K, T, C, A> &map< K, T, C, A>::operator=( const map &rhs ){
 	return (*this);
 }
 
+//-------------------------------------iterators--------------------------------
+template < typename K, typename T, typename C, typename A >
+typename map< K, T, C, A>::iterator map< K, T, C, A>::begin( void )
+{
+	return (_tree.begin());
+}
+
 //----------------------------------------access--------------------------------
 // if k matches the key of an element in the container, the function returns a reference to its mapped value.
 
@@ -91,13 +98,13 @@ map< K, T, C, A> &map< K, T, C, A>::operator=( const map &rhs ){
 		
 template < typename K, typename T, typename C, typename A >
 bool map< K, T, C, A>::empty() const{
-	return(_tree.empty());
+	return( _tree.empty() );	
 }
 
 template < typename K, typename T, typename C, typename A >
 typename map< K, T, C, A>::size_type map< K, T, C, A>::size( void ) const
 {
-	return (_tree.size());
+	return (_tree.size() );
 }
 		
 template < typename K, typename T, typename C, typename A >
@@ -119,32 +126,32 @@ void map< K, T, C, A>::clear( void)
 // Because element keys in a map are unique, the insertion operation checks
 // whether each inserted element has a key equivalent to the one of an element already in the container, and if so, the element is not inserted, returning an iterator to this existing element (if the function returns a value).
 //1
-template < typename K, typename T, typename C, typename A >
-typename map< K, T, C, A>::ft::pair<iterator, bool> map< K, T, C, A>::insert(const value_type &value)  // std::iterator?????
-{
-	ft::pair<iterator, bool> ret;                                            //std::it??
-	// iterator searched_key = find(value.first);
+// template < typename K, typename T, typename C, typename A >
+// typename map< K, T, C, A>::ft::pair<iterator, bool> map< K, T, C, A>::insert( const value_type &value )  // std::iterator?????
+// {
+// 	ft::pair<iterator, bool> ret;                                            //std::it??
+// 	// iterator searched_key = find(value.first);
 
-	// // if map is empty, insert the node
-	// if (empty())
-	// {
-	// 	ret.first = _tree.insert_node(value);
-	// 	ret.second = true;
-	// }
-	// // key found -> no duplicate allowed
-	// else if (!searched_key.base()->is_nil)
-	// {
-	// 	ret.first = searched_key;
-	// 	ret.second = false;
-	// }
-	// // no key found, proceed with inserting the node
-	// else
-	// {
-	// 	ret.first = _storage.insert_node(value);
-	// 	ret.second = true;
-	// }
-	return ret;
-}
+// 	// // if map is empty, insert the node
+// 	// if (empty())
+// 	// {
+// 	// 	ret.first = _tree.insert_node(value);
+// 	// 	ret.second = true;
+// 	// }
+// 	// // key found -> no duplicate allowed
+// 	// else if (!searched_key.base()->is_nil)
+// 	// {
+// 	// 	ret.first = searched_key;
+// 	// 	ret.second = false;
+// 	// }
+// 	// // no key found, proceed with inserting the node
+// 	// else
+// 	// {
+// 	// 	ret.first = _storage.insert_node(value);
+// 	// 	ret.second = true;
+// 	// }
+// 	return ret;
+// }
 
 // An alternative way to insert elements in a map is by using member function map::operator[].
 

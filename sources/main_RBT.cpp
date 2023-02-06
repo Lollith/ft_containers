@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:46:37 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/02 15:17:20 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/06 17:34:08 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,23 @@ int main()
 	std::cout << std::endl;
 	rbt2.display();
 	
+	//-------------------------------------------------------------------------
+	
+	std::cout <<"---------- iterators------------" <<std::endl;
+	ft::RBT_iterator<int,int> it;
+	std::cout << it.base() << std::endl;
+
+	ft::RBT<int, int, int > rbt_vide;
+	ft::RBT<int, int, int>::iterator it1;
+	it1 = rbt_vide.begin();
+	if (it1.base() != NULL)
+		std::cout << it1.base()->_pair_data.first << std::endl;
+	else
+		std::cout << "Null" << std::endl;
+	
+	ft::RBT<int, int, int>::iterator it2;
+	it2 = rbt1.begin();
+	std::cout << it2.base()->_pair_data.first << std::endl;
 	return 0;
 	
 }

@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:48 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/02 18:15:26 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/06 16:53:05 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <memory>
 # include <iostream>
 # include "../iterators/RBT_iterator.hpp"
+# include "../utils/pair.hpp"
 
 //https://www.programiz.com/dsa/red-black-tree
 // Compare et Allocator = default envoye par map
@@ -28,17 +29,21 @@ namespace ft{
 	class RBT
 	{
 		public:
-			typedef typename ft::RBT_node< Key, T >		node_type; // creer mon type node dapres mon RBT_node 
-			typedef Key									key_type;
-			typedef	T 									mapped_type;
-			typedef Allocator							allocator_type;
-			typedef pair<const key_type, mapped_type>	value_type;
-			typedef node_type*							pt_node;
-			typedef std::size_t							size_type;
+			typedef typename ft::RBT_node< Key, T >			node_type; // creer mon type node dapres mon RBT_node 
+			typedef Key										key_type;
+			typedef	T 										mapped_type;
+			typedef Allocator								allocator_type;
+			typedef ft::pair<const key_type, mapped_type>	value_type;
+			typedef node_type*								pt_node;
+			typedef std::size_t								size_type;
 			typedef typename Allocator::template rebind<RBT_node<Key, T> >::other node_allocator; //rebind
-			//map=>aloc=> aaloue des paires,  RBT, objet de map =+ alloc => dc des paires => 
+			//map=>alloc=> aloue des paires,  RBT, objet de map =+ alloc => dc des paires => 
 			//ms je veux allouer des node et non des paris => rebind permet de redefinir ce 
 			//que je veux allouer, le template de l allocator
+			typedef RBT_iterator<Key, T> iterator;
+		// typedef RBT_const_iterator<Key, T> const_iterator;
+		// typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+		// typedef ft::reverse_iterator<iterator> reverse_iterator;
 			
 		private:
 			pt_node										_root;
@@ -93,6 +98,11 @@ namespace ft{
 		void		rightRotate( pt_node x );
 		void		leftRotate( pt_node x );
 		void		rbTransplant( pt_node u, pt_node v );
+
+
+	//----------------------------------iterator--------------------------------
+		
+		iterator begin ( void );
 		
 	//----------------------------------------affichage ------------------------
 		// void preOrderHelper	(pt_node node);

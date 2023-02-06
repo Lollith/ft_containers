@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:32 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/02 18:46:40 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/06 18:25:42 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -428,9 +428,10 @@ void RBT<Key, T, Compare, Allocator>::rbTransplant( pt_node node, pt_node child 
     child->_parent = node->_parent;
 }
 
-//cherche la Key minimum ( branche la + a guche)
+//cherche la Key minimum ( branche la + a guche en fait , peut etre le max si compare est inverse)
 template< class Key, class T, class Compare, class Allocator >
-typename RBT<Key, T, Compare, Allocator>::pt_node RBT<Key, T, Compare, Allocator>::minimum( pt_node node_min )
+typename RBT<Key, T, Compare, Allocator>::pt_node 
+  RBT<Key, T, Compare, Allocator>::minimum( pt_node node_min )
 {
 	while (node_min->_left != _leaf)
 		node_min = node_min->_left;
@@ -497,6 +498,24 @@ void RBT<Key, T, Compare, Allocator>::leftRotate(pt_node x)
     	x->_parent->_right = y;
     y->_left = x;
     x->_parent = y;
+}
+
+//----------------------------------iterator--------------------------------
+//begin:Returns an iterator referring to the first element in the map container.
+// Because map containers keep their elements ordered at all times, begin points 
+//to the element that goes first following the container's sorting criterion.
+// If the container is empty, the returned iterator value shall not be dereferenced.
+template< class Key, class T, class Compare, class Allocator >
+typename RBT<Key, T, Compare, Allocator>::iterator RBT<Key, T, Compare, Allocator>::begin ( void )
+{
+    pt_node node;
+
+    if (this->empty())
+      node = NULL; // null? //-leaf??
+    else
+      node = minimum( _root);
+
+    return (node);
 }
 
 //----------------------------------------affichage ------------------------

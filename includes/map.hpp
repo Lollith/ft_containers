@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/02 17:03:46 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/06 16:12:40 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 # include "utils/enable_if.hpp"
 # include "utils/is_integral.hpp"
 # include "RBT/RBT.hpp"
-# include "utils/lexicographical_compare.hpp" 
+# include "utils/lexicographical_compare.hpp"
+# include "iterators/RBT_iterator.hpp" 
 
 namespace ft{
 
@@ -73,8 +74,8 @@ class map {
 			// typedef	typename allocator_type::const_reference		const_reference;
 			// typedef	typename allocator_type::pointer				pointer;
 			// typedef	typename allocator_type::const_pointer			const_pointer;
-				typedef	ft::RBT_iterator<Key, T>					iterator;
-			// typedef	ft::constIterator_map<Key, T, Alloc>			const_iterator;
+			typedef	ft::RBT_iterator<Key, T>						iterator;
+			typedef	ft::RBT_const_iterator<Key, T>			const_iterator;
 			// typedef	typename ft::reverse_iterator<iterator>			reverse_iterator;
 			// typedef	typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
@@ -89,7 +90,7 @@ class map {
 
 			key_compare 							_comp;
 			allocator_type 							_alloc;
-			RBT< Key, T, key_compare, Alloc> 		_tree;  // remlaer key  T par value type ?????????????
+			RBT< Key, T, key_compare, Alloc> 		_tree;  // remplacer key  T par value type ?????????????
 
 
 	public: 
@@ -111,7 +112,7 @@ class map {
 			map &operator=(const map& rhs);
 			
 			//-------------------------iterators--------------------------------
-// iterator begin();
+		iterator begin( void );
 // const_iterator begin() const;
 // iterator end();
 // const_iterator end() const;
@@ -131,7 +132,7 @@ class map {
 	// T			&operator[](const key_type& x);
 
 			//------------------------modifier----------------------------------
-	ft::pair<iterator, bool>	insert(const value_type& x);
+	pair<iterator, bool>	insert( const value_type& x );
 
 // iterator insert(iterator position, const value_type& x);
 
