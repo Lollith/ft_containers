@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:46:37 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/06 17:34:08 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/08 17:22:53 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ int main()
 	
 	ft::RBT<int, int, int>::iterator it2;
 	it2 = rbt1.begin();
-	std::cout << it2.base()->_pair_data.first << std::endl;
+	std::cout << it2._current->_pair_data.first << std::endl;
+	std::cout << "-> " <<it2->first << std::endl;
 	return 0;
 	
 }

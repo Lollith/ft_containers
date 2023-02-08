@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/06 16:12:40 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/08 11:12:57 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ class map {
 		InputIterator>::type first, InputIterator last, const key_compare& comp = key_compare(), 
 		const allocator_type& alloc = allocator_type());
 // //copy (3)	
-		map(const map & cpy);
+		map(const map &cpy);
 		~map( void );
 
 

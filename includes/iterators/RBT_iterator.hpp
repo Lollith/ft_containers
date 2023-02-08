@@ -11,7 +11,7 @@ struct RBT_const_iterator; // car present ds ma structure RBT_iterator => ne mar
 template <class Key, class T>
 	struct RBT_iterator
 	{
-		typedef pair<const Key, T> 							value_type;
+		typedef ft::pair< Key, T> 							value_type; //const key
 		typedef value_type 									&reference;
 		typedef value_type 									*pointer;
 
@@ -34,9 +34,9 @@ template <class Key, class T>
 		RBT_iterator() : _current() {}
 
 
-		RBT_iterator( pt_node input): _current(input){}
+		RBT_iterator( pt_node input ): _current( input ){}
 
-		RBT_iterator(const RBT_iterator &cpy) { *this = cpy; }
+		RBT_iterator( const RBT_iterator &cpy ) { *this = cpy; }
 
 		RBT_iterator &operator=( const RBT_iterator &other )
 		{
@@ -54,7 +54,8 @@ template <class Key, class T>
 	//---------------------------------------operator---------------------------
 		reference operator*() const
 		{
-			return (*_current);
+			// return (*_current->&_pair_data); // recoit la copie
+			return (*_current->value_ptr()); // recoit l adresse de la copie
 		}
 
 		pointer operator->() const
@@ -184,13 +185,15 @@ template <class Key, class T>
 	//---------------------------------------operator---------------------------
 		reference operator*() const
 		{
-			return (*_current);
+			return (*_current->value_ptr());
 		}
 
 		pointer operator->() const
 		{
 			return &(operator*());
 		}
+
+
 	// 	RBT_const_iterator()
 	// 		: node_ptr() {}
 

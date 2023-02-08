@@ -6,10 +6,10 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 13:26:25 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/13 18:04:05 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/08 10:43:42 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-// n herite pas forcement des caracteristiques de la class iterator , 
+
 	//mais signale quelle appartient au genre des iterators, pour etre 
 	//reconnaissable et utilisable en tant que tel car iterator obeissent a une certaine interface
 
@@ -39,24 +39,24 @@ class reverse_iterator : public std::iterator <typename iterator_traits<Iterator
 		typedef typename iterator_traits<Iterator>::pointer			pointer;
 
 //----------------------------------------constructor---------------------------	
-		reverse_iterator();
-		explicit reverse_iterator(Iterator it);
-		template < class U > reverse_iterator(const reverse_iterator<U>& u);
-		template < class U > reverse_iterator &operator=( const reverse_iterator<U> &other);
+								reverse_iterator();
+		explicit 				reverse_iterator(Iterator it);
+		template < class U > 	reverse_iterator(const reverse_iterator<U>& u);
+		template < class U > 	reverse_iterator &operator=( const reverse_iterator<U> &other);
 		
 //----------------------------------------mber----------------------------------	
-		Iterator base() const; // explicit
-		reference operator*() const;
-		pointer operator->() const;
-		reverse_iterator& operator++();
-		reverse_iterator operator++(int);
-		reverse_iterator& operator--();
-		reverse_iterator operator--(int);
-		reverse_iterator operator+(difference_type n) const;
-		reverse_iterator& operator+=(difference_type n);
-		reverse_iterator operator-(difference_type n) const;
-		reverse_iterator& operator-=(difference_type n);
-		reference operator[](difference_type n) const;
+		Iterator 							base() const; // explicit
+		reference 							operator*() const;
+		pointer 							operator->() const;
+		reverse_iterator					&operator++();
+		reverse_iterator					operator++(int);
+		reverse_iterator					&operator--();
+		reverse_iterator 					operator--(int);
+		reverse_iterator 					operator+(difference_type n) const;
+		reverse_iterator					&operator+=(difference_type n);
+		reverse_iterator 					operator-(difference_type n) const;
+		reverse_iterator					&operator-=(difference_type n);
+		reference 							operator[](difference_type n) const;
 };
 
 //----------------------------------------non mber------------------------------	
