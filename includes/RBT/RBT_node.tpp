@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 14:16:54 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/09 15:56:09 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/09 18:14:15 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,19 @@ RBT_node< Key, T> &RBT_node< Key, T >::operator=(const RBT_node &rhs){
 	return (*this);
 }
 
+template < class Key, class T >
+typename RBT_node< Key, T>::value_type *RBT_node< Key, T>::value_ptr()
+{
+	value_type *tmp;
+	tmp = &_pair_data;
+	return (tmp); // fait une copie de l adresse => pointe vers le meme objet
+}
+
+template < class Key, class T >
+const typename RBT_node< Key, T>::value_type *RBT_node< Key, T>::value_ptr() const
+{
+	return &(_pair_data);
+}
 
 
 

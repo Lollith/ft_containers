@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:24 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/09 15:55:47 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/09 18:12:21 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ namespace ft {
 	{
 			typedef ft::pair< Key, T >		value_type;
 	
-			t_color			_color;
-			RBT_node		*_parent;
-			RBT_node		*_left;
-			RBT_node		*_right;
-			value_type		_pair_data;
-			bool 			_is_leaf;
+			t_color							_color;
+			RBT_node						*_parent;
+			RBT_node						*_left;
+			RBT_node						*_right;
+			value_type						_pair_data;
+			bool 							_is_leaf;
 
 			RBT_node( void );
 			RBT_node( value_type pair_init );
@@ -73,19 +73,11 @@ namespace ft {
 			
 			// RBT_node( t_color color, RBT_node *parent, RBT_node *left, RBT_node *right, value_type pair_data );
 
-	value_type *value_ptr() // why????? remettre au propre sur tpp
-		{
-			value_type *tmp;
-			tmp = &_pair_data;
-			return (tmp); // fait une copie de l adresse => pointe vers le meme objet
-		}
-
-		const value_type *value_ptr() const
-		{
-			return &(_pair_data);
-		}
-	};
+//--------------------------------------ft membres -----------------------------
+		value_type *value_ptr( void );
+		const value_type *value_ptr( void ) const;
 	
+	};
 	
 	
 }// ft
