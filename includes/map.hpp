@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/08 11:12:57 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/09 17:53:51 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ class map {
 //--------------------------Alias for intern class-------------------------------		
 			typedef	Key												key_type;
 			typedef	T												mapped_type;
-			typedef	typename ft::pair< const key_type, mapped_type>	value_type; 
+			typedef pair< const key_type, mapped_type>				value_type; 
 
 //------------------------------------intern class-------------------------------
 		// class interne value_comp :Returns a comparison object that can be used to compare 
@@ -54,7 +54,7 @@ class map {
 
 			value_compare (Compare c) : comp(c) {};  // constructed with map's comparison object
 		
-	public:
+			public:
 			typedef bool 					result_type;
 			typedef value_type 				first_argument_type;
 			typedef value_type 				second_argument_type;
@@ -75,11 +75,11 @@ class map {
 			// typedef	typename allocator_type::pointer				pointer;
 			// typedef	typename allocator_type::const_pointer			const_pointer;
 			typedef	ft::RBT_iterator<Key, T>						iterator;
-			typedef	ft::RBT_const_iterator<Key, T>			const_iterator;
+			typedef	ft::RBT_const_iterator<Key, T>					const_iterator;
 			// typedef	typename ft::reverse_iterator<iterator>			reverse_iterator;
 			// typedef	typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
-			typedef	ptrdiff_t										difference_type;
+			typedef	std::ptrdiff_t									difference_type;
 			typedef	size_t											size_type;
 	
 	
@@ -132,9 +132,8 @@ class map {
 	// T			&operator[](const key_type& x);
 
 			//------------------------modifier----------------------------------
-	pair<iterator, bool>	insert( const value_type& x );
-
-// iterator insert(iterator position, const value_type& x);
+	pair<iterator, bool>	insert( const value_type& k );
+	// iterator insert(iterator position, const value_type& k);
 
 // template <class InputIterator>
 // void insert(InputIterator first, InputIterator last);
@@ -151,8 +150,8 @@ class map {
 // value_compare value_comp() const;
 
 			//---------------------------------operations-----------------------
-// iterator find(const key_type& x);
-// const_iterator find(const key_type& x) const;
+	iterator 				find(const key_type &x);
+	const_iterator 			find(const key_type& x) const;
 // size_type count(const key_type& x) const;
 // iterator lower_bound(const key_type& x);
 // const_iterator lower_bound(const key_type& x) const;

@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/08 18:10:20 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/09 14:53:488 agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,67 +127,89 @@ void map< K, T, C, A >::clear( void )
 // whether each inserted element has a key equivalent to the one of an element already in the container, and if so, the element is not inserted, returning an iterator to this existing element (if the function returns a value).
 //1
 template < typename K, typename T, typename C, typename A >
-typename map< K, T, C, A>::ft::pair<iterator, bool> map< K, T, C, A>::insert( const value_type &value )  // std::iterator?????
+ft::pair<typename map< K,T ,C ,A >::iterator, bool> 
+	map< K, T, C, A >::insert( const value_type &value )
 {
-	ft::pair<iterator, bool> ret;                                            //std::it??
-// 	// iterator searched_key = find(value.first);
+	ft::pair<iterator, bool> ret;                                            
+	iterator searched_key = find(value.first);
+	// find return un iterator sur le 1er element
 
 // 	// // if map is empty, insert the node
-// 	// if (empty())
-// 	// {
-// 	// 	ret.first = _tree.insert_node(value);
-// 	// 	ret.second = true;
-// 	// }
+	if (empty())
+	{
+		ret.first = _tree.insert_node(value);
+		ret.second = true;
+	}
 // 	// // key found -> no duplicate allowed
-// 	// else if (!searched_key.base()->is_nil)
-// 	// {
-// 	// 	ret.first = searched_key;
-// 	// 	ret.second = false;
-// 	// }
+	else if (!searched_key.base()->_is_leaf)
+	{
+		ret.first = searched_key;
+		ret.second = false;
+	}
 // 	// // no key found, proceed with inserting the node
-// 	// else
-// 	// {
-// 	// 	ret.first = _storage.insert_node(value);
-// 	// 	ret.second = true;
-// 	// }
-// 	return ret;
+	else
+	{
+		ret.first = _tree.insert_node(value);
+		ret.second = true;
+	}
+	return ret;
 }
 
 // An alternative way to insert elements in a map is by using member function map::operator[].
 
+//---------------------------------------------operations-----------------------
+// Searches the container for an element with a key equivalent to k and returns an 
+// iterator to it if found, otherwise it returns an iterator to map::end.
+
+template < typename Key, typename T, typename C, typename A >
+typename map< Key ,T ,C ,A >::iterator	map< Key, T, C, A>::find(const Key &k){
+	return (_tree.find(k));
+}
+
+template < typename Key, typename T, typename C, typename A >
+typename map< Key ,T ,C ,A >::const_iterator map< Key, T, C, A>::find(const Key &k) const{
+	return (_tree.find(k));
+}
+
 //-----------------------------------------operator-----------------------------
 template< class Key, class T, class Compare, class Alloc >
-inline bool operator==( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
+inline bool operator==( const ft::map<Key,T,Compare,Alloc>& lhs, 
+	const ft::map<Key,T,Compare,Alloc>& rhs)
 {
 	return !(rhs < lhs) && !(lhs < rhs);
 }
 
 template< class Key, class T, class Compare, class Alloc >
-inline bool operator!=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
+inline bool operator!=( const ft::map<Key,T,Compare,Alloc>& lhs, 
+	const ft::map<Key,T,Compare,Alloc>& rhs)
 {
 	return !(lhs == rhs);
 }
 
 template< class Key, class T, class Compare, class Alloc >
-inline bool operator<( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
+inline bool operator<( const ft::map<Key,T,Compare,Alloc>& lhs, 
+	const ft::map<Key,T,Compare,Alloc>& rhs)
 {
 	return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 }
 
 template< class Key, class T, class Compare, class Alloc >
-inline bool operator<=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
+inline bool operator<=( const ft::map<Key,T,Compare,Alloc>& lhs, 
+	const ft::map<Key,T,Compare,Alloc>& rhs)
 {
 	return !(rhs < lhs);
 }
 
 template< class Key, class T, class Compare, class Alloc >
-inline bool operator>( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
+inline bool operator>( const ft::map<Key,T,Compare,Alloc>& lhs, 
+	const ft::map<Key,T,Compare,Alloc>& rhs)
 {
 	return rhs < lhs;
 }
 
 template< class Key, class T, class Compare, class Alloc >
-inline bool operator>=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs)
+inline bool operator>=( const ft::map<Key,T,Compare,Alloc>& lhs, 
+	const ft::map<Key,T,Compare,Alloc>& rhs)
 {
 	return !(lhs < rhs);
 }

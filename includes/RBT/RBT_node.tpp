@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 14:16:54 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/08 14:58:40 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/09 15:56:09 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ RBT_node< Key, T >::RBT_node( void ){
 	_left = NULL;
 	_right = NULL;
 	_parent = NULL;
-	// _leaf = true;
+	_is_leaf = true;
 }
 
 // template < class Key, class T >

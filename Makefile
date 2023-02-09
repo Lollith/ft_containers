@@ -23,6 +23,9 @@ NAME_STD		= std_containers
 NAME_VECTOR_FT	= ft_vector
 NAME_VECTOR_STD	= std_vector
 
+NAME_MAP_FT = ft_map
+NAME_MAP_STD = std_map
+
 CXX			= c++
 
 RM			= rm -rf
@@ -46,6 +49,10 @@ OBJ_STD			= $(SRC:${SRC_PATH}%.cpp=${OBJ_PATH}%_std.o)
 SRC_VECTOR		= $(addprefix $(SRC_PATH), main_vector.cpp)
 OBJ_VECTOR_FT	= $(SRC_VECTOR:${SRC_PATH}%.cpp=${OBJ_PATH}%_ft.o) #_ft.o
 OBJ_VECTOR_STD	= $(SRC_VECTOR:${SRC_PATH}%.cpp=${OBJ_PATH}%_std.o)
+
+SRC_MAP			= $(addprefix $(SRC_PATH), main_map.cpp)
+OBJ_MAP_FT	= $(SRC_MAP:${SRC_PATH}%.cpp=${OBJ_PATH}%_ft.o) #_ft.o
+OBJ_MAP_STD	= $(SRC_MAP:${SRC_PATH}%.cpp=${OBJ_PATH}%_std.o)
 
 DEPS			= ${OBJ_PATH}%.o=${OBJ_PATH}%.d) \
 					 $(OBJ_VECTOR_FT:${OBJ_PATH}%.o=${OBJ_PATH}%.d)\
@@ -85,6 +92,14 @@ $(NAME_VECTOR_STD)	: $(OBJ_VECTOR_STD)
 					$(CXX) $(CXXFLAGS) $(OBJ_VECTOR_STD) -o $(NAME_VECTOR_STD)
 
 
+map 			: $(NAME_MAP_FT) $(NAME_MAP_STD)
+
+$(NAME_MAP_FT)		: $(OBJ_MAP_FT)
+					$(CXX) $(CXXFLAGS) $(OBJ_MAP_FT) -o $(NAME_MAP_FT)
+
+$(NAME_MAP_STD)	: $(OBJ_MAP_STD)
+					$(CXX) $(CXXFLAGS) $(OBJ_MAP_STD) -o $(NAME_MAP_STD)
+
 ################################################################################
 #                                clean
 ################################################################################
@@ -93,7 +108,7 @@ clean:
 		$(RM) objects
 
 fclean: clean
-		$(RM) $(NAME) $(NAME_STD) $(NAME_VECTOR_FT) $(NAME_VECTOR_STD)  
+		$(RM) $(NAME) $(NAME_STD) $(NAME_VECTOR_FT) $(NAME_VECTOR_STD) $(NAME_MAP_FT) $(NAME_MAP_STD)
 
 re: fclean
 	make -C .

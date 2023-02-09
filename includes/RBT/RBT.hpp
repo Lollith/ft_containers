@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:48 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/06 16:53:05 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/09 16:49:00 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ namespace ft{
 			typedef ft::pair<const key_type, mapped_type>	value_type;
 			typedef node_type*								pt_node;
 			typedef std::size_t								size_type;
-			typedef typename Allocator::template rebind<RBT_node<Key, T> >::other node_allocator; //rebind
+			
+			typedef typename Allocator::template rebind<RBT_node<Key, T> >::other 	node_allocator; //rebind
 			//map=>alloc=> aloue des paires,  RBT, objet de map =+ alloc => dc des paires => 
 			//ms je veux allouer des node et non des paris => rebind permet de redefinir ce 
 			//que je veux allouer, le template de l allocator
-			typedef RBT_iterator<Key, T> iterator;
-		// typedef RBT_const_iterator<Key, T> const_iterator;
+			typedef RBT_iterator<Key, T> 					iterator;
+			typedef RBT_const_iterator<Key, T> 				const_iterator;
 		// typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 		// typedef ft::reverse_iterator<iterator> reverse_iterator;
 			
@@ -57,60 +58,67 @@ namespace ft{
 		public:
 	//-----------------------------------constructor------------------------
 					
-					RBT( const Compare &comp = Compare(), const allocator_type &alloc = allocator_type());
-					~RBT( void );
-					RBT( const RBT &copy);
-		RBT 		&operator=( const RBT &rhs);
+						RBT( const Compare &comp = Compare(), const allocator_type &alloc = allocator_type());
+						~RBT( void );
+						RBT( const RBT &copy);
+		RBT 			&operator=( const RBT &rhs);
 
 	//-------------------------------- capacity-----------------------------
 		
-		bool		empty( void )  const;
-		void		size_helper( pt_node nd, size_t *i ) const;
-		size_type	size( void ) const;
-		size_type	max_size( void ) const;
+		bool			empty( void )  const;
+		void			size_helper( pt_node nd, size_t *i ) const;
+		size_type		size( void ) const;
+		size_type		max_size( void ) const;
 	
 	//------------------------modifier----------------------------------
 
-		void 		clear ( void );
+		void 			clear ( void );
 
 	//----------------------------------- search------------------------
  		
-		pt_node		searchTreeHelper( pt_node node, Key k );
-		pt_node		searchTree( Key k );
+		pt_node			searchTreeHelper( pt_node node, Key k );
+		pt_node			searchTree( Key k );
+		
+		iterator 		find(const Key &key);
+		const_iterator	find(const Key &key) const;
 	
 	//--------------------------------------- operations -------------------------
 		
-		void		insert_node( value_type pair_data );
-		void		insert_balancing( pt_node new_node );
+		void			insert_node( value_type pair_data );
+		void			insert_balancing( pt_node new_node );
 
-		void		delete_helper( pt_node node, key_type key );
-		void		delete_node( key_type key );
+		void			delete_helper( pt_node node, key_type key );
+		void			delete_node( key_type key );
 		
-		void		delete_balancing( pt_node x );
+		void			delete_balancing( pt_node x );
 
 
 	//---------------------------------------- tools----------------------------
 	
-		pt_node		minimum( pt_node node );	
-		void		delete_tree( pt_node root );
-		void		copy_tree(pt_node old_root, RBT &new_rbt );
+		pt_node			minimum( pt_node node );
+		pt_node			maximum ( pt_node node);	
+		void			delete_tree( pt_node root );
+		void			copy_tree(pt_node old_root, RBT &new_rbt );
 
-		void		rightRotate( pt_node x );
-		void		leftRotate( pt_node x );
-		void		rbTransplant( pt_node u, pt_node v );
+		void			rightRotate( pt_node x );
+		void			leftRotate( pt_node x );
+		void			rbTransplant( pt_node u, pt_node v );
 
 
 	//----------------------------------iterator--------------------------------
 		
-		iterator begin ( void );
+		iterator	 	begin ( void );
+		const_iterator	begin ( void ) const;
+		iterator		end ( void );
+		const_iterator	end ( void ) const;
 		
 	//----------------------------------------affichage ------------------------
 		// void preOrderHelper	(pt_node node);
 
 		//helper permettent d appeler des attribut prive => appel dune 2eme fct 
 		//qui appel helper qui elle peut etre utlisee ds le main
-		void		display_helper( pt_node &root, std::string indent, bool last );
-		void		display( void );
+		void			display_helper( pt_node &root, std::string indent, bool last );
+		void			display( void );
 
 		
 	

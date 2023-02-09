@@ -1,6 +1,8 @@
 #ifndef RBT_ITERATOR_HPP
 #define RBT_ITERATOR_HPP
 
+#include "../RBT/RBT_node.hpp"
+
 namespace ft{
 // ietrator = adresse dun noeud=> me deplace de noeud en noeud, sachnt que 
 //je vais chercher le +proche existant, deplacement de pas en pas
@@ -21,7 +23,7 @@ template <class Key, class T>
 		typedef ft::RBT_node<Key, T> 						node_type;
 		typedef node_type									*pt_node;
 		
-		// typedef RBT_iterator<Key, T>						iterator;
+		typedef RBT_iterator<Key, T>						iterator;
 		// typedef RBT_node<Key, T> 							*base_ptr;
 		// typedef const base_ptr								const_base_ptr;
 		// typedef RBT_const_iterator<Key, T> 					const_iterator;
@@ -114,13 +116,12 @@ template <class Key, class T>
 	// 		return (tmp);
 	// 	}
 
-	// 	friend bool
-	// 	operator==(const iterator &lhs, const iterator &rhs)
-	// 	{
-	// 		if (lhs.base()->is_nil && rhs.base()->is_nil)
-	// 			return true;
-	// 		return lhs.node_ptr == rhs.node_ptr;
-	// 	}
+		// friend bool operator==(const iterator &lhs, const iterator &rhs)
+		// {
+		// 	if (lhs.base()->_is_leaf && rhs.base()->_is_leaf)
+		// 		return true;
+		// 	return lhs.pt_node == rhs.pt_node;
+		// }
 
 	// 	friend bool
 	// 	operator==(const iterator &lhs, const const_iterator &rhs)

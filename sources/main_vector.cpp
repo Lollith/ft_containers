@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:17 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/01 11:16:18 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/09 17:46:20 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ void popback_test(){
 	v4.pop_back();
 	display(v4);
 }
-
 
 void erase_insert_test(){
 	NAME_USE::vector <int> v6;
