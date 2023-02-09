@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   RBT_iterator.hpp                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/09 18:17:30 by agouet            #+#    #+#             */
+/*   Updated: 2023/02/09 18:32:54 by agouet           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef RBT_ITERATOR_HPP
 #define RBT_ITERATOR_HPP
 
@@ -7,7 +19,7 @@ namespace ft{
 // ietrator = adresse dun noeud=> me deplace de noeud en noeud, sachnt que 
 //je vais chercher le +proche existant, deplacement de pas en pas
 
-template <class Key, class T>
+template < class Key, class T >
 struct RBT_const_iterator; // car present ds ma structure RBT_iterator => ne marche pas
 
 template <class Key, class T>
@@ -31,27 +43,25 @@ template <class Key, class T>
 	//--------------------------------------------attribut----------------------
 		pt_node												_current;
 
-	//--------------------------------------------constructor----------------------
+	//--------------------------------------------constructor-------------------
 
-		RBT_iterator() : _current() {}
+		RBT_iterator( void );
+		RBT_iterator( pt_node input );
+		RBT_iterator( const RBT_iterator &cpy );
+		RBT_iterator &operator=( const RBT_iterator &other );
+		~RBT_iterator ( void );
+
+	//--------------------------------------accessor----------------------------
+
+		pt_node base() const;
 
 
-		RBT_iterator( pt_node input ): _current( input ){}
 
-		RBT_iterator( const RBT_iterator &cpy ) { *this = cpy; }
 
-		RBT_iterator &operator=( const RBT_iterator &other )
-		{
-			_current = other.base();
-			return *this;
-		}
 
-		~RBT_iterator ( void ){}
+
 		
-		pt_node base() const
-		{
-		 	return _current;
-		}
+		
 
 	//---------------------------------------operator---------------------------
 		reference operator*() const
