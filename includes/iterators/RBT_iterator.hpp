@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBT_iterator.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lollith <lollith@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:17:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/09 18:32:54 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/10 14:00:42 by lollith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,19 @@ template <class Key, class T>
 	//--------------------------------------accessor----------------------------
 
 		pt_node base() const;
-
-
-
-
-
-
-		
-		
-
+	
 	//---------------------------------------operator---------------------------
-		reference operator*() const
-		{
-			// return (*_current->&_pair_data); // recoit la copie
-			return (*_current->value_ptr()); // recoit l adresse de la copie
-		}
+		reference operator*( void ) const;
+		pointer operator->( void ) const;
 
-		pointer operator->() const
-		{
-			return &(operator*());
-		}
+
+
+
+
+
+		
+		
+
 
 
 		// iterator &
@@ -173,36 +166,23 @@ template <class Key, class T>
 //--------------------------------------------attribut----------------------
 		pt_node												_current;
 
-		RBT_const_iterator() : _current() {}
-
-
-		RBT_const_iterator( pt_node input): _current(input){}
-
-		RBT_const_iterator(const RBT_const_iterator &cpy) { *this = cpy; }
-
-		RBT_const_iterator &operator=( const RBT_const_iterator &other )
-		{
-			_current = other.base();
-			return *this;
-		}
-
-		~RBT_const_iterator ( void ){}
+		RBT_const_iterator( void );
+		RBT_const_iterator( pt_node input);
+		RBT_const_iterator(const RBT_const_iterator &cpy);
+		RBT_const_iterator &operator=( const RBT_const_iterator &other );
+		~RBT_const_iterator ( void );
 		
-		pt_node base() const
-		{
-		 	return _current;
-		}
+		pt_node base( void ) const;
+
+
+
+
+
+
 
 	//---------------------------------------operator---------------------------
-		reference operator*() const
-		{
-			return (*_current->value_ptr());
-		}
-
-		pointer operator->() const
-		{
-			return &(operator*());
-		}
+		reference operator*( void ) const;
+		pointer operator->( void ) const;
 
 
 	// 	RBT_const_iterator()

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_map.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lollith <lollith@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 11:14:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/09 17:38:56 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/10 16:49:46 by lollith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,16 @@ int main()
 	if(mymap.empty())
 		std::cout << "empty"<<std::endl;
 	std::cout << mymap.size()<< std::endl;
-	std::cout << mymap.max_size()<< std::endl;
-	// mymap.insert ( ft::pair<int,int>(3,100) ); ne mrche pas ,
-	// / insert, end , maximum a tester
+	// std::cout << mymap.max_size()<< std::endl; // max_size donne cb je peux crrer d elements dans ma memoire, depend directement de la taille dun element=> depend de lorga des nodes
 	
-	// ft::map<const int, int > mymap1;
-	// ft::map<int,int>::iterator  it1 = mymap1.begin();
-	// std::cout << it1->first << std::endl; // ne marche pas
-
-	// std::map<int, int > mymap2;
-	// std::map<int,int>::iterator it = mymap2.begin();
-	// std::cout << it->second << std::endl;
+	
+	mymap.insert ( NAME_USE::pair<int,int>(3,100) );// ne mrche pas ,
+	
+	// NAME_USE::map<int,int>::iterator  it1;
+	// it1 = mymap.begin();
+	// std::cout << it1->first << std::endl;
+	// std::cout << it1->second << std::endl;
+	// / insert, end , maximum a tester
 	// mymap2.insert ( std::pair<int,int>(3,100) );
 	// std::cout << it->second << std::endl;
 	

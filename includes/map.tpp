@@ -79,6 +79,7 @@ map< K, T, C, A> &map< K, T, C, A>::operator=( const map &rhs ){
 template < typename K, typename T, typename C, typename A >
 typename map< K, T, C, A>::iterator map< K, T, C, A>::begin( void )
 {
+	// std::cout <<"here"<< _tree.begin()<<std::endl;
 	return (_tree.begin());
 }
 

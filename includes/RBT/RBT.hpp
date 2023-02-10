@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBT.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lollith <lollith@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:48 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/09 16:49:00 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/10 16:23:05 by lollith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ namespace ft{
 	class RBT
 	{
 		public:
-			typedef typename ft::RBT_node< Key, T >			node_type; // creer mon type node dapres mon RBT_node 
+			typedef RBT_node< Key, T >						node_type; // creer mon type node dapres mon RBT_node 
 			typedef Key										key_type;
 			typedef	T 										mapped_type;
 			typedef Allocator								allocator_type;
@@ -84,7 +84,7 @@ namespace ft{
 	
 	//--------------------------------------- operations -------------------------
 		
-		void			insert_node( value_type pair_data );
+		pt_node			insert_node( value_type pair_data );
 		void			insert_balancing( pt_node new_node );
 
 		void			delete_helper( pt_node node, key_type key );

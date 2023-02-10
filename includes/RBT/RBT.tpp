@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBT.tpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lollith <lollith@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:32 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/09 17:04:12 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/10 16:50:29 by lollith          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ namespace ft
     _comp = comp;
     // _leaf = new node_type(); // ne pas utiliser new cf REBIND , +delete a revoir
     _leaf = _node_alloc.allocate(sizeof(node_type));
+    
+    // _node_alloc.construct(_leaf, );//????
+
+    _leaf->_pair_data.first = 0; //utilisation constructeur rbt_node(0)???
+    _leaf->_pair_data.second = 0; //utilisation constructeur rbt_node(0)???
     _node_alloc = node_allocator();
 
     _root = _leaf;
@@ -179,13 +184,13 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator RBT<Key, T, Compare, Al
   // reequilibrage = fix larbre
 
   template <class Key, class T, class Compare, class Allocator>
-  void RBT<Key, T, Compare, Allocator>::insert_node(value_type pair_data)
+  typename RBT<Key, T, Compare, Allocator>::pt_node RBT<Key, T, Compare, Allocator>::insert_node(value_type pair_data)
   {
-
     // pt_node new_node = new node_type(RED, NULL, _leaf, _leaf, pair_data) ;/// NEW => rebind
-
     pt_node new_node = _node_alloc.allocate(sizeof(node_type));
     _node_alloc.construct(new_node, pair_data);
+    // new_node->_pair_data.first= pair_data.first;
+    // new_node->_pair_data.second= pair_data.second;
     new_node->_parent = NULL;
     new_node->_left = _leaf;
     new_node->_right = _leaf;
@@ -220,9 +225,10 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator RBT<Key, T, Compare, Al
     }
 
     if (new_node->_parent->_parent == _leaf)
-      return;
+      return (NULL);
 
     insert_balancing(new_node);
+    return(new_node);
   }
 
   // 1. a fire jusauq ce que le parent du nouveau noeud soit RED
@@ -546,9 +552,10 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator RBT<Key, T, Compare, Al
     pt_node node;
 
     if (this->empty())
-		node = _leaf; // null? //-leaf??
+		  node = _leaf; // null? //-leaf??
     else
-		node = minimum(_root);
+		  node = minimum(_root);
+    
 
 	iterator ret(node);
     return (ret);
