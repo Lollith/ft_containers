@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBT.tpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lollith <lollith@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:32 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/10 16:50:29 by lollith          ###   ########.fr       */
+/*   Updated: 2023/02/13 16:42:09 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,23 +149,31 @@ RBT<Key, T, Compare, Allocator>::searchTreeHelper(pt_node node, Key k)
   }
   
 template <class Key, class T, class Compare, class Allocator>
-typename RBT<Key, T, Compare, Allocator>::iterator RBT<Key, T, Compare, Allocator>::find(const Key &key)
+typename RBT<Key, T, Compare, Allocator>::iterator 
+	RBT<Key, T, Compare, Allocator>::find(const Key &key)
 {
 	pt_node node_to_find = searchTree(key);
+
+	// std::cout << "find apres seach" << std::endl;
+	// std::cout << node_to_find->_pair_data.first << std::endl;
 	
-	if (node_to_find == _leaf)
-		return (end());
+	
+	// if (node_to_find == _root)
+	// {
+	// 	return (_root);
+	// }
 	iterator ret(node_to_find); //creates a new object of type "iterator" and initializes it with the value of "node_to_find".
 	return (ret);
 }
 
 template <class Key, class T, class Compare, class Allocator>
-typename RBT<Key, T, Compare, Allocator>::const_iterator RBT<Key, T, Compare, Allocator>::find(const Key &key) const
+typename RBT<Key, T, Compare, Allocator>::const_iterator 
+	RBT<Key, T, Compare, Allocator>::find(const Key &key) const
 {
 	pt_node node_to_find = searchTree(key);
 
-	if (node_to_find == _leaf)
-		return (end());
+	// if (node_to_find == _leaf)
+	// 	return (end());
 	const_iterator ret(node_to_find);
 	return (ret);
 }
@@ -188,9 +196,9 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator RBT<Key, T, Compare, Al
   {
     // pt_node new_node = new node_type(RED, NULL, _leaf, _leaf, pair_data) ;/// NEW => rebind
     pt_node new_node = _node_alloc.allocate(sizeof(node_type));
-    _node_alloc.construct(new_node, pair_data);
-    // new_node->_pair_data.first= pair_data.first;
-    // new_node->_pair_data.second= pair_data.second;
+    // _node_alloc.construct(new_node, pair_data);
+    new_node->_pair_data.first= pair_data.first;
+    new_node->_pair_data.second= pair_data.second;
     new_node->_parent = NULL;
     new_node->_left = _leaf;
     new_node->_right = _leaf;
@@ -464,7 +472,7 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator RBT<Key, T, Compare, Al
   // cherche la Key minimum ( branche la + a guche en fait , peut etre le max si compare est inverse)
   template <class Key, class T, class Compare, class Allocator>
   typename RBT<Key, T, Compare, Allocator>::pt_node
-  RBT<Key, T, Compare, Allocator>::minimum(pt_node node_min)
+  RBT<Key, T, Compare, Allocator>::minimum(pt_node node_min) const
   {
     while (node_min->_left != _leaf)
     	node_min = node_min->_left;
@@ -473,7 +481,7 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator RBT<Key, T, Compare, Al
   
   template <class Key, class T, class Compare, class Allocator>
   typename RBT<Key, T, Compare, Allocator>::pt_node
-  RBT<Key, T, Compare, Allocator>::maximum(pt_node node_max)
+  RBT<Key, T, Compare, Allocator>::maximum(pt_node node_max) const
   {
 	while (node_max->_right != _leaf)
 		node_max = node_max->_right;
@@ -547,7 +555,8 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator RBT<Key, T, Compare, Al
   // to the element that goes first following the container's sorting criterion.
   // If the container is empty, the returned iterator value shall not be dereferenced.
   template <class Key, class T, class Compare, class Allocator>
-  typename RBT<Key, T, Compare, Allocator>::iterator RBT<Key, T, Compare, Allocator>::begin(void)
+  typename RBT<Key, T, Compare, Allocator>::iterator 
+  	RBT<Key, T, Compare, Allocator>::begin(void)
   {
     pt_node node;
 
@@ -555,14 +564,13 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator RBT<Key, T, Compare, Al
 		  node = _leaf; // null? //-leaf??
     else
 		  node = minimum(_root);
-    
-
 	iterator ret(node);
     return (ret);
   }
 
 template <class Key, class T, class Compare, class Allocator>
-typename RBT<Key, T, Compare, Allocator>::const_iterator RBT<Key, T, Compare, Allocator>::begin(void) const
+typename RBT<Key, T, Compare, Allocator>::const_iterator 
+	RBT<Key, T, Compare, Allocator>::begin(void) const
 {
     pt_node node;
 
@@ -571,12 +579,13 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator RBT<Key, T, Compare, Al
     else
 		node = minimum(_root);
 		
-	iterator ret(node);
+	const_iterator ret(node);
     return (ret);
 }
   
 template <class Key, class T, class Compare, class Allocator>
-typename RBT<Key, T, Compare, Allocator>::iterator RBT<Key, T, Compare, Allocator>::end(void)
+typename RBT<Key, T, Compare, Allocator>::iterator 
+	RBT<Key, T, Compare, Allocator>::end(void)
 {
 	pt_node node;
 
@@ -591,8 +600,36 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator RBT<Key, T, Compare, Al
 	pt_node node;
 
 	node = maximum(_root);
-	iterator ret(node);
+	const_iterator ret(node);
     return (ret);			
+}
+
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::reverse_iterator RBT<Key, T, Compare, Allocator>::rbegin(void)
+{
+	reverse_iterator ret(end());
+	return (ret);
+}
+
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::const_reverse_iterator RBT<Key, T, Compare, Allocator>::rbegin(void) const
+{
+	const_reverse_iterator ret(end());
+	return (ret);
+}
+
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::reverse_iterator RBT<Key, T, Compare, Allocator>::rend(void)
+{
+	reverse_iterator ret(begin());
+	return (ret);
+}
+	
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::const_reverse_iterator RBT<Key, T, Compare, Allocator>::rend(void) const
+{
+	const_reverse_iterator ret(begin());
+	return (ret);
 }
   //----------------------------------------affichage ------------------------
 

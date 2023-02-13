@@ -79,21 +79,51 @@ map< K, T, C, A> &map< K, T, C, A>::operator=( const map &rhs ){
 template < typename K, typename T, typename C, typename A >
 typename map< K, T, C, A>::iterator map< K, T, C, A>::begin( void )
 {
-	// std::cout <<"here"<< _tree.begin()<<std::endl;
 	return (_tree.begin());
 }
 
-//----------------------------------------access--------------------------------
-// if k matches the key of an element in the container, the function returns a reference to its mapped value.
+template < typename K, typename T, typename C, typename A >
+typename map< K, T, C, A>::const_iterator map< K, T, C, A>::begin( void ) const
+{
+	return (_tree.begin());
+}
 
-// If k does not match the key of any element in the container, the function inserts a new element with that key and returns a reference to its mapped value. Notice that this always increases the container size by one, even if no mapped value is assigned to the element (the element is constructed using its default constructor).
+template < typename K, typename T, typename C, typename A >
+typename map< K, T, C, A>::iterator map< K, T, C, A>::end( void )
+{
+	return (_tree.end());
+}
 
-// A similar member function, map::at, has the same behavior when an element with the key exists, but throws an exception when it does not.
+template < typename K, typename T, typename C, typename A >
+typename map< K, T, C, A>::const_iterator map< K, T, C, A>::end( void ) const
+{
+	return (_tree.end());
+}
 
-// template < typename K, typename T, typename C, typename A >
-// T &map< K, T, C, A >::operator[](const key_type& x){
-// 	return (*)
-// }
+template < typename K, typename T, typename C, typename A >
+typename map< K, T, C, A>::reverse_iterator map< K, T, C, A>::rbegin( void )
+{
+	return ( _tree.rbegin());
+}
+
+template < typename K, typename T, typename C, typename A >
+typename map< K, T, C, A>::const_reverse_iterator map< K, T, C, A>::rbegin( void ) const
+{
+	return ( _tree.rbegin());
+}
+
+template < typename K, typename T, typename C, typename A >
+typename map< K, T, C, A>::reverse_iterator map< K, T, C, A>::rend( void )
+{
+	return ( _tree.rend());
+}
+
+template < typename K, typename T, typename C, typename A >
+typename map< K, T, C, A>::const_reverse_iterator map< K, T, C, A>::rend( void ) const
+{
+	return (_tree.rend());
+}
+
 
 //----------------------------capacity------------------------------
 		
@@ -113,6 +143,18 @@ typename map< K, T, C, A >::size_type map< K, T, C, A>::max_size() const
 {
 	return ( _tree.max_size() );
 }
+
+//----------------------------------------access--------------------------------
+// if k matches the key of an element in the container, the function returns a reference to its mapped value.
+
+// If k does not match the key of any element in the container, the function inserts a new element with that key and returns a reference to its mapped value. Notice that this always increases the container size by one, even if no mapped value is assigned to the element (the element is constructed using its default constructor).
+
+// A similar member function, map::at, has the same behavior when an element with the key exists, but throws an exception when it does not.
+
+// template < typename K, typename T, typename C, typename A >
+// T &map< K, T, C, A >::operator[](const key_type& x){
+// 	return (*)
+// }
 
 //------------------------------------modifier----------------------------------
 
@@ -171,6 +213,26 @@ template < typename Key, typename T, typename C, typename A >
 typename map< Key ,T ,C ,A >::const_iterator map< Key, T, C, A>::find(const Key &k) const{
 	return (_tree.find(k));
 }
+// Searches the container for elements with a key equivalent to k and returns 
+//the number of matches.Because all elements in a map container are unique, the 
+//function can only return 1 (if the element is found) or zero (otherwise).
+// Two keys are considered equivalent if the container's comparison object returns 
+// false reflexively (i.e., no matter the order in which the keys are passed as arguments).
+template < typename Key, typename T, typename C, typename A >
+typename map< Key ,T ,C ,A >::size_type map< Key ,T ,C ,A >::count(const key_type& key) const
+{
+	const_iterator it = begin();
+
+	while (!it.base()->_is_leaf)
+	{
+		if (key == (*it).first)
+			return 1;
+		++it;
+	}
+	return 0;
+}
+
+
 
 //-----------------------------------------operator-----------------------------
 template< class Key, class T, class Compare, class Alloc >

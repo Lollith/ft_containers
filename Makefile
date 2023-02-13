@@ -113,6 +113,9 @@ fclean: clean
 re: fclean
 	make -C .
 
+re_map: fclean
+		make map
+
 
 ################################################################################
 #                                 utils

@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:25:26 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/04 15:25:01 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/13 14:17:07 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // #include <deque>
 
 #ifdef FT //CREATE A REAL STL EXAMPLE
-	#include <Vector.hpp>
+	#include <vector.hpp>
 	// #include <map.hpp>
 	// #include <stack.hpp>
 	namespace NAME_USE = ft;
@@ -59,15 +59,15 @@
 // };
 
 int main(int argc, char** argv) {
-	// if (argc != 2)
-	// {
-	// 	std::cerr << "Usage: ./test seed" << std::endl;
-	// 	std::cerr << "Provide a seed please" << std::endl;
-	// 	std::cerr << "Count value:" << COUNT << std::endl;
-	// 	return 1;
-	// }
-	// const int seed = atoi(argv[1]);
-	// srand(seed);
+	if (argc != 2)
+	{
+		std::cerr << "Usage: ./test seed" << std::endl;
+		std::cerr << "Provide a seed please" << std::endl;
+		// std::cerr << "Count value:" << COUNT << std::endl;
+		return 1;
+	}
+	const int seed = atoi(argv[1]);
+	srand(seed);
 
 	NAME_USE::vector <int> v;
 

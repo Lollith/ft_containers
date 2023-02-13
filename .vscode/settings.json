@@ -56,6 +56,8 @@
 		"cinttypes": "cpp",
 		"typeinfo": "cpp",
 		"list": "cpp",
-		"set": "cpp"
+		"set": "cpp",
+		"ctime": "cpp",
+		"iomanip": "cpp"
 	}
 }

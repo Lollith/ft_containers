@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_map.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lollith <lollith@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 11:14:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/10 16:49:46 by lollith          ###   ########.fr       */
+/*   Updated: 2023/02/13 16:40:26 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,23 @@ int main()
 	// std::cout << mymap.max_size()<< std::endl; // max_size donne cb je peux crrer d elements dans ma memoire, depend directement de la taille dun element=> depend de lorga des nodes
 	
 	
-	mymap.insert ( NAME_USE::pair<int,int>(3,100) );// ne mrche pas ,
+	mymap.insert ( NAME_USE::pair<int,int>(3,100) );
+	std::cout << mymap.size()<< std::endl;
 	
-	// NAME_USE::map<int,int>::iterator  it1;
-	// it1 = mymap.begin();
-	// std::cout << it1->first << std::endl;
-	// std::cout << it1->second << std::endl;
-	// / insert, end , maximum a tester
-	// mymap2.insert ( std::pair<int,int>(3,100) );
-	// std::cout << it->second << std::endl;
+	NAME_USE::map<int,int>::iterator  it1;
+	it1 = mymap.begin();
+	std::cout << it1->first << " - ";
+	std::cout << it1->second << std::endl;
+	mymap.insert ( NAME_USE::pair<int,int>(4,100) );
+	mymap.insert ( NAME_USE::pair<int,int>(0,100) );
+	std::cout << it1->first << " - ";
+	std::cout << it1->second << std::endl;
+	
+	std::cout << mymap.find(3)->second<< std::endl;
+	if (mymap.count(3))
+		std::cout << "is an element of map"<< std::endl;
+	
+	
 	
 	return 0;
 	

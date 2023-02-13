@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_RBT.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lollith <lollith@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:46:37 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/10 15:20:36 by lollith          ###   ########.fr       */
+/*   Updated: 2023/02/13 13:54:31 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,18 @@ int main()
 	std::cout << std::endl;
 	ft::RBT<int, int, int > rbt1;
 	// std::cout<< "tree display: "<<std::endl;
-	rbt1.insert_node(ft::pair< int, int>(3,3));
-	rbt1.insert_node(ft::pair< int, int>(2,3));
+	rbt1.insert_node(ft::pair< int, int>(9,3));
 	rbt1.insert_node(ft::pair< int, int>(4,3));
 	rbt1.insert_node(ft::pair< int, int>(1,3));
 	rbt1.insert_node(ft::pair< int, int>(5,3));
 	rbt1.insert_node(ft::pair< int, int>(8,3));
-	ft::RBT<int, int, int > rbt2(rbt1);
+	// ft::RBT<int, int, int > rbt2(rbt1);
 	rbt1.display();
-	rbt1.delete_node(2);
-	rbt1.delete_node(3);
-	rbt1.display();
-	std::cout << std::endl;
-	rbt2.display();
+	// rbt1.delete_node(2);
+	// rbt1.delete_node(3);
+	// rbt1.display();
+	// std::cout << std::endl;
+	// rbt2.display();
 	
 	//-------------------------------------------------------------------------
 	
@@ -57,14 +56,39 @@ int main()
 	ft::RBT<int, int, int>::iterator it1;
 	it1 = rbt_vide.begin();
 	if (it1.base() != NULL)
-		std::cout << it1.base()->_pair_data.first << std::endl;
+	{
+		std::cout << it1.base()->_pair_data.first << " - ";
+		std::cout << it1.base()->_pair_data.second << std::endl;
+	}
 	else
 		std::cout << "Null" << std::endl;
 	
 	ft::RBT<int, int, int>::iterator it2;
 	it2 = rbt1.begin();
-	std::cout << it2._current->_pair_data.first << std::endl;
+	std::cout << it2._current->_pair_data.first << " - ";
+	std::cout << it2.base()->_pair_data.second << std::endl;
 	std::cout << "-> " <<it2->first << std::endl;
+	
+	ft::RBT<int, int, int>::iterator it3;
+	it3 = rbt1.begin() + 1;
+	std::cout << it3.base()->_pair_data.first << " - ";
+	std::cout << it3.base()->_pair_data.second << std::endl;
+	it3 = rbt1.begin() + 2;
+	std::cout << it3.base()->_pair_data.first << " - ";
+	std::cout << it3.base()->_pair_data.second << std::endl;
+
+	ft::RBT<int, int, int>::iterator it4;
+	it4 = rbt1.end();
+	std::cout << it4.base()->_pair_data.first << " - ";
+	std::cout << it4.base()->_pair_data.second << std::endl;
+	it4--;	
+	std::cout << it4.base()->_pair_data.first << " - ";
+	std::cout << it4.base()->_pair_data.second << std::endl;
+
+	it4--;	
+	std::cout << it4.base()->_pair_data.first << " - ";
+	std::cout << it4.base()->_pair_data.second << std::endl;
+	
 	return 0;
 	
 }

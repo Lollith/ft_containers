@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBT_iterator.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lollith <lollith@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:17:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/10 14:00:42 by lollith          ###   ########.fr       */
+/*   Updated: 2023/02/13 17:51:42 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ template <class Key, class T>
 		typedef node_type									*pt_node;
 		
 		typedef RBT_iterator<Key, T>						iterator;
-		// typedef RBT_node<Key, T> 							*base_ptr;
-		// typedef const base_ptr								const_base_ptr;
-		// typedef RBT_const_iterator<Key, T> 					const_iterator;
+		typedef RBT_iterator<Key, T> 						const_iterator;
 
 	//--------------------------------------------attribut----------------------
 		pt_node												_current;
@@ -53,99 +51,34 @@ template <class Key, class T>
 
 	//--------------------------------------accessor----------------------------
 
-		pt_node base() const;
+		pt_node base( void ) const;
 	
 	//---------------------------------------operator---------------------------
 		reference operator*( void ) const;
 		pointer operator->( void ) const;
+		iterator &operator++( void );
+		iterator operator++( int );
+		iterator &operator--( void );
+		iterator operator--( int );
+		iterator operator+( difference_type n ) const;
+		iterator operator-( difference_type n ) const;
 
-
-
-
-
-
-		
-		
-
-
-
-		// iterator &
-		// operator++()
-		// {
-		// 	node_ptr = rb_tree_increment(node_ptr);
-		// 	return *this;
-		// }
-
-		// iterator
-		// operator++(int)
-		// {
-		// 	iterator tmp = *this;
-		// 	node_ptr = rb_tree_increment(node_ptr);
-		// 	return tmp;
-		// }
-
-		// iterator &
-		// operator--()
-		// {
-		// 	node_ptr = rb_tree_decrement(node_ptr);
-		// 	return *this;
-		// }
-
-		// iterator
-		// operator--(int)
-		// {
-		// 	iterator tmp = *this;
-		// 	node_ptr = rb_tree_decrement(node_ptr);
-		// 	return tmp;
-		// }
-
-	// 	iterator operator+( difference_type n ) const
-	// 	{
-	// 		iterator tmp(base());
-
-	// 		for (difference_type i = 0; i != n; ++i)
-	// 			++tmp;
-				
-	// 		return (tmp);
-	// 	}
-
-	// 	iterator operator-( difference_type n ) const
-	// 	{
-	// 		iterator tmp(base());
-
-	// 		for (difference_type i = 0; i != n; ++i)
-	// 			--tmp;
-				
-	// 		return (tmp);
-	// 	}
-
-		// friend bool operator==(const iterator &lhs, const iterator &rhs)
-		// {
-		// 	if (lhs.base()->_is_leaf && rhs.base()->_is_leaf)
-		// 		return true;
-		// 	return lhs.pt_node == rhs.pt_node;
-		// }
-
-	// 	friend bool
-	// 	operator==(const iterator &lhs, const const_iterator &rhs)
-	// 	{
-	// 		if (lhs.base()->is_nil && rhs.base()->is_nil)
-	// 			return true;
-	// 		return lhs.node_ptr == rhs.node_ptr;
-	// 	}
-
-	// 	friend bool
-	// 	operator!=(const iterator &lhs, const iterator &rhs)
-	// 	{
-	// 		return !(lhs == rhs);
-	// 	}
-
-	// 	friend bool
-	// 	operator!=(const iterator &lhs, const const_iterator &rhs)
-	// 	{
-	// 		return !(lhs == rhs);
-	// 	}
 	};
+		template < class Key, class T >
+		bool operator==( const typename RBT_iterator< Key, T>::iterator &lhs, 
+			const typename RBT_iterator< Key, T>::iterator &rhs );
+		
+		template < class Key, class T >
+		bool operator==( const typename RBT_iterator< Key, T>::iterator &lhs, 
+			const typename RBT_iterator< Key, T>::const_iterator &rhs );
+		
+		template < class Key, class T >
+		bool operator!=( const typename RBT_iterator< Key, T>::iterator &lhs, 
+			const typename RBT_iterator< Key, T>::iterator &rhs );
+		
+		template < class Key, class T >
+		bool operator!=( const typename RBT_iterator< Key, T>::iterator &lhs, 
+			const typename RBT_iterator< Key, T>::const_iterator &rhs );
 
 //------------------------------------------------------------------------------
 	//-------------------------- red-black tree const iterator------------------
@@ -154,163 +87,81 @@ template <class Key, class T>
 	struct RBT_const_iterator
 	{
 		typedef pair<const Key, T> 							value_type;
-		typedef const value_type 									&reference;
-		typedef const value_type 									*pointer;
+		typedef const value_type 							&reference;
+		typedef const value_type 							*pointer;
 
 		typedef std::bidirectional_iterator_tag 			iterator_category;
 		typedef std::ptrdiff_t 								difference_type;
 
-		typedef const ft::RBT_node<Key, T> 						node_type;
+		typedef const ft::RBT_node<Key, T> 					node_type;
 		typedef node_type									*pt_node;
 		
-//--------------------------------------------attribut----------------------
+		typedef RBT_const_iterator<Key, T>					iterator;
+		typedef RBT_const_iterator<Key, T> 					const_iterator;
+		
+	//--------------------------------------------attribut----------------------
 		pt_node												_current;
 
+	//--------------------------------------------constructor-------------------
 		RBT_const_iterator( void );
 		RBT_const_iterator( pt_node input);
 		RBT_const_iterator(const RBT_const_iterator &cpy);
 		RBT_const_iterator &operator=( const RBT_const_iterator &other );
 		~RBT_const_iterator ( void );
 		
+	//--------------------------------------accessor----------------------------
 		pt_node base( void ) const;
-
-
-
-
-
-
 
 	//---------------------------------------operator---------------------------
 		reference operator*( void ) const;
 		pointer operator->( void ) const;
 
+		const_iterator &operator++( void );
+		const_iterator operator++(int);
+		const_iterator &operator--();
+		const_iterator operator--(int);
+		const_iterator operator+( difference_type n ) const;
+		const_iterator operator-( difference_type n ) const;
 
-	// 	RBT_const_iterator()
-	// 		: node_ptr() {}
-
-	// 	RBT_const_iterator(base_ptr node_ptr_input)
-	// 		: node_ptr(node_ptr_input) {}
-
-	// 	RBT_const_iterator(const RBT_const_iterator & other)
-	// 		: node_ptr(other.node_ptr) {}
-
-	// 	const_iterator & operator=( const const_iterator & other )
-	// 	{
-	// 		node_ptr = other.base();
-	// 		return *this;
-	// 	}
-
-	// 	RBT_const_iterator(const iterator & other)
-	// 		: node_ptr(other.node_ptr) {}
-
-	// 	const_iterator & operator=( const iterator & other )
-	// 	{
-	// 		node_ptr = other.base();
-	// 		return *this;
-	// 	}
-
-	// 	base_ptr
-	// 	base() const
-	// 	{
-	// 		return node_ptr;
-	// 	}
-
-		// reference
-		// operator*() const
-		// {
-		// 	return *static_cast<base_ptr>(node_ptr)->value_ptr();
-		// }
-
-		// pointer
-		// operator->() const
-		// {
-		// 	return static_cast<base_ptr>(node_ptr)->value_ptr();
-		// }
-
-		// const_iterator &
-		// operator++()
-		// {
-		// 	node_ptr = rb_tree_increment(node_ptr);
-		// 	return *this;
-		// }
-
-		// const_iterator
-		// operator++(int)
-		// {
-		// 	const_iterator tmp = *this;
-		// 	node_ptr = rb_tree_increment(node_ptr);
-		// 	return tmp;
-		// }
-
-		// const_iterator &
-		// operator--()
-		// {
-		// 	node_ptr = rb_tree_decrement(node_ptr);
-		// 	return *this;
-		// }
-
-		// const_iterator
-		// operator--(int)
-		// {
-		// 	const_iterator tmp = *this;
-		// 	node_ptr = rb_tree_decrement(node_ptr);
-		// 	return tmp;
-		// }
-
-		// const_iterator operator+( difference_type n ) const
-		// {
-		// 	const_iterator tmp(base());
-
-		// 	for (difference_type i = 0; i != n; ++i)
-		// 		++tmp;
-				
-		// 	return (tmp);
-		// }
-
-		// const_iterator operator-( difference_type n ) const
-		// {
-		// 	const_iterator tmp(base());
-
-		// 	for (difference_type i = 0; i != n; ++i)
-		// 		--tmp;
-				
-		// 	return (tmp);
-		// }
-
-		// friend bool
-		// operator==(const const_iterator &lhs, const const_iterator &rhs)
-		// {
-		// 	if (lhs.base()->is_nil && rhs.base()->is_nil)
-		// 		return true;
-		// 	return lhs.node_ptr == rhs.node_ptr;
-		// }
-
-		// friend bool
-		// operator==(const const_iterator &lhs, const iterator &rhs)
-		// {
-		// 	if (lhs.base()->is_nil && rhs.base()->is_nil)
-		// 		return true;
-		// 	return lhs.node_ptr == rhs.node_ptr;
-		// }
-
-		// friend bool
-		// operator!=(const const_iterator &lhs, const const_iterator &rhs)
-		// {
-		// 	return !(lhs == rhs);
-		// }
-
-		// friend bool
-		// operator!=(const const_iterator &lhs, const iterator &rhs)
-		// {
-		// 	return !(lhs == rhs);
-		// }
-
-		
 	};
 
 
+	template < class Key, class T >
+	bool operator==(const typename RBT_const_iterator< Key, T>::const_iterator &lhs, 
+		const typename RBT_const_iterator< Key, T>::const_iterator &rhs);
 
+	template < class Key, class T >
+	bool operator==( const typename RBT_const_iterator< Key, T>::const_iterator &lhs, 
+		const typename RBT_const_iterator< Key, T>::iterator &rhs );
 
+	template < class Key, class T >
+	bool operator!=( const typename RBT_const_iterator< Key, T>::const_iterator &lhs, 
+		const typename RBT_const_iterator< Key, T>::const_iterator &rhs );
+
+	template < class Key, class T >
+	bool operator!=( const typename RBT_const_iterator< Key, T>::const_iterator &lhs, 
+		const typename RBT_const_iterator< Key, T>::iterator &rhs );
+		
+//-------------------------------------no member:helper-------------------------
+	template <class Key, class T>
+	static RBT_node< Key, T>* helper_rb_tree_increment( RBT_node<Key, T> *pt_node );
+
+	template <class Key, class T>
+	RBT_node<Key, T> *rb_tree_increment( RBT_node<Key, T> *pt_node );
+
+	template <class Key, class T>
+	RBT_node<Key, T> *rb_tree_increment( const RBT_node<Key, T> *pt_node );
+	
+	
+	template <class Key, class T>
+	static RBT_node< Key, T>* helper_rb_tree_decrement( RBT_node<Key, T> *pt_node );
+	
+	template <class Key, class T>
+	RBT_node<Key, T> *rb_tree_decrement( RBT_node<Key, T> *pt_node );
+
+	template <class Key, class T>
+	RBT_node<Key, T> *rb_tree_decrement( const RBT_node<Key, T> *pt_node );
+			
 
 
 }//ft

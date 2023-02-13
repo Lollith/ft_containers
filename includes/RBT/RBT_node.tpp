@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RBT_node.tpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lollith <lollith@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 14:16:54 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/10 15:44:29 by lollith          ###   ########.fr       */
+/*   Updated: 2023/02/13 18:29:38 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typename RBT_node< Key, T>::value_type *RBT_node< Key, T>::value_ptr()
 	value_type *tmp;
 	tmp = &_pair_data;
 	return (tmp); // fait une copie de l adresse => pointe vers le meme objet
+	// return &(_pair_data);
 }
 
 template < class Key, class T >
