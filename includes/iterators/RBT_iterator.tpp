@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:17:50 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/13 18:32:17 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/14 16:22:26 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ RBT_iterator< Key, T >::RBT_iterator( pt_node input ): _current( input ){
 
 template < class Key, class T >
 RBT_iterator< Key, T>::RBT_iterator( const RBT_iterator &cpy ) { 
-	*this = cpy; 
+	_current = cpy.base();
 }
 		
 template < class Key, class T >
@@ -157,7 +157,7 @@ RBT_const_iterator< Key, T>::RBT_const_iterator( pt_node input): _current(input)
 template < class Key, class T >
 RBT_const_iterator< Key, T>::RBT_const_iterator(const RBT_const_iterator &cpy) 
 { 
-	*this = cpy; 
+	_current = cpy.base();
 }
 
 template < class Key, class T >
@@ -180,15 +180,18 @@ typename RBT_const_iterator< Key, T>::pt_node RBT_const_iterator< Key, T>::base(
 template < class Key, class T >
 typename RBT_const_iterator< Key, T>::reference RBT_const_iterator< Key, T>::operator*() const
 {
-	// return (*static_cast<pt_node>(_current)->value_ptr());
-	return *_current->value_ptr();
+	// return *(static_cast<pt_node>(_current)->value_ptr());
+
+	reference tmp = *_current->value_ptr();	
+	return (tmp);
 
 }
 
 template < class Key, class T >
 typename RBT_const_iterator< Key, T>::pointer RBT_const_iterator< Key, T>::operator->() const
 {
-	return &(operator*());
+	return _current->value_ptr();	
+	// return &(operator*());
 }
 
 template < class Key, class T >

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pair.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lollith <lollith@student.42.fr>            +#+  +:+       +#+        */
+/*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 11:10:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/10 15:50:11 by lollith          ###   ########.fr       */
+/*   Updated: 2023/02/14 16:11:47 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ namespace ft{
 
 	template <class T1, class T2> 
 	struct pair{ // struct car pas besoin de declarer de private, ms class marche
+		
 		typedef	T1		first_type;
 		typedef	T2		second_type;
 

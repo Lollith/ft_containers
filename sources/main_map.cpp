@@ -6,12 +6,14 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 11:14:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/13 16:40:26 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/14 18:17:09 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../includes/map.hpp" // a modif pour makefile
 #include <map>
+
+#define TEST_MAX_SIZE 0 //  a passer sur 1 pour lancer le test
 
 
 #ifdef FT
@@ -40,8 +42,10 @@ int main()
 	if(mymap.empty())
 		std::cout << "empty"<<std::endl;
 	std::cout << mymap.size()<< std::endl;
-	// std::cout << mymap.max_size()<< std::endl; // max_size donne cb je peux crrer d elements dans ma memoire, depend directement de la taille dun element=> depend de lorga des nodes
-	
+ 
+	#if TEST_MAX_SIZE
+ 	std::cout << mymap.max_size()<< std::endl; // max_size donne cb je peux crrer d elements dans ma memoire, depend directement de la taille dun element=> depend de lorga des nodes
+	#endif
 	
 	mymap.insert ( NAME_USE::pair<int,int>(3,100) );
 	std::cout << mymap.size()<< std::endl;
@@ -56,10 +60,22 @@ int main()
 	std::cout << it1->second << std::endl;
 	
 	std::cout << mymap.find(3)->second<< std::endl;
-	if (mymap.count(3))
+	if (mymap.count(5)) // ne marche pas
 		std::cout << "is an element of map"<< std::endl;
+	else
+		std::cout << "is NOT an element of map"<< std::endl;
+	if (mymap.count(3)) // ne marche pas
+		std::cout << "is an element of map"<< std::endl;
+	else
+		std::cout << "is NOT an element of map"<< std::endl;
+	if (mymap.count(0)) // ne marche pas
+		std::cout << "is an element of map"<< std::endl;
+	else
+		std::cout << "is NOT an element of map"<< std::endl;
+
 	
-	
+	// NAME_USE::map<int,int>::iterator itlow;	
+	// itlow = mymap.lower_bound(100);
 	
 	return 0;
 	

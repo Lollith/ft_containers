@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:48 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/13 16:36:09 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/14 17:27:36 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ namespace ft{
 			typedef ft::pair<const key_type, mapped_type>	value_type;
 			typedef node_type*								pt_node;
 			typedef std::size_t								size_type;
+			typedef Compare									key_compare;
 			
 			typedef typename Allocator::template rebind<RBT_node<Key, T> >::other 	node_allocator; //rebind
 			//map=>alloc=> aloue des paires,  RBT, objet de map =+ alloc => dc des paires => 
@@ -51,7 +52,7 @@ namespace ft{
 			pt_node										_root;
 			pt_node										_leaf;//TNULL _null_node
 			allocator_type								_alloc;
-			Compare										_comp; //save  ma fonction de comparaison,
+			key_compare									_comp; //save  ma fonction de comparaison,
 			
 			node_allocator								_node_alloc; //rebind
 			
@@ -78,10 +79,15 @@ namespace ft{
 	//----------------------------------- search------------------------
  		
 		pt_node				searchTreeHelper( pt_node node, Key k );
+		pt_node				searchTreeHelper( pt_node node, const Key k ) const;
 		pt_node				searchTree( Key k );
+		pt_node				searchTree( Key const k ) const;
 		
 		iterator 			find(const Key &key);
 		const_iterator		find(const Key &key) const;
+
+		iterator			lower_bound (const key_type& k);
+		const_iterator		lower_bound (const key_type& k) const;
 	
 	//--------------------------------------- operations -------------------------
 		

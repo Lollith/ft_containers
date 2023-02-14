@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/13 16:46:31 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/14 17:13:36 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,8 @@ class map {
 	iterator 					find(const key_type &x);
 	const_iterator 				find(const key_type& x) const;
 	size_type 					count(const key_type& x) const;
-// iterator lower_bound(const key_type& x);
-// const_iterator lower_bound(const key_type& x) const;
+	iterator					lower_bound(const key_type& x);
+	const_iterator				lower_bound(const key_type& x) const;
 // iterator upper_bound(const key_type& x);
 // const_iterator upper_bound(const key_type& x) const;
 // pair<iterator,iterator>

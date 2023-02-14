@@ -219,19 +219,24 @@ typename map< Key ,T ,C ,A >::const_iterator map< Key, T, C, A>::find(const Key 
 // Two keys are considered equivalent if the container's comparison object returns 
 // false reflexively (i.e., no matter the order in which the keys are passed as arguments).
 template < typename Key, typename T, typename C, typename A >
-typename map< Key ,T ,C ,A >::size_type map< Key ,T ,C ,A >::count(const key_type& key) const
+typename map< Key ,T ,C ,A >::size_type map< Key ,T ,C ,A >::count(const Key& key) const
 {
-	const_iterator it = begin();
-
-	while (!it.base()->_is_leaf)
-	{
-		if (key == (*it).first)
-			return 1;
-		++it;
-	}
+	if(_tree.searchTree(key))
+		return 1;
 	return 0;
 }
 
+template < typename Key, typename T, typename C, typename A >
+typename map< Key ,T ,C ,A >::iterator map< Key ,T ,C ,A >::lower_bound(const key_type& key) 
+{
+	return _tree.lower_bound(key);
+}
+
+template < typename Key, typename T, typename C, typename A >
+typename map< Key ,T ,C ,A >::const_iterator map< Key ,T ,C ,A >::lower_bound(const key_type& key) const 
+{
+	return _tree.lower_bound(key);
+}
 
 
 //-----------------------------------------operator-----------------------------

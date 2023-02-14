@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 14:16:54 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/13 18:29:38 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/14 17:28:19 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,16 @@ const typename RBT_node< Key, T>::value_type *RBT_node< Key, T>::value_ptr() con
 	return &(_pair_data);
 }
 
+// template < class Key, class T >
+// const typename RBT_node< Key, T>::value_type &RBT_node< Key, T>::value_ref() const
+// {
+// 	return (_pair_data);
+// }
+// template < class Key, class T >
+// typename RBT_node< Key, T>::value_type &RBT_node< Key, T>::value_ref()
+// {
+// 	return (_pair_data);
+// }
 
 
 

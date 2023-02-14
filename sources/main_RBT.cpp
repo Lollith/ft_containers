@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:46:37 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/13 13:54:31 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/14 14:52:17 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,12 @@ int main()
 	it4--;	
 	std::cout << it4.base()->_pair_data.first << " - ";
 	std::cout << it4.base()->_pair_data.second << std::endl;
+	
+
+
+
+	ft::RBT<int, int, int>::iterator itlow;
+	itlow = rbt1.lower_bound(100);
 	
 	return 0;
 	

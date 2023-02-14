@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:32 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/13 16:42:09 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/14 17:53:24 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,13 @@ RBT<Key, T, Compare, Allocator>::searchTree(Key k)
 
 template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::pt_node 
+RBT<Key, T, Compare, Allocator>::searchTree(Key const k) const
+{
+	return searchTreeHelper(this->_root, k);
+}
+
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::pt_node 
 RBT<Key, T, Compare, Allocator>::searchTreeHelper(pt_node node, Key k)
 {
 	if (node == _leaf || k == node->_pair_data.first)
@@ -146,8 +153,21 @@ RBT<Key, T, Compare, Allocator>::searchTreeHelper(pt_node node, Key k)
 	if (k < node->_pair_data.first)
 		return searchTreeHelper(node->_left, k);
     return searchTreeHelper(node->_right, k);
+}
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::pt_node  // surcharge for count
+RBT<Key, T, Compare, Allocator>::searchTreeHelper(pt_node node, Key const k) const
+{
+	if (node == _leaf)
+		return (NULL); 
+	if (k == node->_pair_data.first)
+		return (node);
+	if (k < node->_pair_data.first)
+		return searchTreeHelper(node->_left, k);
+    return searchTreeHelper(node->_right, k);
   }
   
+
 template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::iterator 
 	RBT<Key, T, Compare, Allocator>::find(const Key &key)
@@ -178,6 +198,38 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator
 	return (ret);
 }
 
+// Return iterator to lower bound
+// Returns an iterator pointing to the first element in the container whose key 
+// is not considered to go before k (i.e., either it is equivalent or goes after).
+// if = =>return the element whereas upper_bound returns an iterator pointing to the next element.
+
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::iterator 
+	RBT<Key, T, Compare, Allocator>::lower_bound(const key_type &key)
+{
+	iterator it;
+				
+	for (it = this->begin(); it != this->end(); it++)
+	{
+		if (!_comp(it->first, key)) //?true si a < b
+			return it;
+	}
+	return end();
+}
+
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::const_iterator 
+	RBT<Key, T, Compare, Allocator>::lower_bound(const key_type &key) const
+{
+	const_iterator it;
+
+	for (it = this->begin(); it != this->end(); it++)
+	{
+		if (!_comp(it->first, key)) //?true si a < b
+			return it;
+	}
+	return end();
+}
 
   //--------------------------------------- operations -----------------------------
   // inserting a red node does not violate the depth property of a red-black tree.

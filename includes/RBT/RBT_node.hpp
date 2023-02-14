@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:24 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/09 18:12:21 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/14 17:28:01 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ namespace ft {
 			RBT_node						*_right;
 			value_type						_pair_data;
 			bool 							_is_leaf;
+			
 
 			RBT_node( void );
 			RBT_node( value_type pair_init );
@@ -76,6 +77,8 @@ namespace ft {
 //--------------------------------------ft membres -----------------------------
 		value_type *value_ptr( void );
 		const value_type *value_ptr( void ) const;
+		// const value_type &value_ref( void ) const;
+		// value_type &value_ref( void ) ;
 	
 	};
 	

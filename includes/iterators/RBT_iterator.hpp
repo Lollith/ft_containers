@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:17:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/13 17:51:42 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/14 16:59:15 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ struct RBT_const_iterator; // car present ds ma structure RBT_iterator => ne mar
 template <class Key, class T>
 	struct RBT_iterator
 	{
-		typedef ft::pair< Key, T> 							value_type; //const key
+		typedef ft::pair<  Key, T> 							value_type; //const key
 		typedef value_type 									&reference;
 		typedef value_type 									*pointer;
 
@@ -62,23 +62,22 @@ template <class Key, class T>
 		iterator operator--( int );
 		iterator operator+( difference_type n ) const;
 		iterator operator-( difference_type n ) const;
+		
+		friend bool operator==( const typename RBT_iterator< Key, T>::iterator &lhs, 
+			const typename RBT_iterator< Key, T>::iterator &rhs );
+
+		friend bool operator==( const typename RBT_iterator< Key, T>::iterator &lhs, 
+			const typename RBT_iterator< Key, T>::const_iterator &rhs );
+		
+		friend bool operator!=( const typename RBT_iterator< Key, T>::iterator &lhs, 
+			const typename RBT_iterator< Key, T>::iterator &rhs );
+		
+		friend bool operator!=( const typename RBT_iterator< Key, T>::iterator &lhs, 
+			const typename RBT_iterator< Key, T>::const_iterator &rhs );
 
 	};
-		template < class Key, class T >
-		bool operator==( const typename RBT_iterator< Key, T>::iterator &lhs, 
-			const typename RBT_iterator< Key, T>::iterator &rhs );
 		
-		template < class Key, class T >
-		bool operator==( const typename RBT_iterator< Key, T>::iterator &lhs, 
-			const typename RBT_iterator< Key, T>::const_iterator &rhs );
 		
-		template < class Key, class T >
-		bool operator!=( const typename RBT_iterator< Key, T>::iterator &lhs, 
-			const typename RBT_iterator< Key, T>::iterator &rhs );
-		
-		template < class Key, class T >
-		bool operator!=( const typename RBT_iterator< Key, T>::iterator &lhs, 
-			const typename RBT_iterator< Key, T>::const_iterator &rhs );
 
 //------------------------------------------------------------------------------
 	//-------------------------- red-black tree const iterator------------------
