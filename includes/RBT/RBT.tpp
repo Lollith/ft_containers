@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:32 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/14 17:53:24 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/16 18:23:23 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,12 +207,14 @@ template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::iterator 
 	RBT<Key, T, Compare, Allocator>::lower_bound(const key_type &key)
 {
-	iterator it;
-				
-	for (it = this->begin(); it != this->end(); it++)
+	iterator it = begin();
+
+
+	while (it._current != end()._current)  // normale;emt compare it et end()
 	{
 		if (!_comp(it->first, key)) //?true si a < b
 			return it;
+		it++;
 	}
 	return end();
 }
@@ -221,14 +223,23 @@ template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::const_iterator 
 	RBT<Key, T, Compare, Allocator>::lower_bound(const key_type &key) const
 {
-	const_iterator it;
+	const_iterator it = begin();
 
-	for (it = this->begin(); it != this->end(); it++)
+	while (it._current != end()._current)
 	{
 		if (!_comp(it->first, key)) //?true si a < b
 			return it;
+		it++;
 	}
 	return end();
+}
+
+//-----------------------observers----------------------------------------------
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::key_compare 
+	RBT<Key, T, Compare, Allocator>::key_comp() const
+{
+	return (_comp);
 }
 
   //--------------------------------------- operations -----------------------------
@@ -249,13 +260,14 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator
     // pt_node new_node = new node_type(RED, NULL, _leaf, _leaf, pair_data) ;/// NEW => rebind
     pt_node new_node = _node_alloc.allocate(sizeof(node_type));
     // _node_alloc.construct(new_node, pair_data);
-    new_node->_pair_data.first= pair_data.first;
-    new_node->_pair_data.second= pair_data.second;
+    new_node->_pair_data.first = pair_data.first;
+    new_node->_pair_data.second = pair_data.second;
     new_node->_parent = NULL;
     new_node->_left = _leaf;
     new_node->_right = _leaf;
     new_node->_color = RED;
 	new_node->_is_leaf = false;
+	_leaf->_pair_data.first = size() + 1; /////////////// ICI LEAF = SIZE?????????????
 
     pt_node parent = _leaf;
     pt_node find = this->_root;
@@ -608,7 +620,7 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator
   // If the container is empty, the returned iterator value shall not be dereferenced.
   template <class Key, class T, class Compare, class Allocator>
   typename RBT<Key, T, Compare, Allocator>::iterator 
-  	RBT<Key, T, Compare, Allocator>::begin(void)
+	RBT<Key, T, Compare, Allocator>::begin(void)
   {
     pt_node node;
 
@@ -634,24 +646,37 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator
 	const_iterator ret(node);
     return (ret);
 }
-  
+
+
+// Returns an iterator referring to the past-the-end element in the map container.
+// The past-the-end element is the theoretical element that would follow the 
+// last element in the map container. It does not point to any element, and thus 
+//shall not be dereferenced.
+// If the container is empty, this function returns the same as map::begin.
 template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::iterator 
 	RBT<Key, T, Compare, Allocator>::end(void)
 {
 	pt_node node;
 
-	node = maximum(_root);
+	if(_root == _leaf)
+		return (begin());
+
+	node = maximum(_root)->_right;
 	iterator ret(node);
     return (ret);			
 }
 
 template <class Key, class T, class Compare, class Allocator>
-typename RBT<Key, T, Compare, Allocator>::const_iterator RBT<Key, T, Compare, Allocator>::end(void) const
+typename RBT<Key, T, Compare, Allocator>::const_iterator 
+	RBT<Key, T, Compare, Allocator>::end(void) const
 {
 	pt_node node;
+	
+	if(_root == _leaf)
+		return (begin());
 
-	node = maximum(_root);
+	node = maximum(_root)->_right;
 	const_iterator ret(node);
     return (ret);			
 }

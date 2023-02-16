@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/14 17:13:36 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/16 18:25:17 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ class map {
 	void 						clear( void );
 
 			//-----------------------observers----------------------------------
-// key_compare key_comp() const;
+	key_compare 				key_comp() const;
 // value_compare value_comp() const;
 
 			//---------------------------------operations-----------------------
@@ -161,10 +161,9 @@ class map {
 	const_iterator				lower_bound(const key_type& x) const;
 // iterator upper_bound(const key_type& x);
 // const_iterator upper_bound(const key_type& x) const;
-// pair<iterator,iterator>
-// equal_range(const key_type& x);
-// pair<const_iterator,const_iterator>
-// equal_range(const key_type& x) const;
+
+// pair<iterator,iterator> equal_range(const key_type& x);
+// pair<const_iterator,const_iterator>equal_range(const key_type& x) const;
 
 			//--------------------------------allocator-------------------------
 // ???	

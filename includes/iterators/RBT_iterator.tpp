@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:17:50 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/14 16:22:26 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/16 16:56:38 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ bool operator!=( const typename RBT_iterator< Key, T>::iterator &lhs,
 
 template < class Key, class T >
 bool operator!=( const typename RBT_iterator< Key, T>::iterator &lhs, 
-	const typename RBT_iterator< Key, T>::const_iterator &rhs )
+	const typename RBT_const_iterator< Key, T>::const_iterator &rhs )
 {
 	return !(lhs == rhs);
 }
@@ -195,14 +195,14 @@ typename RBT_const_iterator< Key, T>::pointer RBT_const_iterator< Key, T>::opera
 }
 
 template < class Key, class T >
-typename RBT_const_iterator< Key, T>::iterator &RBT_const_iterator< Key, T>::operator++()
+typename RBT_const_iterator< Key, T>::const_iterator &RBT_const_iterator< Key, T>::operator++()
 {
 	_current = rb_tree_increment(_current);
 	return *this;
 }
 
 template < class Key, class T >
-typename RBT_const_iterator< Key, T>::iterator RBT_const_iterator< Key, T>::operator++(int)
+typename RBT_const_iterator< Key, T>::const_iterator RBT_const_iterator< Key, T>::operator++(int)
 {
 	const_iterator tmp = *this;
 	_current = rb_tree_increment(_current);
@@ -210,14 +210,14 @@ typename RBT_const_iterator< Key, T>::iterator RBT_const_iterator< Key, T>::oper
 }
 
 template < class Key, class T >
-typename RBT_const_iterator< Key, T>::iterator &RBT_const_iterator< Key, T>::operator--()
+typename RBT_const_iterator< Key, T>::const_iterator &RBT_const_iterator< Key, T>::operator--()
 {
 	_current = rb_tree_decrement(_current);
 	return *this;
 }
 
 template < class Key, class T >
-typename RBT_const_iterator< Key, T>::iterator RBT_const_iterator< Key, T>::operator--(int)
+typename RBT_const_iterator< Key, T>::const_iterator RBT_const_iterator< Key, T>::operator--(int)
 {
 	const_iterator tmp = *this;
 	_current = rb_tree_decrement(_current);
@@ -225,7 +225,7 @@ typename RBT_const_iterator< Key, T>::iterator RBT_const_iterator< Key, T>::oper
 }
 
 template < class Key, class T >
-typename RBT_const_iterator< Key, T>::iterator RBT_const_iterator< Key, T>::operator+( difference_type n ) const
+typename RBT_const_iterator< Key, T>::const_iterator RBT_const_iterator< Key, T>::operator+( difference_type n ) const
 {
 	iterator tmp(base());
 
@@ -235,7 +235,7 @@ typename RBT_const_iterator< Key, T>::iterator RBT_const_iterator< Key, T>::oper
 }
 
 template < class Key, class T >
-typename RBT_const_iterator< Key, T>::iterator RBT_const_iterator< Key, T>::operator-( difference_type n ) const
+typename RBT_const_iterator< Key, T>::const_iterator RBT_const_iterator< Key, T>::operator-( difference_type n ) const
 {
 	iterator tmp(base());
 

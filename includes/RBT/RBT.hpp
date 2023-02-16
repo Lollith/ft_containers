@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:48 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/14 17:27:36 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/16 18:19:38 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,17 @@
 # include <iostream>
 # include "../iterators/RBT_iterator.hpp"
 # include "../utils/pair.hpp"
-#include "../iterators/reverse_iterator.hpp"
+# include "../iterators/reverse_iterator.hpp"
+# include <functional> // std::less
 
 //https://www.programiz.com/dsa/red-black-tree
 // Compare et Allocator = default envoye par map
 
 namespace ft{
 
-	template < typename Key, typename T, typename Compare = std::less< Key >, 
-		    typename Allocator = std::allocator<ft::pair<const Key, T> > >
 	// template< class Key, class T, class Compare, class Allocator>
+	template < typename Key, typename T, typename Compare = std::less< Key >, // less is a type
+		    typename Allocator = std::allocator<ft::pair<const Key, T> > >
 	class RBT
 	{
 		public:
@@ -83,11 +84,16 @@ namespace ft{
 		pt_node				searchTree( Key k );
 		pt_node				searchTree( Key const k ) const;
 		
-		iterator 			find(const Key &key);
-		const_iterator		find(const Key &key) const;
+		iterator 			find( const Key &key );
+		const_iterator		find( const Key &key ) const;
 
 		iterator			lower_bound (const key_type& k);
 		const_iterator		lower_bound (const key_type& k) const;
+	
+	
+	//-----------------------observers------------------------------------------
+	
+		key_compare 				key_comp() const;
 	
 	//--------------------------------------- operations -------------------------
 		
@@ -121,7 +127,7 @@ namespace ft{
 		reverse_iterator 		rbegin( void );
 		const_reverse_iterator 	rbegin( void ) const;
 		reverse_iterator 		rend( void );
-		const_reverse_iterator 	rend(void) const;
+		const_reverse_iterator 	rend( void ) const;
 		
 	//----------------------------------------affichage ------------------------
 		// void preOrderHelper	(pt_node node);

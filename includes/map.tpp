@@ -200,6 +200,14 @@ ft::pair<typename map< K,T ,C ,A >::iterator, bool>
 
 // An alternative way to insert elements in a map is by using member function map::operator[].
 
+//-----------------------observers----------------------------------------------
+template < typename Key, typename T, typename C, typename A >
+typename map< Key ,T ,C ,A >::key_compare map< Key ,T ,C ,A >::key_comp() const
+{
+	return _tree.key_comp();
+}
+
+
 //---------------------------------------------operations-----------------------
 // Searches the container for an element with a key equivalent to k and returns an 
 // iterator to it if found, otherwise it returns an iterator to map::end.

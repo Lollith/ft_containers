@@ -6,12 +6,13 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:46:37 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/14 14:52:17 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/16 15:40:16 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/RBT/RBT_node.hpp"
 #include "../includes/RBT/RBT.hpp"
+# include "../includes/iterators/RBT_iterator.hpp"
 
 // c++ -Wall -Wextra -Werror -fsanitize=address main_RBT.cpp
 
@@ -46,7 +47,7 @@ int main()
 	// std::cout << std::endl;
 	// rbt2.display();
 	
-	//-------------------------------------------------------------------------
+	// //-------------------------------------------------------------------------
 	
 	std::cout <<"---------- iterators------------" <<std::endl;
 	ft::RBT_iterator<int,int> it;
@@ -92,8 +93,11 @@ int main()
 
 
 
-	ft::RBT<int, int, int>::iterator itlow;
-	itlow = rbt1.lower_bound(100);
+	ft::RBT<int, int >::iterator itlow;
+	ft::RBT<int, int> rbt12;
+	rbt12.insert_node(ft::pair< int, int>(9,3));
+	rbt12.insert_node(ft::pair< int, int>(4,3));
+	itlow = rbt12.lower_bound(100);
 	
 	return 0;
 	
