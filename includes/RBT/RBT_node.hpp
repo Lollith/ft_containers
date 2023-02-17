@@ -6,16 +6,17 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:24 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/14 17:28:01 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/17 12:43:12 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RBT_NODE_HPP
 # define RBT_NODE_HPP
+
 #include <memory>
 #include <iostream>
-#include "../utils/pair.hpp"
-#include "../utils/make_pair.hpp"
+#include "pair.hpp"
+#include "make_pair.hpp"
 
 namespace ft {
 	

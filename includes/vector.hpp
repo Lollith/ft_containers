@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:04 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/01 15:40:59 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/17 12:46:36 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 
 # include <iostream>
 # include <memory> //class Allocator
-# include "iterators/iterator_traits.hpp" //iterator/
-# include "iterators/reverse_iterator.hpp" //iterator/
-# include "utils/is_integral.hpp"
-# include "utils/enable_if.hpp"
-# include "utils/equal.hpp"
-# include "utils/lexicographical_compare.hpp"
+# include "iterator_traits.hpp" //iterator/
+# include "reverse_iterator.hpp" //iterator/
+# include "is_integral.hpp"
+# include "enable_if.hpp"
+# include "equal.hpp"
+# include "lexicographical_compare.hpp"
 # include <iterator>
-# include <iostream>
 
 
 namespace ft {

@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:32 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/16 18:23:23 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/17 17:38:11 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,15 @@ namespace ft
     delete_tree(_root);
     _root = _leaf;
   }
+  
+template <class Key, class T, class Compare, class Allocator>
+  void RBT<Key, T, Compare, Allocator>::swap(RBT & other)
+{
+	std::swap(_root, other._root);
+	std::swap(_leaf, other._leaf);
+	std::swap(_alloc, other._alloc);
+	std::swap(_comp, other._comp);
+}
 
   //----------------------------------------search -------------------------------
 template <class Key, class T, class Compare, class Allocator>
@@ -209,8 +218,7 @@ typename RBT<Key, T, Compare, Allocator>::iterator
 {
 	iterator it = begin();
 
-
-	while (it._current != end()._current)  // normale;emt compare it et end()
+	while (it._current!= end()._current)  // normale;emt compare it et end()
 	{
 		if (!_comp(it->first, key)) //?true si a < b
 			return it;
@@ -225,13 +233,82 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator
 {
 	const_iterator it = begin();
 
-	while (it._current != end()._current)
+	while (it._current != end().current)
 	{
 		if (!_comp(it->first, key)) //?true si a < b
 			return it;
 		it++;
 	}
 	return end();
+}
+
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::iterator 
+	RBT<Key, T, Compare, Allocator>::upper_bound(const key_type &key)
+{
+	iterator it = begin();
+
+	while (it._current!= end()._current)  // normale;emt compare it et end()
+	{
+		if (_comp(key, it->first)) //?true si a < b
+			return it;
+		it++;
+	}
+	return end();
+}
+
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::const_iterator 
+	RBT<Key, T, Compare, Allocator>::upper_bound(const key_type &key) const
+{
+	const_iterator it = begin();
+
+	while (it._current!= end()._current)  // normale;emt compare it et end()
+	{
+		if (_comp(key, it->first)) //?true si a < b
+			return it;
+		it++;
+	}
+	return end();
+}
+
+
+
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::mapped_type 
+	&RBT<Key, T, Compare, Allocator>::access_operator(const key_type& key)
+{	
+	pt_node searched_node = searchTree(key);
+	
+	if(!searched_node->_is_leaf)
+		return (searched_node->_pair_data.second);
+	insert_node(value_type(key, mapped_type()));
+	return (searchTree(key)->_pair_data.second);
+}
+
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::mapped_type& 
+	RBT<Key, T, Compare, Allocator>::at (const key_type& key)
+{
+	pt_node searched_node = searchTree(key);
+
+	if (searched_node->_is_leaf)
+		throw std::out_of_range("map::at");
+	else
+		return searched_node->_pair_data.second;
+}
+
+
+template <class Key, class T, class Compare, class Allocator>
+const typename RBT<Key, T, Compare, Allocator>::mapped_type& 
+	RBT<Key, T, Compare, Allocator>::at (const key_type& key) const
+{
+	pt_node searched_node = searchTree(key);
+
+	if (searched_node->_is_leaf)
+		throw std::out_of_range("map::at");
+	else
+		return searched_node->_pair_data.second;
 }
 
 //-----------------------observers----------------------------------------------
@@ -242,6 +319,11 @@ typename RBT<Key, T, Compare, Allocator>::key_compare
 	return (_comp);
 }
 
+template <class Key, class T, class Compare, class Allocator>
+void RBT<Key, T, Compare, Allocator>::getAllocator( void )
+{
+	return _alloc;
+}
   //--------------------------------------- operations -----------------------------
   // inserting a red node does not violate the depth property of a red-black tree.
 
@@ -255,7 +337,8 @@ typename RBT<Key, T, Compare, Allocator>::key_compare
   // reequilibrage = fix larbre
 
   template <class Key, class T, class Compare, class Allocator>
-  typename RBT<Key, T, Compare, Allocator>::pt_node RBT<Key, T, Compare, Allocator>::insert_node(value_type pair_data)
+  typename RBT<Key, T, Compare, Allocator>::pt_node 
+  	RBT<Key, T, Compare, Allocator>::insert_node(value_type pair_data)
   {
     // pt_node new_node = new node_type(RED, NULL, _leaf, _leaf, pair_data) ;/// NEW => rebind
     pt_node new_node = _node_alloc.allocate(sizeof(node_type));

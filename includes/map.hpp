@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/16 18:25:17 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/17 18:11:42 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,18 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
+# include <iostream>
 # include <memory>
-# include "utils/pair.hpp"
-# include "utils/enable_if.hpp"
-# include "utils/is_integral.hpp"
-# include "RBT/RBT.hpp"
-# include "utils/lexicographical_compare.hpp"
-# include "iterators/RBT_iterator.hpp" 
-# include "iterators/reverse_iterator.hpp"
+# include <functional> // std::less
+# include "equal.hpp"
+# include "pair.hpp"
+# include "lexicographical_compare.hpp"
+# include "enable_if.hpp"
+# include "is_integral.hpp"
+# include "RBT.hpp"
+# include "RBT_iterator.hpp" 
+// # include "iterator_traits.hpp" //iterator/
+// # include "reverse_iterator.hpp"
 
 namespace ft{
 
@@ -73,8 +77,6 @@ class map {
 
 			typedef	value_type										&reference;
 			typedef	const value_type								&const_reference;
-			// typedef	typename allocator_type::pointer				pointer;
-			// typedef	typename allocator_type::const_pointer			const_pointer;
 			typedef typename Alloc::pointer 						pointer;
 			typedef typename Alloc::const_pointer 					const_pointer;
 			
@@ -113,7 +115,7 @@ class map {
 
 
 			//------------------------------operator=---------------------------
-		map 					&operator=(const map& rhs);
+		map 					&operator=( const map& rhs );
 			
 			//-------------------------iterators--------------------------------
 		iterator 				begin( void );
@@ -133,40 +135,45 @@ class map {
 		
 			//----------------------------access--------------------------------
 
-	// T			&operator[](const key_type& x);
+		mapped_type				&operator[]( const key_type& x );
+		mapped_type& 			at (const key_type& k);
+		const mapped_type& 		at (const key_type& k) const;
 
 			//------------------------modifier----------------------------------
-	pair<iterator, bool>		insert( const value_type& k );
+		pair<iterator, bool>	insert( const value_type& k );
 	// iterator insert(iterator position, const value_type& k);
 
-// template <class InputIterator>
-// void insert(InputIterator first, InputIterator last);
+		template <class InputIterator>
+		void 					insert(InputIterator first, InputIterator last);
 
 // void erase(iterator position);
 // size_type erase(const key_type& x);
 // void erase(iterator first, iterator last);
 
-// void swap(map<Key,T,Compare,Allocator>&);
+	void 						swap( map &other );
 	void 						clear( void );
 
 			//-----------------------observers----------------------------------
 	key_compare 				key_comp() const;
-// value_compare value_comp() const;
+	value_compare				value_comp() const;
 
 			//---------------------------------operations-----------------------
-	iterator 					find(const key_type &x);
-	const_iterator 				find(const key_type& x) const;
-	size_type 					count(const key_type& x) const;
-	iterator					lower_bound(const key_type& x);
-	const_iterator				lower_bound(const key_type& x) const;
-// iterator upper_bound(const key_type& x);
-// const_iterator upper_bound(const key_type& x) const;
+	iterator 					find( const key_type &x );
+	const_iterator 				find( const key_type& x ) const;
+	
+	size_type 					count( const key_type& x ) const;
+	
+	iterator					lower_bound( const key_type& x );
+	const_iterator				lower_bound( const key_type& x ) const;
+	iterator					upper_bound(const key_type& x);
+	const_iterator				upper_bound(const key_type& x) const;
 
-// pair<iterator,iterator> equal_range(const key_type& x);
-// pair<const_iterator,const_iterator>equal_range(const key_type& x) const;
+	pair<iterator,iterator> 	equal_range(const key_type& x);
+	pair<const_iterator,const_iterator> 
+								equal_range(const key_type& x) const;
 
 			//--------------------------------allocator-------------------------
-// ???	
+	allocator_type 				get_allocator() const;
 	}; //map
 
 
@@ -200,8 +207,6 @@ void 	swap(map<Key,T,Compare,Allocator>& x,
 map<Key,T,Compare,Allocator>& y);
 
 
-
-	
 }// ft
 
 #include "map.tpp"

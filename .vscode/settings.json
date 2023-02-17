@@ -59,5 +59,6 @@
 		"set": "cpp",
 		"ctime": "cpp",
 		"iomanip": "cpp"
-	}
+	},
+	"editor.suggest.showWords": true
 }

@@ -26,17 +26,10 @@ template < typename K, typename T, typename C, typename A >
 template < class InputIterator >  
 map<K, T, C, A>::map(typename ft::enable_if< !ft::is_integral< InputIterator> ::value, 
 	InputIterator>::type first, InputIterator last, const key_compare& comp, 
-	const allocator_type& alloc){
+	const allocator_type& alloc):_tree(){
 
-		(void) first;
-		(void) last;
-
-
-
-		//utilisation RBT ici
-
-
-
+	for(; first != last; first++)
+		_tree.insert_node(*first);
 
 	this->_comp = comp;
 	this->_alloc = alloc;
@@ -128,7 +121,7 @@ typename map< K, T, C, A>::const_reverse_iterator map< K, T, C, A>::rend( void )
 //----------------------------capacity------------------------------
 		
 template < typename K, typename T, typename C, typename A >
-bool map< K, T, C, A >::empty() const{
+bool map< K, T, C, A >::empty( void ) const{
 	return( _tree.empty() );	
 }
 
@@ -139,22 +132,38 @@ typename map< K, T, C, A >::size_type map< K, T, C, A>::size( void ) const
 }
 		
 template < typename K, typename T, typename C, typename A >
-typename map< K, T, C, A >::size_type map< K, T, C, A>::max_size() const
+typename map< K, T, C, A >::size_type map< K, T, C, A>::max_size( void ) const
 {
 	return ( _tree.max_size() );
 }
 
 //----------------------------------------access--------------------------------
-// if k matches the key of an element in the container, the function returns a reference to its mapped value.
+// if k matches the key of an element in the container, the function returns a 
+//reference to its mapped value.
+// If k does not match the key of any element in the container, the function 
+//inserts a new element with that key and returns a reference to its mapped value.
+// Notice that this always increases the container size by one, even if no mapped 
+//value is assigned to the element (the element is constructed using its default constructor).
 
-// If k does not match the key of any element in the container, the function inserts a new element with that key and returns a reference to its mapped value. Notice that this always increases the container size by one, even if no mapped value is assigned to the element (the element is constructed using its default constructor).
+// A similar member function, map::at, has the same behavior when an element 
+//with the key exists, but throws an exception when it does not.
 
-// A similar member function, map::at, has the same behavior when an element with the key exists, but throws an exception when it does not.
+template < typename K, typename T, typename C, typename A >
+typename map< K, T, C, A >::mapped_type &map< K, T, C, A >::operator[](const key_type& key){
+	return(_tree.access_operator(key));
+}
 
-// template < typename K, typename T, typename C, typename A >
-// T &map< K, T, C, A >::operator[](const key_type& x){
-// 	return (*)
-// }
+
+template < typename K, typename T, typename C, typename A >
+typename map< K, T, C, A >::mapped_type &map< K, T, C, A >::at(const key_type& key){
+	return(_tree.at(key));
+}
+
+template < typename K, typename T, typename C, typename A >
+const typename map< K, T, C, A >::mapped_type &map< K, T, C, A >::at (const key_type& key) const{
+	return(_tree.at(key));
+
+}
 
 //------------------------------------modifier----------------------------------
 
@@ -174,7 +183,7 @@ ft::pair<typename map< K,T ,C ,A >::iterator, bool>
 	map< K, T, C, A >::insert( const value_type &value )
 {
 	ft::pair<iterator, bool> ret;                                            
-	iterator searched_key = find(value.first);
+	iterator searched_key = find( value.first );
 	// find return un iterator sur le 1er element
 
 // 	// // if map is empty, insert the node
@@ -197,8 +206,23 @@ ft::pair<typename map< K,T ,C ,A >::iterator, bool>
 	}
 	return ret;
 }
-
 // An alternative way to insert elements in a map is by using member function map::operator[].
+
+
+template < typename K, typename T, typename C, typename A >
+template <class InputIterator>
+void map< K, T, C, A >::insert(InputIterator first, InputIterator last)
+{
+	for(;first != last; first++)
+		_tree.insert_node(*first);
+}
+
+
+template < typename Key, typename T, typename C, typename A >
+void map< Key ,T ,C ,A >::swap(map<Key,T,C,A>&other)
+{
+	_tree.swap(other._tree);
+}
 
 //-----------------------observers----------------------------------------------
 template < typename Key, typename T, typename C, typename A >
@@ -207,18 +231,23 @@ typename map< Key ,T ,C ,A >::key_compare map< Key ,T ,C ,A >::key_comp() const
 	return _tree.key_comp();
 }
 
+template < typename Key, typename T, typename C, typename A >
+typename map< Key ,T ,C ,A >::value_compare	map< Key ,T ,C ,A >::value_comp() const
+{
+	return (value_compare(_tree.key_comp()));
+}
 
 //---------------------------------------------operations-----------------------
 // Searches the container for an element with a key equivalent to k and returns an 
 // iterator to it if found, otherwise it returns an iterator to map::end.
 
 template < typename Key, typename T, typename C, typename A >
-typename map< Key ,T ,C ,A >::iterator	map< Key, T, C, A>::find(const Key &k){
+typename map< Key ,T ,C ,A >::iterator	map< Key, T, C, A >::find(const Key &k){
 	return (_tree.find(k));
 }
 
 template < typename Key, typename T, typename C, typename A >
-typename map< Key ,T ,C ,A >::const_iterator map< Key, T, C, A>::find(const Key &k) const{
+typename map< Key ,T ,C ,A >::const_iterator map< Key, T, C, A >::find(const Key &k) const{
 	return (_tree.find(k));
 }
 // Searches the container for elements with a key equivalent to k and returns 
@@ -246,6 +275,42 @@ typename map< Key ,T ,C ,A >::const_iterator map< Key ,T ,C ,A >::lower_bound(co
 	return _tree.lower_bound(key);
 }
 
+
+template < typename Key, typename T, typename C, typename A >
+typename map< Key ,T ,C ,A >::iterator map< Key ,T ,C ,A >::upper_bound(const key_type& key)
+{
+	return _tree.upper_bound(key);
+}
+
+template < typename Key, typename T, typename C, typename A >
+typename map< Key ,T ,C ,A >::const_iterator map< Key ,T ,C ,A >::upper_bound(const key_type&key) const
+{
+	return _tree.upper_bound(key);
+}
+
+	
+template < typename Key, typename T, typename C, typename A >
+ft::pair<typename  map< Key ,T ,C ,A >::iterator, typename  map< Key ,T ,C ,A >::iterator> 
+	map< Key ,T ,C ,A >::equal_range(const key_type& key)
+{
+	pair<iterator,iterator> ret(lower_bound(key), upper_bound(key));
+	return ret;
+}
+
+template < typename Key, typename T, typename C, typename A >
+ft::pair<typename  map< Key ,T ,C ,A >::const_iterator, typename  map< Key ,T ,C ,A >::const_iterator> 
+	map< Key ,T ,C ,A >::equal_range(const key_type& key) const
+{
+	pair<const_iterator,const_iterator> ret(lower_bound(key), upper_bound(key));
+	return ret;
+}
+
+//--------------------------------allocator-------------------------
+template< class Key, class T, class C, class A >
+typename map< Key ,T ,C ,A >::allocator_type map< Key ,T ,C ,A >::get_allocator() const
+{
+	return _tree.getAllocator();
+}
 
 //-----------------------------------------operator-----------------------------
 template< class Key, class T, class Compare, class Alloc >
@@ -295,6 +360,7 @@ void swap( ft::map<Key,Compare,Alloc>& lhs, ft::map<Key,Compare,Alloc>& rhs )
 {
 	lhs.swap(rhs);
 }
+
 
 
 

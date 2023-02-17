@@ -6,19 +6,20 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:48 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/16 18:19:38 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/17 17:36:25 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RBT_HPP
 #define RBT_HPP
-# include "RBT_node.hpp"
+
 # include <memory>
 # include <iostream>
-# include "../iterators/RBT_iterator.hpp"
-# include "../utils/pair.hpp"
-# include "../iterators/reverse_iterator.hpp"
 # include <functional> // std::less
+# include "RBT_node.hpp"
+# include "RBT_iterator.hpp"
+# include "pair.hpp"
+# include "reverse_iterator.hpp"
 
 //https://www.programiz.com/dsa/red-black-tree
 // Compare et Allocator = default envoye par map
@@ -61,10 +62,10 @@ namespace ft{
 		public:
 	//-----------------------------------constructor------------------------
 					
-							RBT( const Compare &comp = Compare(), const allocator_type &alloc = allocator_type());
-							~RBT( void );
-							RBT( const RBT &copy);
-		RBT 				&operator=( const RBT &rhs);
+				RBT( const Compare &comp = Compare(), const allocator_type &alloc = allocator_type());
+				~RBT( void );
+				RBT( const RBT &copy);
+		RBT 	&operator=( const RBT &rhs);
 
 	//-------------------------------- capacity-----------------------------
 		
@@ -76,7 +77,7 @@ namespace ft{
 	//------------------------modifier----------------------------------
 
 		void 				clear ( void );
-
+		void				swap ( RBT &other );
 	//----------------------------------- search------------------------
  		
 		pt_node				searchTreeHelper( pt_node node, Key k );
@@ -87,13 +88,20 @@ namespace ft{
 		iterator 			find( const Key &key );
 		const_iterator		find( const Key &key ) const;
 
-		iterator			lower_bound (const key_type& k);
-		const_iterator		lower_bound (const key_type& k) const;
+		iterator			lower_bound( const key_type& k );
+		const_iterator		lower_bound( const key_type& k ) const;
+		iterator			upper_bound(const key_type& x);
+		const_iterator		upper_bound(const key_type& x) const;
+		
+		mapped_type			&access_operator( const key_type& x );
+		mapped_type& 		at( const key_type& k );
+		const mapped_type& 	at( const key_type& k ) const;
 	
 	
 	//-----------------------observers------------------------------------------
 	
-		key_compare 				key_comp() const;
+		key_compare 		key_comp( void ) const;
+		void				getAllocator( void );
 	
 	//--------------------------------------- operations -------------------------
 		
@@ -111,12 +119,12 @@ namespace ft{
 		pt_node				minimum( pt_node node ) const;
 		pt_node				maximum( pt_node node) const;	
 		void				delete_tree( pt_node root );
-		void				copy_tree(pt_node old_root, RBT &new_rbt );
+		void				copy_tree( pt_node old_root, RBT &new_rbt );
 
 		void				rightRotate( pt_node x );
 		void				leftRotate( pt_node x );
 		void				rbTransplant( pt_node u, pt_node v );
-
+		
 
 	//----------------------------------iterator--------------------------------
 		
