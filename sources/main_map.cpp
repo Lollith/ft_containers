@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 11:14:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/17 18:24:05 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/20 16:24:26 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ void test_access(void)
 void test_begin_end ()
 {
 	NAME_USE::map< int, int > mymap;
-	mymap.insert ( NAME_USE::pair<int,int>(3,100) );
+	mymap.insert ( NAME_USE::pair<int,int>(10,100) );
+	mymap.insert ( NAME_USE::pair<int,int>(8,5) );
+	mymap.insert ( NAME_USE::pair<int,int>(5,20) );
 	std::cout << mymap.size()<< std::endl;
 	NAME_USE::map<int,int>::iterator  it1;
 	NAME_USE::map<int,int>::iterator  itend;
@@ -92,10 +94,12 @@ void test_begin_end ()
 	std::cout << "end "<<itend->first << " - ";
 	std::cout << itend->second << std::endl;
 
-	NAME_USE::map<int,int>::iterator  itr;
+	NAME_USE::map<int,int>::reverse_iterator  itr;
 	itr = mymap.rbegin();
-	std::cout << "rbegin "<<it1->first << " - ";
+	std::cout << "rbegin "<<itr->first << " - ";
 	std::cout << itr->second << std::endl;
+
+	
 	
 }
 
@@ -263,7 +267,7 @@ void test_value_comp()
 int main()
 { // OK
 	// test_capacity();
-	// test_begin_end();
+	test_begin_end();
 	// test_access();
 	// test_find();
 	// test_bound();
@@ -273,7 +277,7 @@ int main()
 
 	// ne marche pas
 	// test_value_comp();    // 1.debugger rbegin deja <<===================
-	
+ 							//2. rbegin avec un delete	
 	//ne compile pas
 	// test_swap();
 	// test_equal();	

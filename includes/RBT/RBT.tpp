@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:32 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/17 17:38:11 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/20 18:11:04 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ namespace ft
     _leaf->_right = NULL;
     _leaf->_parent = NULL;
 	_leaf->_is_leaf = true;
+ 
+    _leaf_min = _leaf;
+    _leaf_max = _leaf;
     return;
   }
 
@@ -54,6 +57,8 @@ namespace ft
     delete_tree(this->_root); // desalouer et nno dilete
     // delete _leaf;                      /// desalouer et non delete
     _node_alloc.deallocate(_leaf, sizeof(node_type));
+// desalooc min max??
+	
     return;
   }
 
@@ -79,6 +84,9 @@ namespace ft
       _leaf->_left = NULL;
       _leaf->_right = NULL;
       _leaf->_parent = NULL;
+	  
+	  _leaf_min = _leaf;
+  	  _leaf_max = _leaf;
 
       copy_tree(rhs._root, *this);
     }
@@ -383,6 +391,17 @@ void RBT<Key, T, Compare, Allocator>::getAllocator( void )
       return (NULL);
 
     insert_balancing(new_node);
+//-------------------------------ici <==========================================
+	pt_node tmp;
+	tmp = maximum(_root);	
+	tmp->_right = _leaf_max;
+	_leaf_max->_parent = tmp;
+	
+	tmp = minimum(_root);	
+	tmp->_left = _leaf_min;
+	_leaf_min->_parent = tmp;
+
+=> ICI////////////////////////////////////////
     return(new_node);
   }
 
@@ -705,28 +724,24 @@ void RBT<Key, T, Compare, Allocator>::getAllocator( void )
   typename RBT<Key, T, Compare, Allocator>::iterator 
 	RBT<Key, T, Compare, Allocator>::begin(void)
   {
-    pt_node node;
 
-    if (this->empty())
-		  node = _leaf; // null? //-leaf??
-    else
-		  node = minimum(_root);
-	iterator ret(node);
-    return (ret);
+    // if (this->empty())
+		//   node = _leaf; // null? //-leaf??
+	
+	iterator ret(_leaf_min->_parent);
+	return ret;
   }
 
 template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::const_iterator 
 	RBT<Key, T, Compare, Allocator>::begin(void) const
 {
-    pt_node node;
+	iterator ret(_leaf_min->_parent);
+	return ret;
 
-    if (this->empty())
-    	node = _leaf; // null? //-leaf??
-    else
-		node = minimum(_root);
-		
-	const_iterator ret(node);
+    // if (this->empty())
+		//   node = _leaf; // null? //-leaf??
+	
     return (ret);
 }
 
@@ -736,19 +751,32 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator
 // last element in the map container. It does not point to any element, and thus 
 //shall not be dereferenced.
 // If the container is empty, this function returns the same as map::begin.
+
+// pb : prendre, comme node de fin, le maximum(_root)->right = leaf = or une fois ds LA leaf => impossiblde de 
+//remonter de 1 en utilisant les reverse iterator
+// template <class Key, class T, class Compare, class Allocator>
+// typename RBT<Key, T, Compare, Allocator>::iterator 
+// 	RBT<Key, T, Compare, Allocator>::end(void)
+// {
+// 	pt_node node;
+
+// 	if(_root == _leaf)
+// 		return (begin());
+
+// 	node = maximum(_root)->_right;
+// 	iterator ret(node);
+//     return (ret);			
+// }
+
 template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::iterator 
 	RBT<Key, T, Compare, Allocator>::end(void)
 {
-	pt_node node;
-
-	if(_root == _leaf)
-		return (begin());
-
-	node = maximum(_root)->_right;
-	iterator ret(node);
-    return (ret);			
+			
+	iterator ret(_leaf_max);
+	return ret;
 }
+
 
 template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::const_iterator 
@@ -756,37 +784,42 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator
 {
 	pt_node node;
 	
-	if(_root == _leaf)
-		return (begin());
-
-	node = maximum(_root)->_right;
+	node = _leaf_max;
 	const_iterator ret(node);
     return (ret);			
 }
 
+
+
 template <class Key, class T, class Compare, class Allocator>
-typename RBT<Key, T, Compare, Allocator>::reverse_iterator RBT<Key, T, Compare, Allocator>::rbegin(void)
+typename RBT<Key, T, Compare, Allocator>::reverse_iterator 
+	RBT<Key, T, Compare, Allocator>::rbegin(void)
 {
-	reverse_iterator ret(end());
+	reverse_iterator ret(_leaf_max->_parent); // reverse iterator effectue le -1  lorsque dereference
+	
+
 	return (ret);
 }
 
 template <class Key, class T, class Compare, class Allocator>
-typename RBT<Key, T, Compare, Allocator>::const_reverse_iterator RBT<Key, T, Compare, Allocator>::rbegin(void) const
+typename RBT<Key, T, Compare, Allocator>::const_reverse_iterator 
+	RBT<Key, T, Compare, Allocator>::rbegin(void) const
 {
 	const_reverse_iterator ret(end());
 	return (ret);
 }
 
 template <class Key, class T, class Compare, class Allocator>
-typename RBT<Key, T, Compare, Allocator>::reverse_iterator RBT<Key, T, Compare, Allocator>::rend(void)
+typename RBT<Key, T, Compare, Allocator>::reverse_iterator 
+	RBT<Key, T, Compare, Allocator>::rend(void)
 {
 	reverse_iterator ret(begin());
 	return (ret);
 }
 	
 template <class Key, class T, class Compare, class Allocator>
-typename RBT<Key, T, Compare, Allocator>::const_reverse_iterator RBT<Key, T, Compare, Allocator>::rend(void) const
+typename RBT<Key, T, Compare, Allocator>::const_reverse_iterator 
+	RBT<Key, T, Compare, Allocator>::rend(void) const
 {
 	const_reverse_iterator ret(begin());
 	return (ret);

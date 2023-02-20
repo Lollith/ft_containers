@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:48 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/17 17:36:25 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/20 15:38:43 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ namespace ft{
 		private:
 			pt_node										_root;
 			pt_node										_leaf;//TNULL _null_node
+			pt_node										_leaf_max;
+			pt_node										_leaf_min;
 			allocator_type								_alloc;
 			key_compare									_comp; //save  ma fonction de comparaison,
 			
