@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:48 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/20 15:38:43 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:15:36 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ namespace ft{
 
 		iterator			lower_bound( const key_type& k );
 		const_iterator		lower_bound( const key_type& k ) const;
-		iterator			upper_bound(const key_type& x);
-		const_iterator		upper_bound(const key_type& x) const;
+		iterator			upper_bound( const key_type& x );
+		const_iterator		upper_bound( const key_type& x ) const;
 		
 		mapped_type			&access_operator( const key_type& x );
 		mapped_type& 		at( const key_type& k );
@@ -108,12 +108,16 @@ namespace ft{
 	//--------------------------------------- operations -------------------------
 		
 		pt_node				insert_node( value_type pair_data );
+		pt_node				insert_node_position( value_type pair_data, iterator position );
+		iterator			insert_node_pos(iterator position, const value_type &value );
 		void				insert_balancing( pt_node new_node );
 
 		void				delete_helper( pt_node node, key_type key );
 		void				delete_node( key_type key );
 		
 		void				delete_balancing( pt_node x );
+
+		void				erase_node(iterator pos);
 
 
 	//---------------------------------------- tools----------------------------
@@ -126,7 +130,7 @@ namespace ft{
 		void				rightRotate( pt_node x );
 		void				leftRotate( pt_node x );
 		void				rbTransplant( pt_node u, pt_node v );
-		
+		void				replace_extremity( void );	
 
 	//----------------------------------iterator--------------------------------
 		

@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:32 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/20 18:11:04 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:23:53 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,42 @@ namespace ft
 
   template <class Key, class T, class Compare, class Allocator>
   RBT<Key, T, Compare, Allocator>::RBT(const Compare &comp, const allocator_type &alloc)
-  {
-    _alloc = alloc;
-    _comp = comp;
-    // _leaf = new node_type(); // ne pas utiliser new cf REBIND , +delete a revoir
-    _leaf = _node_alloc.allocate(sizeof(node_type));
-    
-    // _node_alloc.construct(_leaf, );//????
+{
+	_alloc = alloc;
+	_comp = comp;
+	// _leaf = new node_type(); // ne pas utiliser new cf REBIND , +delete a revoir
+	_leaf = _node_alloc.allocate(sizeof(node_type));
+	_leaf_max = _node_alloc.allocate(sizeof(node_type));
+	_leaf_min = _node_alloc.allocate(sizeof(node_type));
 
-    _leaf->_pair_data.first = 0; //utilisation constructeur rbt_node(0)???
-    _leaf->_pair_data.second = 0; //utilisation constructeur rbt_node(0)???
-    _node_alloc = node_allocator();
+	// _node_alloc.construct(_leaf, );//????
 
-    _root = _leaf;
+	_leaf->_pair_data.first = 0; //utilisation constructeur rbt_node(0)???
+	_leaf->_pair_data.second = 0; //utilisation constructeur rbt_node(0)???
+	_node_alloc = node_allocator();
 
-    // intialisation
-    _leaf->_color = BLACK;
-    _leaf->_left = NULL;
-    _leaf->_right = NULL;
-    _leaf->_parent = NULL;
+	_root = _leaf;
+
+	// intialisation
+	_leaf->_color = BLACK;
+	_leaf->_left = NULL;
+	_leaf->_right = NULL;
+	_leaf->_parent = NULL;
 	_leaf->_is_leaf = true;
- 
-    _leaf_min = _leaf;
-    _leaf_max = _leaf;
-    return;
+
+	_leaf_max->_color = BLACK;
+	_leaf_max->_left = NULL;
+	_leaf_max->_right = NULL;
+	_leaf_max->_parent = NULL;
+	_leaf_max->_is_leaf = true;
+
+	_leaf_min->_color = BLACK;
+	_leaf_min->_left = NULL;
+	_leaf_min->_right = NULL;
+	_leaf_min->_parent = NULL;
+	_leaf_min->_is_leaf = true;
+
+	return;
   }
 
   template <class Key, class T, class Compare, class Allocator>
@@ -57,6 +69,8 @@ namespace ft
     delete_tree(this->_root); // desalouer et nno dilete
     // delete _leaf;                      /// desalouer et non delete
     _node_alloc.deallocate(_leaf, sizeof(node_type));
+    _node_alloc.deallocate(_leaf_min, sizeof(node_type));
+    _node_alloc.deallocate(_leaf_max, sizeof(node_type));
 // desalooc min max??
 	
     return;
@@ -77,6 +91,8 @@ namespace ft
       _alloc = rhs._alloc;
       // _leaf = new node_type(); // ne pas utiliser NEW  +> cf rebind
       _leaf = _node_alloc.allocate(sizeof(node_type));
+    	_leaf_max = _node_alloc.allocate(sizeof(node_type));
+    	_leaf_min = _node_alloc.allocate(sizeof(node_type));
       _node_alloc = node_allocator();
       _root = _leaf;
       // intialisation car allocate a la place de new node
@@ -84,9 +100,19 @@ namespace ft
       _leaf->_left = NULL;
       _leaf->_right = NULL;
       _leaf->_parent = NULL;
+	  _leaf->_is_leaf = true;
 	  
-	  _leaf_min = _leaf;
-  	  _leaf_max = _leaf;
+	  _leaf_max->_color = BLACK;
+    _leaf_max->_left = NULL;
+    _leaf_max->_right = NULL;
+    _leaf_max->_parent = NULL;
+	_leaf_max->_is_leaf = true;
+    
+	_leaf_min->_color = BLACK;
+    _leaf_min->_left = NULL;
+    _leaf_min->_right = NULL;
+    _leaf_min->_parent = NULL;
+	_leaf_min->_is_leaf = true;
 
       copy_tree(rhs._root, *this);
     }
@@ -142,6 +168,8 @@ template <class Key, class T, class Compare, class Allocator>
 {
 	std::swap(_root, other._root);
 	std::swap(_leaf, other._leaf);
+	std::swap(_leaf_min, other._leaf_min);
+	std::swap(_leaf_max, other._leaf_max);
 	std::swap(_alloc, other._alloc);
 	std::swap(_comp, other._comp);
 }
@@ -171,6 +199,7 @@ RBT<Key, T, Compare, Allocator>::searchTreeHelper(pt_node node, Key k)
 		return searchTreeHelper(node->_left, k);
     return searchTreeHelper(node->_right, k);
 }
+
 template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::pt_node  // surcharge for count
 RBT<Key, T, Compare, Allocator>::searchTreeHelper(pt_node node, Key const k) const
@@ -358,8 +387,12 @@ void RBT<Key, T, Compare, Allocator>::getAllocator( void )
     new_node->_right = _leaf;
     new_node->_color = RED;
 	new_node->_is_leaf = false;
-	_leaf->_pair_data.first = size() + 1; /////////////// ICI LEAF = SIZE?????????????
+	_leaf_max->_pair_data.first = size() + 1;
+	_leaf_max->_pair_data.second = 0;
+	
+	_leaf->_pair_data.first = size() + 1; // defini le _leaf_min pour rend
 
+	
     pt_node parent = _leaf;
     pt_node find = this->_root;
     // find decend de root tant quil nest pas a leaf et trouve le parent
@@ -388,23 +421,92 @@ void RBT<Key, T, Compare, Allocator>::getAllocator( void )
     }
 
     if (new_node->_parent->_parent == _leaf)
-      return (NULL);
-
+	{
+		replace_extremity();
+    	return (NULL);
+	}
     insert_balancing(new_node);
-//-------------------------------ici <==========================================
-	pt_node tmp;
-	tmp = maximum(_root);	
-	tmp->_right = _leaf_max;
-	_leaf_max->_parent = tmp;
 	
-	tmp = minimum(_root);	
-	tmp->_left = _leaf_min;
-	_leaf_min->_parent = tmp;
-
-=> ICI////////////////////////////////////////
-    return(new_node);
+	replace_extremity();
+    
+	return(new_node);
   }
 
+
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::pt_node	
+	RBT<Key, T, Compare, Allocator>::insert_node_position( value_type pair_data, iterator position )
+{
+		 // pt_node new_node = new node_type(RED, NULL, _leaf, _leaf, pair_data) ;/// NEW => rebind
+    pt_node new_node = _node_alloc.allocate(sizeof(node_type));
+    // _node_alloc.construct(new_node, pair_data);
+    new_node->_pair_data.first = pair_data.first;
+    new_node->_pair_data.second = pair_data.second;
+    new_node->_parent = NULL;
+    new_node->_left = _leaf;
+    new_node->_right = _leaf;
+    new_node->_color = RED;
+	new_node->_is_leaf = false;
+	_leaf_max->_pair_data.first = size() + 1;
+	_leaf_max->_pair_data.second = 0;
+	
+	_leaf->_pair_data.first = size() + 1; // defini le _leaf_min pour rend
+
+	iterator tmp = position + 1;
+	while (!tmp.base()->_is_leaf && _comp(tmp.base()->_pair_data.first, pair_data.first))
+	{
+		++position;
+		++tmp;
+	}
+	if(_comp(position.base()->_pair_data.first, pair_data.first))
+		position = iterator(_root);
+		
+	pt_node parent = _leaf;
+    pt_node find = this->_root;
+    // find decend de root tant quil nest pas a leaf et trouve le parent
+    while (find != _leaf)
+    {
+      parent = find;
+      if (new_node->_pair_data.first < find->_pair_data.first)
+        find = find->_left;
+      else
+        find = find->_right;
+    }
+    // place le newnode apres le parent
+    new_node->_parent = parent;
+    if (parent == _leaf)
+    {
+      _root = new_node;
+      _root->_color = BLACK; // modif ici
+    }
+    else if (new_node->_pair_data.first < parent->_pair_data.first)
+    {
+      parent->_left = new_node;
+    }
+    else
+    {
+      parent->_right = new_node;
+    }
+
+    if (new_node->_parent->_parent == _leaf)
+	{
+		replace_extremity();
+    	return (NULL);
+	}
+    insert_balancing(new_node);
+	replace_extremity();
+	return(new_node);
+}
+
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::iterator RBT<Key, T, Compare, Allocator>::insert_node_pos(iterator position, const value_type &value )
+{
+	pt_node node_inserted;
+	node_inserted = insert_node_position(value, position);
+	iterator ret(node_inserted);
+	return ret;
+}
+	
   // 1. a fire jusauq ce que le parent du nouveau noeud soit RED
   template <class Key, class T, class Compare, class Allocator>
   void RBT<Key, T, Compare, Allocator>::insert_balancing(pt_node new_node)
@@ -540,9 +642,7 @@ void RBT<Key, T, Compare, Allocator>::getAllocator( void )
     // delete (to_find);
     _node_alloc.deallocate(to_find, sizeof(node_type));
     if (successor_original_color == 0)
-    {
-      delete_balancing(graft);
-    }
+    	delete_balancing(graft);
   }
 
   template <class Key, class T, class Compare, class Allocator>
@@ -619,6 +719,22 @@ void RBT<Key, T, Compare, Allocator>::getAllocator( void )
     x->_color = BLACK;
   }
 
+template <class Key, class T, class Compare, class Allocator>
+void  RBT<Key, T, Compare, Allocator>::erase_node(iterator pos)
+{
+	pt_node node_to_be_deleted = pos._current;
+	if (node_to_be_deleted->_left == _leaf_min)
+		_leaf_min->_parent = NULL;
+	if (node_to_be_deleted->_right == _leaf_max)
+		_leaf_max->_parent = NULL;
+
+	deleteNode(node_to_be_deleted->_pair_data.first);
+			
+	replace_extremity();
+
+			// --_node_count;
+}
+ 
   //---------------------------------------------tools----------------------------
   // raccroche l enfant de mon node a supprimer au parent du node
   // node->_parent = remonte le prent , _parent->_left => ancienne place de mon node , colle mon child
@@ -715,6 +831,28 @@ void RBT<Key, T, Compare, Allocator>::getAllocator( void )
     x->_parent = y;
   }
 
+  template <class Key, class T, class Compare, class Allocator>
+  void RBT<Key, T, Compare, Allocator>::replace_extremity( void )
+  {
+	pt_node tmp = minimum(_root);
+	if (_leaf_min->_parent)
+	{
+		if (_leaf_min->_parent->_left == _leaf_min)
+			_leaf_min->_parent->_left = _leaf;
+	}
+	tmp->_left = _leaf;
+	_leaf_min->_parent = tmp;
+		
+	tmp = maximum(_root);
+	if (_leaf_max->_parent)
+	{
+		if (_leaf_max->_parent->_right == _leaf_max)
+			_leaf_max->_parent->_right = _leaf;
+	}
+	tmp->_right = _leaf;
+	_leaf_max->_parent = tmp;
+  }
+
   //----------------------------------iterator--------------------------------
   // begin:Returns an iterator referring to the first element in the map container.
   // Because map containers keep their elements ordered at all times, begin points
@@ -724,11 +862,14 @@ void RBT<Key, T, Compare, Allocator>::getAllocator( void )
   typename RBT<Key, T, Compare, Allocator>::iterator 
 	RBT<Key, T, Compare, Allocator>::begin(void)
   {
+	pt_node node;
 
-    // if (this->empty())
-		//   node = _leaf; // null? //-leaf??
-	
-	iterator ret(_leaf_min->_parent);
+    if (this->empty())
+		node = _leaf_min; // null? //-leaf??
+	else	
+		node = _leaf_min->_parent;
+	// std::cout << node->_pair_data.first << std::endl;
+	iterator ret(node);
 	return ret;
   }
 
@@ -736,13 +877,15 @@ template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::const_iterator 
 	RBT<Key, T, Compare, Allocator>::begin(void) const
 {
-	iterator ret(_leaf_min->_parent);
-	return ret;
-
-    // if (this->empty())
-		//   node = _leaf; // null? //-leaf??
 	
-    return (ret);
+	pt_node node;
+ 
+    if (this->empty())
+		node = _leaf_min; // null? //-leaf??
+	else	
+		node = _leaf_min->_parent;
+	const_iterator ret(node);
+	return ret;
 }
 
 
@@ -782,10 +925,7 @@ template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::const_iterator 
 	RBT<Key, T, Compare, Allocator>::end(void) const
 {
-	pt_node node;
-	
-	node = _leaf_max;
-	const_iterator ret(node);
+	const_iterator ret(_leaf_max);
     return (ret);			
 }
 
@@ -795,9 +935,7 @@ template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::reverse_iterator 
 	RBT<Key, T, Compare, Allocator>::rbegin(void)
 {
-	reverse_iterator ret(_leaf_max->_parent); // reverse iterator effectue le -1  lorsque dereference
-	
-
+	reverse_iterator ret(end()); // reverse iterator effectue le -1  lorsque dereference
 	return (ret);
 }
 

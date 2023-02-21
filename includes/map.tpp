@@ -217,12 +217,29 @@ void map< K, T, C, A >::insert(InputIterator first, InputIterator last)
 		_tree.insert_node(*first);
 }
 
+template < typename K, typename T, typename C, typename A >
+typename map< K ,T ,C ,A >::iterator map< K ,T ,C ,A >::insert(iterator position, const value_type& value)
+{
+	iterator searched_key = find(value.first);
+	if (empty())
+		return (_tree.insert_node(value));
+	else if (!searched_key.base()->_is_leaf)
+		return (searched_key);
+	else
+		return (_tree.insert_node_pos(position, value));
+}
 
 template < typename Key, typename T, typename C, typename A >
 void map< Key ,T ,C ,A >::swap(map<Key,T,C,A>&other)
 {
 	_tree.swap(other._tree);
 }
+
+//erase
+// Removes from the map container either a single element or a range of elements ([first,last)).
+// This effectively reduces the container size by the number of elements removed,
+// which are destroyed.
+
 
 //-----------------------observers----------------------------------------------
 template < typename Key, typename T, typename C, typename A >

@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 13:26:25 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/20 13:51:32 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/21 15:28:20 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ class reverse_iterator : public std::iterator <typename iterator_traits<Iterator
 
 //----------------------------------------non mber------------------------------	
 	template < typename Iterator1, typename Iterator2 >
-	bool operator==(const reverse_iterator<Iterator1>& x, 
+	bool operator==( const reverse_iterator<Iterator1>& x, 
 		const reverse_iterator<Iterator2>& y);
 	
 	template < typename Iterator1, typename Iterator2 >
-	bool operator<(const reverse_iterator<Iterator1>& x, 
+	bool operator<( const reverse_iterator<Iterator1>& x, 
 		const reverse_iterator<Iterator2>& y);
 	
 	template < typename Iterator1, typename Iterator2 >
@@ -74,23 +74,23 @@ class reverse_iterator : public std::iterator <typename iterator_traits<Iterator
 		const reverse_iterator<Iterator2>& y);
 	
 	template < typename Iterator1, typename Iterator2 >
-	bool operator>(const reverse_iterator<Iterator1>& x, 
+	bool operator>( const reverse_iterator<Iterator1>& x, 
 		const reverse_iterator<Iterator2>& y);
 
 	template < typename Iterator1, typename Iterator2 >
-	bool operator>=(const reverse_iterator<Iterator1>& x, 
+	bool operator>=( const reverse_iterator<Iterator1>& x, 
 		const reverse_iterator<Iterator2>& y);
 
 	template < typename Iterator1, typename Iterator2 >
-	bool operator<=(const reverse_iterator<Iterator1>& x, 
+	bool operator<=( const reverse_iterator<Iterator1>& x, 
 		const reverse_iterator<Iterator2>& y);
 
 	template < typename Iterator1, typename Iterator2 >
-	typename reverse_iterator<Iterator1>::difference_type operator-(const reverse_iterator<Iterator1>& x, 
+	typename reverse_iterator<Iterator1>::difference_type operator-( const reverse_iterator<Iterator1>& x, 
 		const reverse_iterator<Iterator2>& y);
 
-	template <class Iterator>
-	reverse_iterator<Iterator> operator+(typename reverse_iterator<Iterator>::difference_type n, 
+	template < class Iterator >
+	reverse_iterator<Iterator> operator+( typename reverse_iterator<Iterator>::difference_type n, 
 		const reverse_iterator<Iterator>& x);
 
 	

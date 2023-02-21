@@ -6,12 +6,12 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 11:14:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/20 16:24:26 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:24:24 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "map.hpp" // a modif pour makefile
-#include <map>
+# include <map>
 
 #define TEST_MAX_SIZE 0 //  a passer sur 1 pour lancer le test
 
@@ -80,11 +80,12 @@ void test_begin_end ()
 {
 	NAME_USE::map< int, int > mymap;
 	mymap.insert ( NAME_USE::pair<int,int>(10,100) );
-	mymap.insert ( NAME_USE::pair<int,int>(8,5) );
+	mymap.insert ( NAME_USE::pair<int,int>(3,5) );
 	mymap.insert ( NAME_USE::pair<int,int>(5,20) );
 	std::cout << mymap.size()<< std::endl;
 	NAME_USE::map<int,int>::iterator  it1;
 	NAME_USE::map<int,int>::iterator  itend;
+	NAME_USE::map<int,int>::reverse_iterator  itr2;
 	
 	it1 = mymap.begin();
 	std::cout << "begin "<<it1->first << " - ";
@@ -100,43 +101,53 @@ void test_begin_end ()
 	std::cout << itr->second << std::endl;
 
 	
+	itr2 = mymap.rend();
+	std::cout << "rend "<<itr2->first << " - ";
+	std::cout << itr2->second << std::endl;
 	
 }
 
-// void test_insert()
-// {
-// 	NAME_USE::map< int, int > mymap;
-// 	NAME_USE::map<int,int>::iterator  it1;
-// 	NAME_USE::map<int,int>::iterator  itend;
+void test_insert()
+{
+	NAME_USE::map< int, int > mymap;
+	NAME_USE::map<int,int>::iterator  it1;
+	NAME_USE::map<int,int>::iterator  itend;
 	
-// 	mymap.insert ( NAME_USE::pair<int,int>(4,100) );
-// 	mymap.insert ( NAME_USE::pair<int,int>(0,100) );
-// 	mymap.insert ( NAME_USE::pair<int,int>(10,10) );
-// 	it1 = mymap.begin();
-// 	itend = mymap.end();
-// 	std::cout << "INSERT " << std::endl;	
-// 	std::cout << "begin "<<it1->first << " - ";
-// 	std::cout << it1->second << std::endl;
-// 	std::cout << "end "<<itend->first << " - ";
-// 	std::cout << itend->second << std::endl;
-// 	std::cout << mymap[4] << std::endl;
-// 	std::cout << mymap[0] << std::endl;
-// 	std::cout << mymap[10] << std::endl;
+	mymap.insert ( NAME_USE::pair<int,int>(4,100) );
+	mymap.insert ( NAME_USE::pair<int,int>(0,100) );
+	mymap.insert ( NAME_USE::pair<int,int>(10,10) );
+	it1 = mymap.begin();
+	itend = mymap.end();
+	std::cout << "INSERT " << std::endl;	
+	std::cout << "begin "<<it1->first << " - ";
+	std::cout << it1->second << std::endl;
+	std::cout << "end "<<itend->first << " - ";
+	std::cout << itend->second << std::endl;
+	std::cout << mymap[4] << std::endl;
+	std::cout << mymap[0] << std::endl;
+	std::cout << mymap[10] << std::endl;
 
-// // third insert function version (range insertion):
-//  	NAME_USE::map<char,int> mymap1;
-// 	NAME_USE::map<char,int>::iterator it = mymap1.begin();
-// 	NAME_USE::map<char,int> anothermap;
-//   	anothermap.insert(mymap1.begin(),mymap1.find('c'));
+ 	NAME_USE::map<char,int> mymap1;
+// second insert function version (with hint position):
+  NAME_USE::map<char,int>::iterator it;
+  it = mymap1.begin();
+  mymap1.insert (it, NAME_USE::pair<char,int>('b',300));  // max efficiency inserting
+  mymap1.insert (it, NAME_USE::pair<char,int>('c',400));  // no max efficiency inserting
 
-// 	std::cout << "mymap contains:\n";
-// 	for (it=mymap1.begin(); it!=mymap1.end(); ++it)
-//  	std::cout << it->first << " => " << it->second << '\n';
+	NAME_USE::map<char,int> anothermap;
+  	anothermap.insert(mymap1.begin(),mymap1.find('c'));
 
-//   	std::cout << "anothermap contains:\n";
-//   	for (it=anothermap.begin(); it!=anothermap.end(); ++it)
-//     std::cout << it->first << " => " << it->second << '\n';
-// }
+	std::cout << "mymap contains:\n";
+	for (it=mymap1.begin(); it!=mymap1.end(); ++it)
+ 	std::cout << it->first << " => " << it->second << '\n';
+
+  	std::cout << "anothermap contains:\n";
+  	for (it=anothermap.begin(); it!=anothermap.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
+
+
+
+}
 
 void test_find()
 {
@@ -222,72 +233,77 @@ void test_value_comp()
   while ( mymap.value_comp()(*it++, highest) );
 }
 
-// void test_swap()
-// {
-// 	NAME_USE::map<char,int> foo,bar;
+void test_swap()
+{
+	NAME_USE::map<char,int> foo,bar;
 
-//   foo['x']=100;
-//   foo['y']=200;
+  foo['x']=100;
+  foo['y']=200;
 
-//   bar['a']=11;
-//   bar['b']=22;
-//   bar['c']=33;
+  bar['a']=11;
+  bar['b']=22;
+  bar['c']=33;
 
-//   foo.swap(bar);
+  foo.swap(bar);
 
-//   std::cout << "foo contains:\n";
-//   for (NAME_USE::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
-//     std::cout << it->first << " => " << it->second << '\n';
+  std::cout << "foo contains:\n";
+  for (NAME_USE::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
 
-//   std::cout << "bar contains:\n";
-//   for (NAME_USE::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
-//     std::cout << it->first << " => " << it->second << '\n';
-// }
+  std::cout << "bar contains:\n";
+  for (NAME_USE::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
+}
 
-// void test_equal()
-// {
-//   NAME_USE::map<char,int> mymap;
+void test_equal()
+{
+  NAME_USE::map<char,int> mymap;
 
-//   mymap['a']=10;
-//   mymap['b']=20;
-//   mymap['c']=30;
+  mymap['a']=10;
+  mymap['b']=20;
+  mymap['c']=30;
 
-//   NAME_USE::pair<std::map<char,int>::iterator,std::map<char,int>::iterator> ret;
-//   ret = mymap.equal_range('b');
+  NAME_USE::pair<NAME_USE::map<char,int>::iterator,NAME_USE::map<char,int>::iterator> ret;
+  ret = mymap.equal_range('b');
 
-//   std::cout << "lower bound points to: ";
-//   std::cout << ret.first->first << " => " << ret.first->second << '\n';
+  std::cout << "lower bound points to: ";
+  std::cout << ret.first->first << " => " << ret.first->second << '\n';
 
-//   std::cout << "upper bound points to: ";
-//   std::cout << ret.second->first << " => " << ret.second->second << '\n';
+  std::cout << "upper bound points to: ";
+  std::cout << ret.second->first << " => " << ret.second->second << '\n';
 
-// }
+}
 
 
 int main()
 { // OK
 	// test_capacity();
-	test_begin_end();
+	// test_begin_end();
 	// test_access();
 	// test_find();
 	// test_bound();
-
-
-
-
-	// ne marche pas
-	// test_value_comp();    // 1.debugger rbegin deja <<===================
- 							//2. rbegin avec un delete	
-	//ne compile pas
+	// test_value_comp();  
 	// test_swap();
 	// test_equal();	
 	// test_insert();
+
+// a retester
+
+
+	// ne marche pas
+	
+	// NAME_USE::map<char,int>::iterator it = mymap1.begin();
+	
+	
+	//ne compile pas
 	
 	
 	
 // a tester  + finir avant : constructors	
-// manque 1 insert
-//3 erases
+//2. rbegin avec un delete	
+//3 erasesi => erase node cree
+
+// check size pour tout les test
 	return 0;
 	
 }

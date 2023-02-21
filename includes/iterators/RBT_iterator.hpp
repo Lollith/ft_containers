@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:17:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/17 13:18:15 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/21 16:21:48 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ struct RBT_const_iterator; // car present ds ma structure RBT_iterator => ne mar
 //____________________________________________________________________________//
 //____________________________________RBT_it__________________________________//
 template <class Key, class T>
-	struct RBT_iterator
-	{
-		typedef ft::pair<  Key, T > 						value_type; //const key
+struct RBT_iterator
+{
+		typedef ft::pair< Key, T > 							value_type; //const key
 		typedef value_type 									&reference;
 		typedef value_type 									*pointer;
 
@@ -68,28 +68,23 @@ template <class Key, class T>
 		iterator operator+( difference_type n ) const;
 		iterator operator-( difference_type n ) const;
 		
-		// friend bool operator==( const iterator &lhs, const iterator &rhs );
-		// friend bool operator==( const iterator &lhs, const const_iterator &rhs );
-		// friend bool operator!=( const iterator &lhs, const  iterator &rhs );
-		// friend bool operator!=( const iterator &lhs, const const_iterator &rhs );
-
 	};
 	
 	template < class Key, class T >
-	inline bool operator==(const typename RBT_iterator< Key, T>::iterator &lhs, 
-		const typename RBT_iterator< Key, T>::iterator &rhs);
+	inline bool operator==(const RBT_iterator< Key, T> &lhs, 
+		const RBT_iterator< Key, T> &rhs);
 
 	template < class Key, class T >
-	inline bool operator==( const typename RBT_iterator< Key, T>::iterator &lhs, 
-		const typename RBT_const_iterator< Key, T>::const_iterator &rhs );
+	inline bool operator==( const RBT_iterator< Key, T> &lhs, 
+		const RBT_const_iterator< Key, T> &rhs );
 
 	template < class Key, class T >
-	inline bool operator!=( const typename RBT_iterator< Key, T>::iterator &lhs, 
-		const typename RBT_iterator< Key, T>::iterator &rhs );
+	inline bool operator!=( const RBT_iterator< Key, T> &lhs, 
+		const RBT_iterator< Key, T> &rhs );
 
 	template < class Key, class T >
-	inline bool operator!=( const typename RBT_iterator< Key, T>::iterator &lhs, 
-		const typename RBT_const_iterator< Key, T>::const_iterator &rhs );
+	inline bool operator!=( const RBT_iterator< Key, T> &lhs, 
+		const RBT_const_iterator< Key, T>  &rhs );
 		
 		
 //____________________________________________________________________________//
@@ -134,29 +129,24 @@ template <class Key, class T>
 		const_iterator operator--( int );
 		const_iterator operator+( difference_type n ) const;
 		const_iterator operator-( difference_type n ) const;
-		
-	// friend bool operator==( const const_iterator &lhs, const const_iterator &rhs );
-	// friend bool operator==( const const_iterator &lhs, const iterator &rhs );
-	// friend bool operator!=( const const_iterator &lhs, const const_iterator &rhs );
-	// friend bool operator!=( const const_iterator &lhs, const iterator &rhs );
 
 	};
 
 	template < class Key, class T >
-	bool operator==(const typename RBT_const_iterator< Key, T>::const_iterator &lhs, 
-		const typename RBT_const_iterator< Key, T>::const_iterator &rhs);
+	bool operator==(const RBT_const_iterator< Key, T> &lhs, 
+		const RBT_const_iterator< Key, T> &rhs);
 
 	template < class Key, class T >
-	bool operator==( const typename RBT_const_iterator< Key, T>::const_iterator &lhs, 
-		const typename RBT_iterator< Key, T>::iterator &rhs );
+	bool operator==( const RBT_const_iterator< Key, T> &lhs, 
+		const RBT_iterator< Key, T> &rhs);
 
 	template < class Key, class T >
-	bool operator!=( const typename RBT_const_iterator< Key, T>::const_iterator &lhs, 
-		const typename RBT_const_iterator< Key, T>::const_iterator &rhs );
+	bool operator!=( const RBT_const_iterator< Key, T> &lhs, 
+		const RBT_const_iterator< Key, T> &rhs );
 
 	template < class Key, class T >
-	bool operator!=( const typename RBT_const_iterator< Key, T>::const_iterator &lhs, 
-		const typename RBT_iterator< Key, T>::iterator &rhs );
+	bool operator!=( const RBT_const_iterator< Key, T> &lhs, 
+		const RBT_iterator< Key, T> &rhs );
 
 		
 //-------------------------------------no member:helper-------------------------
@@ -178,77 +168,6 @@ template <class Key, class T>
 
 	template <class Key, class T>
 	RBT_node<Key, T> *rb_tree_decrement( const RBT_node<Key, T> *pt_node );
-
-
-
-
-
-
-//---------------------------------------------operator-------------------------
-// template < class Key, class T >
-// bool operator==(const typename RBT_iterator< Key, T>::iterator &lhs, 
-// 	const typename RBT_iterator< Key, T>::iterator &rhs)
-// {
-// 	if (lhs.base()->_is_leaf && rhs.base()->_is_leaf)
-// 		return true;
-// 	return lhs.pt_node == rhs.pt_node;
-// }
-
-// template < class Key, class T >
-// bool operator==( const typename RBT_iterator< Key, T>::iterator &lhs, 
-// 	const typename RBT_iterator< Key, T>::const_iterator &rhs )
-// {
-// 	if (lhs.base()->_is_leaf && rhs.base()->_is_leaf)
-// 		return true;
-// 	return lhs.pt_node == rhs.pt_node;
-// }
-
-// template < class Key, class T >
-// bool operator!=( const typename RBT_iterator< Key, T>::iterator &lhs, 
-// 	const typename RBT_iterator< Key, T>::iterator &rhs )
-// {
-// 	return !(lhs == rhs);
-// }
-
-// template < class Key, class T >
-// bool operator!=( const typename RBT_iterator< Key, T>::iterator &lhs, 
-// 	const typename RBT_const_iterator< Key, T>::const_iterator &rhs )
-// {
-// 	return !(lhs == rhs);
-// }
-	
-			
-// template < class Key, class T >
-// bool operator==( const typename RBT_const_iterator< Key, T>::const_iterator &lhs,
-// 	const typename RBT_const_iterator< Key, T>::const_iterator &rhs )
-// {
-// 	if (lhs.base()->_is_leaf && rhs.base()->_is_leaf)
-// 		return true;
-// 	return lhs.pt_node == rhs.pt_node;
-// }
-
-// template < class Key, class T >
-// bool operator==( const typename RBT_const_iterator< Key, T>::const_iterator &lhs, 
-// 	const typename RBT_const_iterator< Key, T>::iterator &rhs )
-// {
-// 	if (lhs.base()->_is_leaf && rhs.base()->_is_leaf)
-// 		return true;
-// 	return lhs.pt_node == rhs.pt_node;
-// }
-
-// template < class Key, class T >
-// bool operator!=( const typename RBT_const_iterator< Key, T>::const_iterator &lhs, 
-// 	const typename RBT_const_iterator< Key, T>::const_iterator &rhs )
-// {
-// 	return !(lhs == rhs);
-// }
-
-// template < class Key, class T >
-// bool operator!=( const typename RBT_const_iterator< Key, T>::const_iterator &lhs, 
-// 	const typename RBT_const_iterator< Key, T>::iterator &rhs )
-// {
-// 	return !(lhs == rhs);
-// }
 
 
 }//ft

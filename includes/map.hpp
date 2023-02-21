@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/20 13:12:20 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:12:16 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,14 +141,14 @@ class map {
 
 			//------------------------modifier----------------------------------
 		pair<iterator, bool>	insert( const value_type& k );
-	// iterator insert(iterator position, const value_type& k);
+		iterator				insert(iterator position, const value_type& k);
 
 		template <class InputIterator>
 		void 					insert(InputIterator first, InputIterator last);
 
-// void erase(iterator position);
-// size_type erase(const key_type& x);
-// void erase(iterator first, iterator last);
+		// void					erase(iterator position);
+		// size_type 			erase(const key_type& x);
+		// void 				erase(iterator first, iterator last);
 
 	void 						swap( map &other );
 	void 						clear( void );
@@ -182,7 +182,7 @@ bool 	operator==(const map<Key,T,Compare,Allocator>& x,
 const map<Key,T,Compare,Allocator>& y);
 
 template <class Key, class T, class Compare, class Allocator>
-bool 	operator< (const map<Key,T,Compare,Allocator>& x,
+bool 	operator<(const map<Key,T,Compare,Allocator>& x,
 const map<Key,T,Compare,Allocator>& y);
 
 template <class Key, class T, class Compare, class Allocator>
