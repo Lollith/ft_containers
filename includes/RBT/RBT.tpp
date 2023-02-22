@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:32 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/22 14:22:43 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/22 18:12:42 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,10 @@ namespace ft
 	_leaf_max = _node_alloc.allocate(sizeof(node_type));
 	_leaf_min = _node_alloc.allocate(sizeof(node_type));
 
-	// _node_alloc.construct(_leaf, );//????
+	_node_alloc.construct(_leaf, pair<Key, T>(0,0) );//????
+	_node_alloc.construct(_leaf_min, pair<Key, T>(0,0) );//????
+	_node_alloc.construct(_leaf_max, pair<Key, T>(0,0) );//????
 
-	_leaf->_pair_data.first = 0; //utilisation constructeur rbt_node(0)???
-	_leaf->_pair_data.second = 0; //utilisation constructeur rbt_node(0)???
-	_leaf_min->_pair_data.first = 0; //utilisation constructeur rbt_node(0)???
-	_leaf_min->_pair_data.second = 0; //utilisation constructeur rbt_node(0)???
-	_leaf_max->_pair_data.first = 0; //utilisation constructeur rbt_node(0)???
-	_leaf_max->_pair_data.second = 0; //utilisation constructeur rbt_node(0)???
 	_node_alloc = node_allocator();
 
 	_root = _leaf;

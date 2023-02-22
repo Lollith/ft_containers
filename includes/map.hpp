@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/22 14:12:42 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/22 17:54:55 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ class map {
 //------------------------------------intern class-------------------------------
 		// class interne value_comp :Returns a comparison object that can be used to compare 
 		// two elements to get whether the key of the first one goes before the second.
-		class value_compare : public std::binary_function<value_type,value_type,bool>
+		class value_compare : public std::binary_function<value_type, value_type, bool>
 		{
 			 friend class map; // peut utiliser tous les membres privees ou proteges de map ??
 
