@@ -41,6 +41,9 @@ map<K, T, C, A>::map(typename ft::enable_if< !ft::is_integral< InputIterator> ::
 template < typename K, typename T, typename C, typename A >
 map<K, T, C, A>::map( const map &copy )
 {
+	for (const_iterator it = copy.begin(); it != copy.end(); ++it) {
+				_tree._insert_node(*it);
+			}
 	*this = copy;
 }
 
@@ -48,11 +51,10 @@ map<K, T, C, A>::map( const map &copy )
 // allocated by the map container using its allocator.
 template < typename K, typename T, typename C, typename A >
 map< K, T, C, A >::~map( void )
-{// ???????????????????????????????
+{
 	clear();
 	//deallocate
 }
-
 
 //------------------------------operator=---------------------------
 
@@ -63,6 +65,10 @@ map< K, T, C, A> &map< K, T, C, A>::operator=( const map &rhs ){
 		clear();//The elements stored in the container before the call are either assigned to or destroyed.
 		this->_alloc= rhs._alloc;
 		this->_comp = rhs._comp;
+		for (const_iterator it = rhs.begin(); it != rhs.end(); ++it) 
+		{
+				_tree._insert_node(*it);
+		}
 		//insert
 	}
 	return (*this);
@@ -239,6 +245,41 @@ void map< Key ,T ,C ,A >::swap(map<Key,T,C,A>&other)
 // Removes from the map container either a single element or a range of elements ([first,last)).
 // This effectively reduces the container size by the number of elements removed,
 // which are destroyed.
+template < typename Key, typename T, typename C, typename A >
+void  map< Key ,T ,C ,A >::erase(iterator position)
+{
+	_tree.erase_node(position);
+}
+
+template < typename Key, typename T, typename C, typename A >
+typename map< Key ,T ,C ,A >::size_type map< Key ,T ,C ,A >::erase(const key_type& key)
+{
+	iterator searched_key = find(key);
+	if (empty())
+		return (0);
+	else if (!searched_key.base()->_is_leaf)
+	{
+		erase(searched_key);
+		return(1);
+	}
+	else
+		return 0;
+}
+
+template < typename Key, typename T, typename C, typename A >
+void  map< Key ,T ,C ,A >::erase(iterator first, iterator last)
+{
+	iterator tmp;
+	iterator it = first;
+
+	while (it != last)
+	{
+		tmp = it + 1;
+		erase (it);
+		it = tmp;
+	}
+}
+
 
 
 //-----------------------observers----------------------------------------------

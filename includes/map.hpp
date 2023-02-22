@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/21 18:12:16 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/22 14:12:42 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,9 @@ class map {
 		InputIterator>::type first, InputIterator last, const key_compare& comp = key_compare(), 
 		const allocator_type& alloc = allocator_type());
 // //copy (3)	
-								map(const map &cpy);
-								~map( void );
+		map(const map &cpy);
+		
+		~map( void );
 
 
 			//------------------------------operator=---------------------------
@@ -146,9 +147,9 @@ class map {
 		template <class InputIterator>
 		void 					insert(InputIterator first, InputIterator last);
 
-		// void					erase(iterator position);
-		// size_type 			erase(const key_type& x);
-		// void 				erase(iterator first, iterator last);
+		void					erase(iterator position);
+		size_type 				erase(const key_type& x);
+		void 					erase(iterator first, iterator last);
 
 	void 						swap( map &other );
 	void 						clear( void );

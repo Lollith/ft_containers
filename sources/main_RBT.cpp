@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:46:37 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/16 15:40:16 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/22 11:11:29 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,12 @@ int main()
 	ft::RBT<int, int> rbt12;
 	rbt12.insert_node(ft::pair< int, int>(9,3));
 	rbt12.insert_node(ft::pair< int, int>(4,3));
-	itlow = rbt12.lower_bound(100);
+	rbt12.insert_node(ft::pair< int, int>(6,3));
+	itlow = rbt12.lower_bound(3);
+	rbt12.delete_node(4);
+	
+	it1= rbt12.find (9);
+	rbt12.erase_node(it1);
 	
 	return 0;
 	

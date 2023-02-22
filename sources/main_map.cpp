@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 11:14:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/21 18:24:24 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/22 14:23:25 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,9 +274,49 @@ void test_equal()
 
 }
 
+void test_erase()
+{
+	NAME_USE::map<char,int> mymap;
+  	NAME_USE::map<char,int>::iterator it;
+  	NAME_USE::map<char,int>::reverse_iterator itr;
+  	NAME_USE::map<char,int>::reverse_iterator itr2;
+
+//   insert some values:
+	mymap['a']=10;
+	mymap['b']=20;
+	mymap['c']=30;
+	mymap['d']=40;
+	mymap['e']=50;
+	mymap['f']=60;
+
+	it=mymap.find('b');
+	mymap.erase (it);                   // erasing by iterator
+
+	mymap.erase ('c');                  // erasing by key
+
+	it=mymap.find ('e');
+	mymap.erase ( it, mymap.end() );    // erasing by range
+
+//   show content:
+	for (it=mymap.begin(); it!=mymap.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+	std::cout <<"size "<< mymap.size()<< std::endl;
+	
+	itr = mymap.rbegin();
+	std::cout << "rbegin "<<itr->first << " - ";
+	std::cout << itr->second << std::endl;
+
+	itr2 = mymap.rend();
+	std::cout << "rend "<<itr2->first << " - ";
+	std::cout << itr2->second << std::endl;
+}
 
 int main()
 { // OK
+	NAME_USE::map<char,int> mymap;
+	NAME_USE::map<char,int>::iterator it = mymap.begin();
+	std::cout << it->first << " => " << it->second << '\n';
+
 	// test_capacity();
 	// test_begin_end();
 	// test_access();
@@ -286,22 +326,19 @@ int main()
 	// test_swap();
 	// test_equal();	
 	// test_insert();
+	// test_erase();
 
 // a retester
 
 
 	// ne marche pas
 	
-	// NAME_USE::map<char,int>::iterator it = mymap1.begin();
 	
 	
 	//ne compile pas
 	
 	
 	
-// a tester  + finir avant : constructors	
-//2. rbegin avec un delete	
-//3 erasesi => erase node cree
 
 // check size pour tout les test
 	return 0;

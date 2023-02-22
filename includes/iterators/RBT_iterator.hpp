@@ -6,14 +6,15 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:17:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/21 16:21:48 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/22 10:23:11 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RBT_ITERATOR_HPP
 #define RBT_ITERATOR_HPP
 
-#include "RBT_node.hpp"
+// #include "RBT_node.hpp"
+#include "../RBT/RBT_node.hpp"
 
 namespace ft{
 // ietrator = adresse dun noeud=> me deplace de noeud en noeud, sachnt que 
