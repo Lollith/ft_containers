@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 11:14:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/22 14:23:25 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/22 14:54:30 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,30 +317,17 @@ int main()
 	NAME_USE::map<char,int>::iterator it = mymap.begin();
 	std::cout << it->first << " => " << it->second << '\n';
 
-	// test_capacity();
-	// test_begin_end();
-	// test_access();
-	// test_find();
-	// test_bound();
-	// test_value_comp();  
-	// test_swap();
-	// test_equal();	
-	// test_insert();
-	// test_erase();
+	test_capacity();
+	test_begin_end();
+	test_access();
+	test_find();
+	test_bound();
+	test_value_comp();  
+	test_swap();
+	test_equal();	
+	test_insert();
+	test_erase();
 
-// a retester
-
-
-	// ne marche pas
-	
-	
-	
-	//ne compile pas
-	
-	
-	
-
-// check size pour tout les test
 	return 0;
 	
 }

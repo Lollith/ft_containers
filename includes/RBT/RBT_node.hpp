@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:24 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/22 10:19:36 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/22 14:57:22 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 
 #include <memory>
 #include <iostream>
-// #include "pair.hpp"
-// #include "make_pair.hpp"
-# include "../utils/make_pair.hpp" // a modif
-# include "../utils/pair.hpp" // a modif
+#include "pair.hpp"
+#include "make_pair.hpp"
 
 namespace ft {
 	

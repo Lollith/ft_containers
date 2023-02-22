@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:04 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/17 12:46:36 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/22 15:02:04 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include <iostream>
 # include <memory> //class Allocator
-# include "iterator_traits.hpp" //iterator/
-# include "reverse_iterator.hpp" //iterator/
+# include "iterator_traits.hpp"
+# include "reverse_iterator.hpp"
 # include "is_integral.hpp"
 # include "enable_if.hpp"
 # include "equal.hpp"

@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 13:26:42 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/20 15:02:06 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/22 14:53:04 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ template < typename Iterator >
 reverse_iterator<Iterator>::reverse_iterator(): _current(){}
 
 template < typename Iterator >
-reverse_iterator<Iterator>::reverse_iterator(iterator_type it): _current(it.base()){}
+reverse_iterator<Iterator>::reverse_iterator(iterator_type it): _current(it){}
 
 
 template < typename Iterator >
 template <class U> 
 reverse_iterator<Iterator>::reverse_iterator(const reverse_iterator<U>& u): _current(u.base()){}
 
-template < typename Iterator >
-reverse_iterator<Iterator>::reverse_iterator( pointer ptr ): _current( ptr ) {}
+// template < typename Iterator >
+// reverse_iterator<Iterator>::reverse_iterator( pointer ptr ): _current( ptr ) {}
 
 template < typename Iterator >
 template < class U > 

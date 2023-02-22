@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 13:26:25 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/21 15:28:20 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/22 14:53:06 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ class reverse_iterator : public std::iterator <typename iterator_traits<Iterator
 									reverse_iterator( void );
 		explicit 					reverse_iterator( Iterator it );
 		template < class U > 		reverse_iterator( const reverse_iterator<U>& u );
-		explicit 					reverse_iterator( pointer ptr );
+		// explicit 					reverse_iterator( pointer ptr );
 		template < class U > 		reverse_iterator &operator=( const reverse_iterator<U> &other);
 		
 //----------------------------------------mber----------------------------------	

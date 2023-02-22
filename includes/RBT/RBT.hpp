@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:48 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/22 10:43:36 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/22 14:58:01 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,10 @@
 # include <memory>
 # include <iostream>
 # include <functional> // std::less
-// # include "RBT_node.hpp"
-#include "../RBT/RBT_node.hpp"
-// # include "RBT_iterator.hpp"
-# include "../iterators/RBT_iterator.hpp"
-// # include "pair.hpp"
-#include "../utils/pair.hpp"
-// # include "reverse_iterator.hpp"
-# include "../iterators/reverse_iterator.hpp"
+# include "RBT_node.hpp"
+# include "RBT_iterator.hpp"
+# include "pair.hpp"
+# include "reverse_iterator.hpp"
 
 //https://www.programiz.com/dsa/red-black-tree
 // Compare et Allocator = default envoye par map
