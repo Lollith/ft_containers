@@ -41,9 +41,10 @@ map<K, T, C, A>::map(typename ft::enable_if< !ft::is_integral< InputIterator> ::
 template < typename K, typename T, typename C, typename A >
 map<K, T, C, A>::map( const map &copy )
 {
-	for (const_iterator it = copy.begin(); it != copy.end(); ++it) {
-				_tree._insert_node(*it);
-			}
+				this->insert(copy.begin(), copy.end());
+	// for (const_iterator it = copy.begin(); it != copy.end(); ++it) {
+	// 			_tree.insert_node(*it);
+	// 		}
 	*this = copy;
 }
 
@@ -65,11 +66,10 @@ map< K, T, C, A> &map< K, T, C, A>::operator=( const map &rhs ){
 		clear();//The elements stored in the container before the call are either assigned to or destroyed.
 		this->_alloc= rhs._alloc;
 		this->_comp = rhs._comp;
-		for (const_iterator it = rhs.begin(); it != rhs.end(); ++it) 
-		{
-				_tree._insert_node(*it);
-		}
-		//insert
+		// for (const_iterator it = rhs.begin(); it != rhs.end(); ++it) 
+		// {
+				this->insert(rhs.begin(), rhs.end());
+		// }
 	}
 	return (*this);
 }

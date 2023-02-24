@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:32 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/22 18:12:42 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/24 10:26 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ namespace ft
 	_leaf_max = _node_alloc.allocate(sizeof(node_type));
 	_leaf_min = _node_alloc.allocate(sizeof(node_type));
 
-	_node_alloc.construct(_leaf, pair<Key, T>(0,0) );//????
-	_node_alloc.construct(_leaf_min, pair<Key, T>(0,0) );//????
-	_node_alloc.construct(_leaf_max, pair<Key, T>(0,0) );//????
+	_node_alloc.construct(_leaf, pair<Key, T>(0,0) );
+	_node_alloc.construct(_leaf_min, pair<Key, T>(0,0) );
+	_node_alloc.construct(_leaf_max, pair<Key, T>(0,0) );
 
 	_node_alloc = node_allocator();
 
@@ -373,19 +373,18 @@ typename RBT<Key, T, Compare, Allocator>::pt_node
 {
     // pt_node new_node = new node_type(RED, NULL, _leaf, _leaf, pair_data) ;/// NEW => rebind
     pt_node new_node = _node_alloc.allocate(sizeof(node_type));
-    // _node_alloc.construct(new_node, pair_data);
-	new_node->_pair_data.first = pair_data.first;
-	new_node->_pair_data.second = pair_data.second;
+	_node_alloc.construct(new_node, pair<Key, T>(pair_data.first, pair_data.second) );
+	
 	new_node->_parent = NULL;
 	new_node->_left = _leaf;
 	new_node->_right = _leaf;
 	new_node->_color = RED;
 	new_node->_is_leaf = false;
 	
-	_leaf_max->_pair_data.first = size() + 1;
-	_leaf_max->_pair_data.second = 0;
-	_leaf_min->_pair_data.first = size() + 1; // defini le _leaf_min pour rend	
-	_leaf_min->_pair_data.second = 0;
+	// _leaf_max->_pair_data.first = size() + 1;
+	// _leaf_max->_pair_data.second = 0;
+	// _leaf_min->_pair_data.first = size() + 1; // defini le _leaf_min pour rend	
+	// _leaf_min->_pair_data.second = 0;
     
 	pt_node parent = NULL;
     pt_node find = this->_root;
@@ -434,19 +433,19 @@ typename RBT<Key, T, Compare, Allocator>::pt_node
 {
 		 // pt_node new_node = new node_type(RED, NULL, _leaf, _leaf, pair_data) ;/// NEW => rebind
     pt_node new_node = _node_alloc.allocate(sizeof(node_type));
-    // _node_alloc.construct(new_node, pair_data);
-    new_node->_pair_data.first = pair_data.first;
-    new_node->_pair_data.second = pair_data.second;
+	_node_alloc.construct(new_node, pair<Key, T>(pair_data.first, pair_data.second) );
+    // new_node->_pair_data.first = pair_data.first;
+    // new_node->_pair_data.second = pair_data.second;
     new_node->_parent = NULL;
     new_node->_left = _leaf;
     new_node->_right = _leaf;
     new_node->_color = RED;
 	new_node->_is_leaf = false;
-	_leaf_max->_pair_data.first = size() + 1;
-	_leaf_max->_pair_data.second = 0;
-	
-	_leaf_min->_pair_data.first = size() + 1; // defini le _leaf_min pour rend
-	_leaf_min->_pair_data.second = 0;
+
+	// _leaf_max->_pair_data.first = size() + 1;
+	// _leaf_max->_pair_data.second = 0;	
+	// _leaf_min->_pair_data.first = size() + 1; // defini le _leaf_min pour rend
+	// _leaf_min->_pair_data.second = 0;
 
 	iterator tmp = position + 1;
 	while (!tmp.base()->_is_leaf && _comp(tmp.base()->_pair_data.first, pair_data.first))
@@ -880,7 +879,7 @@ typename RBT<Key, T, Compare, Allocator>::iterator
 	pt_node node;
 
     if (this->empty())
-		node = _leaf_min; // null? //-leaf??
+		node = _leaf_min; 
 	else	
 		node = _leaf_min->_parent;
 	// std::cout << node->_pair_data.first << std::endl;
@@ -896,7 +895,7 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator
 	pt_node node;
  
     if (this->empty())
-		node = _leaf_min; // null? //-leaf??
+		node = _leaf_min;
 	else	
 		node = _leaf_min->_parent;
 	const_iterator ret(node);

@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/22 17:54:55 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/24 10:42:11 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ class map {
 		// two elements to get whether the key of the first one goes before the second.
 		class value_compare : public std::binary_function<value_type, value_type, bool>
 		{
-			 friend class map; // peut utiliser tous les membres privees ou proteges de map ??
+			 friend class map; // peut utiliser tous les membres privees ou proteges de map 
 
 			protected:
 			Compare 						comp;
@@ -103,12 +103,12 @@ class map {
 			//---------------------------constructor// destructor---------------
 //empty (1)	
 		explicit map( const key_compare& comp = key_compare(), 
-		const allocator_type& alloc = allocator_type() );
+			const allocator_type& alloc = allocator_type() );
 //range (2)	
 		template <class InputIterator>  
 		map(typename ft::enable_if< !ft::is_integral< InputIterator> ::value, 
-		InputIterator>::type first, InputIterator last, const key_compare& comp = key_compare(), 
-		const allocator_type& alloc = allocator_type());
+			InputIterator>::type first, InputIterator last, const key_compare& comp = key_compare(), 
+			const allocator_type& alloc = allocator_type());
 // //copy (3)	
 		map(const map &cpy);
 		

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stack.hpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/24 13:05:27 by agouet            #+#    #+#             */
+/*   Updated: 2023/02/24 13:05:28 by agouet           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 // Stacks are a type of container adaptor, specifically designed to operate in a
 // LIFO context (last-in first-out), where elements are inserted and extracted only 
@@ -50,19 +62,22 @@ stack &operator=( const stack &other);
 	void 				push( const value_type& val );
 	void		 		pop( void );
 
+// friend permet d acceder aux attributs protected ou private, 
+//attention pour eviter "shadowing" les class doivent etre renomee (Tx par ex)
+// et les fct deviennent membres
+template <class Tx, class Containerx>  
+friend bool operator==( const stack<Tx,Containerx>& lhs, const stack<Tx,Containerx>& rhs );
+
+template <class Tx, class Containerx> 
+friend bool operator<( const stack<Tx,Containerx>& lhs, const stack<Tx,Containerx>& rhs );
 
 };
 
  //------------------------------------non_member-------------------------------
-template <class T, class Container>  
-bool operator==( const stack<T,Container>& lhs, const stack<T,Container>& rhs );
-
+//pas besoin dutilisee l attribut => peuvent rester non membres
 template <class T, class Container> 
 bool operator!=( const stack<T,Container>& lhs, const stack<T,Container>& rhs );
 	
-template <class T, class Container> 
-bool operator<( const stack<T,Container>& lhs, const stack<T,Container>& rhs );
-
 template <class T, class Container>  
 bool operator<=( const stack<T,Container>& lhs, const stack<T,Container>& rhs );
 

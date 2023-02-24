@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:17:50 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/21 16:17:59 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/24 16:38:45 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,18 +180,24 @@ typename RBT_const_iterator< Key, T>::pt_node RBT_const_iterator< Key, T>::base(
 template < class Key, class T >
 typename RBT_const_iterator< Key, T>::reference RBT_const_iterator< Key, T>::operator*() const
 {
-	// return *(static_cast<pt_node>(_current)->value_ptr());
+	// return (static_cast<pt_node>(_current)->value_ptr());
 
-	reference tmp = *_current->value_ptr();	
-	return (tmp);
-
+	// return ( *(this->_current->value_ptr())); // recoit l adresse de la copie
+	// return ((*_current)._pair_data);
+	// return (*(_current)->_pair_data); // recoit l adresse de la copie
+	// return *_current;
+	return(*_current->value_ptr());
 }
 
 template < class Key, class T >
 typename RBT_const_iterator< Key, T>::pointer RBT_const_iterator< Key, T>::operator->() const
 {
-	return _current->value_ptr();	
-	// return &(operator*());
+	// return (static_cast<pt_node>(_current)->value_ptr());
+	// return( (_current)->value_ptr());
+
+	// return _current->value_ptr();	
+	return &(operator*());
+
 }
 
 template < class Key, class T >
@@ -237,7 +243,7 @@ typename RBT_const_iterator< Key, T>::const_iterator RBT_const_iterator< Key, T>
 template < class Key, class T >
 typename RBT_const_iterator< Key, T>::const_iterator RBT_const_iterator< Key, T>::operator-( difference_type n ) const
 {
-	iterator tmp(base());
+	const_iterator tmp(base());
 
 	for (difference_type i = 0; i != n; ++i)
 		--tmp;
@@ -251,7 +257,7 @@ bool operator==( const RBT_const_iterator< Key, T> &lhs,
 {
 	if (lhs.base()->_is_leaf && rhs.base()->_is_leaf)
 		return true;
-	return lhs.pt_node == rhs.pt_node;
+	return lhs._current == rhs._current;
 }
 
 template < class Key, class T >
@@ -260,7 +266,7 @@ bool operator==( const RBT_const_iterator< Key, T> &lhs,
 {
 	if (lhs.base()->_is_leaf && rhs.base()->_is_leaf)
 		return true;
-	return lhs.pt_node == rhs.pt_node;
+	return lhs._current == rhs._current;
 }
 
 template < class Key, class T >

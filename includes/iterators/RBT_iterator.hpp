@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:17:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/22 14:57:35 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/24 16:01:06 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ template <class Key, class T>
 struct RBT_iterator
 {
 		typedef ft::pair< Key, T > 							value_type; //const key
-		typedef value_type 									&reference;
-		typedef value_type 									*pointer;
+		typedef value_type&									reference;
+		typedef value_type*									pointer;
 
 		typedef std::bidirectional_iterator_tag 			iterator_category;
 		typedef std::ptrdiff_t 								difference_type;

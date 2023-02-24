@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 14:16:54 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/14 17:28:19 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/24 14:30:07 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ namespace ft{
 template < class Key, class T >
 RBT_node< Key, T >::RBT_node( void ){
     _pair_data = ft::make_pair(Key(), T());
-	_color = BLACK;
-	_left = NULL;
-	_right = NULL;
-	_parent = NULL;
-	_is_leaf = true;
+	// _color = BLACK;
+	// _left = NULL;
+	// _right = NULL;
+	// _parent = NULL;
+	// _is_leaf = true;
 }
 
 // template < class Key, class T >
@@ -73,6 +73,7 @@ RBT_node< Key, T> &RBT_node< Key, T >::operator=(const RBT_node &rhs){
 		_left = rhs._left;
 		_right = rhs._right;
 		_parent = rhs._parent;
+		_is_leaf = rhs._is_leaf;
 	}
 	return (*this);
 }
@@ -81,7 +82,7 @@ template < class Key, class T >
 typename RBT_node< Key, T>::value_type *RBT_node< Key, T>::value_ptr()
 {
 	value_type *tmp;
-	tmp = &_pair_data;
+	tmp = &(_pair_data);
 	return (tmp); // fait une copie de l adresse => pointe vers le meme objet
 	// return &(_pair_data);
 }
@@ -89,19 +90,22 @@ typename RBT_node< Key, T>::value_type *RBT_node< Key, T>::value_ptr()
 template < class Key, class T >
 const typename RBT_node< Key, T>::value_type *RBT_node< Key, T>::value_ptr() const
 {
+	// const value_type *tmp;
+	// tmp = &(_pair_data);
+	// return (tmp); // fait une copie de l adresse => pointe vers le meme objet
 	return &(_pair_data);
 }
 
-// template < class Key, class T >
-// const typename RBT_node< Key, T>::value_type &RBT_node< Key, T>::value_ref() const
-// {
-// 	return (_pair_data);
-// }
-// template < class Key, class T >
-// typename RBT_node< Key, T>::value_type &RBT_node< Key, T>::value_ref()
-// {
-// 	return (_pair_data);
-// }
+template < class Key, class T >
+const typename RBT_node< Key, T>::value_type &RBT_node< Key, T>::value_ref() const
+{
+	return (_pair_data);
+}
+template < class Key, class T >
+typename RBT_node< Key, T>::value_type &RBT_node< Key, T>::value_ref()
+{
+	return (_pair_data);
+}
 
 
 

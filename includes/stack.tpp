@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stack.tpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/24 13:05:36 by agouet            #+#    #+#             */
+/*   Updated: 2023/02/24 13:05:37 by agouet           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 namespace ft{
 
 //---------------------------------constructor----------------------------------
@@ -67,7 +79,7 @@ void stack<T, Container>::pop( void )
 template< class T, class Container >
 inline bool operator==( const stack<T,Container>& lhs, const stack<T,Container>& rhs )
 {
-	return lhs.c == rhs.c;
+	return lhs._c == rhs._c;
 }
 
 template< class T, class Container >
@@ -79,7 +91,7 @@ inline bool operator!=( const stack<T,Container>& lhs, const stack<T,Container>&
 template< class T, class Container >
 inline bool operator<( const stack<T,Container>& lhs, const stack<T,Container>& rhs )
 {
-	return lhs.c < rhs.c;
+	return lhs._c < rhs._c;
 }
 
 template< class T, class Container >

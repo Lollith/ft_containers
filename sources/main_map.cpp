@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 11:14:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/22 18:16:04 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/24 13:29:13 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,22 +312,27 @@ void test_erase()
 }
 
 int main()
-{ // OK
+{ 
+	// NAME_USE::map<char,int> mymap;
+	// NAME_USE::map<char,int>::iterator it = mymap.begin();
+	// std::cout << it->first << " => " << it->second << '\n';
+
+	// test_capacity();
+	// test_begin_end();
+	// test_access();
+	// test_find();
+	// test_bound();
+	// test_value_comp();  
+	// test_swap();
+	// test_equal();	
+	// test_insert();
+	// test_erase();
+
+	// return 0;
 	NAME_USE::map<char,int> mymap;
-	NAME_USE::map<char,int>::iterator it = mymap.begin();
-	std::cout << it->first << " => " << it->second << '\n';
-
-	test_capacity();
-	test_begin_end();
-	test_access();
-	test_find();
-	test_bound();
-	test_value_comp();  
-	test_swap();
-	test_equal();	
-	test_insert();
-	test_erase();
-
-	return 0;
+	mymap['a']=10;
+	mymap['b']=20;
+	mymap['c']=30;
+	NAME_USE::map<char,int> mymap1 = mymap;
 	
 }
