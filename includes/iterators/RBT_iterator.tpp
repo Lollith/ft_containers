@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 18:17:50 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/24 16:38:45 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/27 13:35: by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typename RBT_iterator< Key, T>::pt_node RBT_iterator< Key, T>::base() const
 template < class Key, class T >
 typename RBT_iterator< Key, T>::reference RBT_iterator< Key, T>::operator*() const
 {
+	std::cout<<"operator*" <<std::endl;
 	// return (*_current->&_pair_data); // recoit la copie
 	return (*_current->value_ptr()); // recoit l adresse de la copie
 }
@@ -178,37 +179,44 @@ typename RBT_const_iterator< Key, T>::pt_node RBT_const_iterator< Key, T>::base(
 
 //---------------------------------------operator---------------------------
 template < class Key, class T >
-typename RBT_const_iterator< Key, T>::reference RBT_const_iterator< Key, T>::operator*() const
+typename RBT_const_iterator< Key, T>::reference 
+	RBT_const_iterator< Key, T>::operator*( void ) const
 {
-	// return (static_cast<pt_node>(_current)->value_ptr());
+	// return *(static_cast<pt_node>(_current)->value_ptr());
 
 	// return ( *(this->_current->value_ptr())); // recoit l adresse de la copie
 	// return ((*_current)._pair_data);
 	// return (*(_current)->_pair_data); // recoit l adresse de la copie
 	// return *_current;
-	return(*_current->value_ptr());
+	return(*(_current->value_ptr()));
+	// return((*_current->_pair_data));
+// return _current->_pair_data;
 }
 
 template < class Key, class T >
-typename RBT_const_iterator< Key, T>::pointer RBT_const_iterator< Key, T>::operator->() const
+typename RBT_const_iterator< Key, T>::pointer 
+	RBT_const_iterator< Key, T>::operator->() const
 {
 	// return (static_cast<pt_node>(_current)->value_ptr());
 	// return( (_current)->value_ptr());
 
 	// return _current->value_ptr();	
 	return &(operator*());
+// return &(_current->_pair_data);
 
 }
 
 template < class Key, class T >
-typename RBT_const_iterator< Key, T>::const_iterator &RBT_const_iterator< Key, T>::operator++()
+typename RBT_const_iterator< Key, T>::const_iterator 
+	&RBT_const_iterator< Key, T>::operator++()
 {
 	_current = rb_tree_increment(_current);
 	return *this;
 }
 
 template < class Key, class T >
-typename RBT_const_iterator< Key, T>::const_iterator RBT_const_iterator< Key, T>::operator++(int)
+typename RBT_const_iterator< Key, T>::const_iterator 
+	RBT_const_iterator< Key, T>::operator++(int)
 {
 	const_iterator tmp = *this;
 	_current = rb_tree_increment(_current);
@@ -216,14 +224,16 @@ typename RBT_const_iterator< Key, T>::const_iterator RBT_const_iterator< Key, T>
 }
 
 template < class Key, class T >
-typename RBT_const_iterator< Key, T>::const_iterator &RBT_const_iterator< Key, T>::operator--()
+typename RBT_const_iterator< Key, T>::const_iterator 
+	&RBT_const_iterator< Key, T>::operator--()
 {
 	_current = rb_tree_decrement(_current);
 	return *this;
 }
 
 template < class Key, class T >
-typename RBT_const_iterator< Key, T>::const_iterator RBT_const_iterator< Key, T>::operator--(int)
+typename RBT_const_iterator< Key, T>::const_iterator 
+	RBT_const_iterator< Key, T>::operator--(int)
 {
 	const_iterator tmp = *this;
 	_current = rb_tree_decrement(_current);
@@ -231,7 +241,8 @@ typename RBT_const_iterator< Key, T>::const_iterator RBT_const_iterator< Key, T>
 }
 
 template < class Key, class T >
-typename RBT_const_iterator< Key, T>::const_iterator RBT_const_iterator< Key, T>::operator+( difference_type n ) const
+typename RBT_const_iterator< Key, T>::const_iterator 
+	RBT_const_iterator< Key, T>::operator+( difference_type n ) const
 {
 	iterator tmp(base());
 
@@ -241,7 +252,8 @@ typename RBT_const_iterator< Key, T>::const_iterator RBT_const_iterator< Key, T>
 }
 
 template < class Key, class T >
-typename RBT_const_iterator< Key, T>::const_iterator RBT_const_iterator< Key, T>::operator-( difference_type n ) const
+typename RBT_const_iterator< Key, T>::const_iterator 
+	RBT_const_iterator< Key, T>::operator-( difference_type n ) const
 {
 	const_iterator tmp(base());
 

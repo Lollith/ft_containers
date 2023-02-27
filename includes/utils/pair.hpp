@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 11:10:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/14 16:11:47 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/27 15:19:07 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ namespace ft{
 	
 	//(2) copy / move constructor (and implicit conversion)
 	template<class U, class V>
-	pair (const pair<U,V>& pr): first(pr.first), second(pr.second){ }
+	pair ( const pair< U, V > &pr ): first(pr.first), second(pr.second){ }
 
 	//(3) initialization constructor
 	pair(const first_type a, const second_type b): first(a), second(b){ };

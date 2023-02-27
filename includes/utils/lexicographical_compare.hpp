@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 17:37:40 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/24 11:23:41 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/27 15:26:06 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ namespace ft {
 	{
 		while (first1 != last1)
 		{
-			if (first2 == last2 || *first2 < *first1)
+			if (first2 == last2 || *first2/*._current*/ < *first1/*._current*/)
 				return false;
 			else if (*first1 < *first2)
 				return true;

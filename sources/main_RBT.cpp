@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 15:46:37 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/22 11:11:29 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/27 09:55:01 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@
 
 int main()
 {
-	ft::RBT_node<int, int> node1;
-	ft::RBT_node<int, int > node2( ft::pair<int,int>(2, 3));
+	// ft::RBT_node<int, int> node1;
+	// ft::RBT_node<int, int > node2( ft::pair<int,int>(2, 3));
 	
-	std::cout << "node1_color: "<< node1._color<< std::endl;
-	std::cout << "node2_data_first: " << node2._pair_data.first<< std::endl;
-	std::cout << "node2_data_second: "<< node2._pair_data.second<< std::endl;
+	// std::cout << "node1_color: "<< node1._color<< std::endl;
+	// std::cout << "node2_data_first: " << node2._pair_data.first<< std::endl;
+	// std::cout << "node2_data_second: "<< node2._pair_data.second<< std::endl;
 	
-	ft::RBT_node<int, int> node3(node2);
-	std::cout << "copie de node2: "<<node3._pair_data.first<< std::endl;
+	// ft::RBT_node<int, int> node3(node2);
+	// std::cout << "copie de node2: "<<node3._pair_data.first<< std::endl;
 
 	// ft::RBT_node<int, int> node4(0);
 	// std::cout << "surcharge node4: "<< node4._parent<< std::endl;
@@ -39,9 +39,9 @@ int main()
 	rbt1.insert_node(ft::pair< int, int>(1,3));
 	rbt1.insert_node(ft::pair< int, int>(5,3));
 	rbt1.insert_node(ft::pair< int, int>(8,3));
-	// ft::RBT<int, int, int > rbt2(rbt1);
-	rbt1.display();
-	// rbt1.delete_node(2);
+	// // ft::RBT<int, int, int > rbt2(rbt1);
+	// rbt1.display();
+	// rbt1.delete_node(4);
 	// rbt1.delete_node(3);
 	// rbt1.display();
 	// std::cout << std::endl;
@@ -103,6 +103,13 @@ int main()
 	
 	it1= rbt12.find (9);
 	rbt12.erase_node(it1);
+
+	std::cout<<std::endl;	
+	rbt12.display();
+	std::cout<<std::endl;	
+	for(; it3 != rbt12.end(); it3++)
+		rbt12.insert_node(*it3);
+	rbt12.display();
 	
 	return 0;
 	

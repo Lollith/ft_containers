@@ -23,18 +23,18 @@ namespace ft
   //-----------------------------------constructor--------------------------------
 
   template <class Key, class T, class Compare, class Allocator>
-  RBT<Key, T, Compare, Allocator>::RBT(const Compare &comp, const allocator_type &alloc)
+  RBT<Key, T, Compare, Allocator>::RBT( const Compare &comp, const allocator_type &alloc )
 {
 	_alloc = alloc;
 	_comp = comp;
 	// _leaf = new node_type(); // ne pas utiliser new cf REBIND , +delete a revoir
-	_leaf = _node_alloc.allocate(sizeof(node_type));
-	_leaf_max = _node_alloc.allocate(sizeof(node_type));
-	_leaf_min = _node_alloc.allocate(sizeof(node_type));
+	_leaf = _node_alloc.allocate( sizeof(node_type) );
+	_leaf_max = _node_alloc.allocate( sizeof(node_type) );
+	_leaf_min = _node_alloc.allocate( sizeof(node_type) );
 
-	_node_alloc.construct(_leaf, pair<Key, T>(0,0) );
-	_node_alloc.construct(_leaf_min, pair<Key, T>(0,0) );
-	_node_alloc.construct(_leaf_max, pair<Key, T>(0,0) );
+	_node_alloc.construct( _leaf, pair<Key, T>(0,0) );
+	_node_alloc.construct( _leaf_min, pair<Key, T>(0,0) );
+	_node_alloc.construct( _leaf_max, pair<Key, T>(0,0) );
 
 	_node_alloc = node_allocator();
 
@@ -994,7 +994,7 @@ typename RBT<Key, T, Compare, Allocator>::const_reverse_iterator
   template <class Key, class T, class Compare, class Allocator>
   void RBT<Key, T, Compare, Allocator>::display_helper(pt_node &root, std::string indent, bool last)
   {
-    if (root != _leaf)
+    if (root != NULL)
     {
       std::cout << indent;
       if (last)

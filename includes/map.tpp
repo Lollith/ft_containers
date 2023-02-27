@@ -27,12 +27,12 @@ template < class InputIterator >
 map<K, T, C, A>::map(typename ft::enable_if< !ft::is_integral< InputIterator> ::value, 
 	InputIterator>::type first, InputIterator last, const key_compare& comp, 
 	const allocator_type& alloc):_tree(){
-
+std::cout <<"constructor range"<< std::endl;
+	this->_comp = comp;
+	this->_alloc = alloc;
 	for(; first != last; first++)
 		_tree.insert_node(*first);
 
-	this->_comp = comp;
-	this->_alloc = alloc;
 
 }
 
@@ -41,11 +41,11 @@ map<K, T, C, A>::map(typename ft::enable_if< !ft::is_integral< InputIterator> ::
 template < typename K, typename T, typename C, typename A >
 map<K, T, C, A>::map( const map &copy )
 {
-				this->insert(copy.begin(), copy.end());
-	// for (const_iterator it = copy.begin(); it != copy.end(); ++it) {
-	// 			_tree.insert_node(*it);
-	// 		}
+				// this->insert(copy.begin(), copy.end());
 	*this = copy;
+	// for (const_iterator it = copy.begin(); it != copy.end(); ++it) 
+				// _tree.insert_node(*it);
+	// 		}
 }
 
 // This destroys all container elements, and deallocates all the storage capacity 
@@ -63,13 +63,17 @@ template < typename K, typename T, typename C, typename A >
 map< K, T, C, A> &map< K, T, C, A>::operator=( const map &rhs ){
 	if (this != &rhs)
 	{
-		clear();//The elements stored in the container before the call are either assigned to or destroyed.
+		std::cout << "operator="<<std::endl;
+		// std::cout << rhs.begin()._current->_pair_data.first<<std::endl;
+		// clear();//The elements stored in the container before the call are either assigned to or destroyed.
+		for (const_iterator it = rhs.begin(); it != rhs.end(); ++it) 
+			_tree.insert_node(it._current->_pair_data);
+			// _tree.insert_node(*it);
 		this->_alloc= rhs._alloc;
 		this->_comp = rhs._comp;
-		// for (const_iterator it = rhs.begin(); it != rhs.end(); ++it) 
-		// {
-				this->insert(rhs.begin(), rhs.end());
-		// }
+		// map(rhs.begin(), rhs.end());
+		// this->insert(rhs.begin(), rhs.end());
+		// _tree.insert_node(rhs.begin());
 	}
 	return (*this);
 }

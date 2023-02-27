@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 14:16:54 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/24 14:30:07 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/27 14:46:55 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ namespace ft{
 template < class Key, class T >
 RBT_node< Key, T >::RBT_node( void ){
     _pair_data = ft::make_pair(Key(), T());
-	// _color = BLACK;
-	// _left = NULL;
-	// _right = NULL;
-	// _parent = NULL;
-	// _is_leaf = true;
+	_color = BLACK;
+	_left = NULL;
+	_right = NULL;
+	_parent = NULL;
+	_is_leaf = true;
 }
 
 // template < class Key, class T >

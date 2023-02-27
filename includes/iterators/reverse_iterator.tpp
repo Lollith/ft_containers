@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 13:26:42 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/22 14:53:04 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/27 15:23:38 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typename reverse_iterator<Iterator>::iterator_type reverse_iterator<Iterator>::b
 
 template < typename Iterator >
 typename reverse_iterator<Iterator>::reference reverse_iterator<Iterator>::operator*() const{
+
 	return (*(_current - 1));
 }
 

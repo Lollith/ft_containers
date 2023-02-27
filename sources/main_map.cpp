@@ -6,12 +6,15 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 11:14:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/24 13:29:13 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/27 13:32:05 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "map.hpp" // a modif pour makefile
 # include <map>
+#include <string>
+#include<stdlib.h>
+#include<iostream>
 
 #define TEST_MAX_SIZE 0 //  a passer sur 1 pour lancer le test
 
@@ -333,6 +336,31 @@ int main()
 	mymap['a']=10;
 	mymap['b']=20;
 	mymap['c']=30;
-	NAME_USE::map<char,int> mymap1 = mymap;
+
+		
+		// (4) Range constructor
+  	NAME_USE::map<char,int>::iterator it;
+	// 	NAME_USE::map<char, int> map2(mymap.begin(), mymap.end());
+	// for (it=map2.begin(); it!=map2.end(); ++it)
+	// 	std::cout << it->first << " => " << it->second << '\n';
 	
+	NAME_USE::map<char,int> mymap1 (mymap);
+	for (it=mymap1.begin(); it!=mymap1.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+		
+		// // (6) Copy constructor
+		// NAME_USE::map<char, int> copied(mymap);
+		// std::cout << "\ncopied = " << copied;
+		// std::cout << "map1 = " << map1;
+		
+		// std::cout << "\nCustom Key class option 1:\n";
+		// // Use a comparison struct
+		// NAME_USE::map<int, double, PointCmp> mag;
+		// mag[5] = 13;
+		// mag[4] = 5;
+		// mag[15] = 17;	
+		// for(NAME_USE::map<int, double, PointCmp>::iterator p = mag.begin(); p != mag.end(); ++ p)
+		// 	std::cout << "first " << (*p).first << ", is " << (*p).second << '\n';
+
+return 0;	
 }
