@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 11:14:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/27 13:32:05 by agouet           ###   ########.fr       */
+/*   Updated: 2023/02/27 17:51:54 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,51 +316,35 @@ void test_erase()
 
 int main()
 { 
-	// NAME_USE::map<char,int> mymap;
-	// NAME_USE::map<char,int>::iterator it = mymap.begin();
-	// std::cout << it->first << " => " << it->second << '\n';
-
-	// test_capacity();
-	// test_begin_end();
-	// test_access();
-	// test_find();
-	// test_bound();
-	// test_value_comp();  
-	// test_swap();
-	// test_equal();	
-	// test_insert();
-	// test_erase();
-
-	// return 0;
 	NAME_USE::map<char,int> mymap;
+	NAME_USE::map<char,int>::iterator it = mymap.begin();
+	std::cout << it->first << " => " << it->second << '\n';
+
+	test_capacity();
+	test_begin_end();
+	test_access();
+	test_find();
+	test_bound();
+	test_value_comp();  
+	test_swap();
+	test_equal();	
+	test_insert();
+	test_erase();
+
 	mymap['a']=10;
 	mymap['b']=20;
 	mymap['c']=30;
 
 		
 		// (4) Range constructor
-  	NAME_USE::map<char,int>::iterator it;
-	// 	NAME_USE::map<char, int> map2(mymap.begin(), mymap.end());
-	// for (it=map2.begin(); it!=map2.end(); ++it)
-	// 	std::cout << it->first << " => " << it->second << '\n';
+		NAME_USE::map<char, int> map2(mymap.begin(), mymap.end());
+	for (it=map2.begin(); it!=map2.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
 	
 	NAME_USE::map<char,int> mymap1 (mymap);
 	for (it=mymap1.begin(); it!=mymap1.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
 		
-		// // (6) Copy constructor
-		// NAME_USE::map<char, int> copied(mymap);
-		// std::cout << "\ncopied = " << copied;
-		// std::cout << "map1 = " << map1;
-		
-		// std::cout << "\nCustom Key class option 1:\n";
-		// // Use a comparison struct
-		// NAME_USE::map<int, double, PointCmp> mag;
-		// mag[5] = 13;
-		// mag[4] = 5;
-		// mag[15] = 17;	
-		// for(NAME_USE::map<int, double, PointCmp>::iterator p = mag.begin(); p != mag.end(); ++ p)
-		// 	std::cout << "first " << (*p).first << ", is " << (*p).second << '\n';
 
 return 0;	
 }
