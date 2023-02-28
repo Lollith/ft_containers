@@ -542,3 +542,7 @@ int		main(void)
 
 	return (0);
 }
+
+// a faire 
+insert_node_it ne sert  a rien => insert_node
+debug compare
