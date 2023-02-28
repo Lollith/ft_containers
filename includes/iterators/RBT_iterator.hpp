@@ -93,7 +93,7 @@ struct RBT_iterator
 	template <class Key, class T>
 	struct RBT_const_iterator
 	{
-		typedef pair<const Key, T> 							value_type;
+		typedef pair<  Key, T> 								value_type;
 		typedef const value_type 							&reference;
 		typedef const value_type 							*pointer;
 

@@ -314,36 +314,58 @@ void test_erase()
 	std::cout << itr2->second << std::endl;
 }
 
-int main()
-{ 
+void	test_constructor()
+{
 	NAME_USE::map<char,int> mymap;
 	NAME_USE::map<char,int>::iterator it = mymap.begin();
 	std::cout << it->first << " => " << it->second << '\n';
-
-	test_capacity();
-	test_begin_end();
-	test_access();
-	test_find();
-	test_bound();
-	test_value_comp();  
-	test_swap();
-	test_equal();	
-	test_insert();
-	test_erase();
-
 	mymap['a']=10;
 	mymap['b']=20;
 	mymap['c']=30;
 
-		
 		// (4) Range constructor
 		NAME_USE::map<char, int> map2(mymap.begin(), mymap.end());
 	for (it=map2.begin(); it!=map2.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
-	
 	NAME_USE::map<char,int> mymap1 (mymap);
 	for (it=mymap1.begin(); it!=mymap1.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
+
+}
+
+void test_string()
+{
+	NAME_USE::map<std::string,int> mymap;
+	mymap["ade"]=10;
+	NAME_USE::map<std::string,int>::iterator it = mymap.begin();
+	std::cout << it->first << " => " << it->second << '\n';
+
+	NAME_USE::map<std::string, int> map2(mymap.begin(), mymap.end());
+	for (it=map2.begin(); it!=map2.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+	
+	NAME_USE::map<std::string,int> mymap1 (mymap);
+	for (it=mymap1.begin(); it!=mymap1.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+}
+
+int main()
+{ 
+	// test_constructor();
+	// test_capacity();
+	// test_begin_end();
+	// test_access();
+	// test_find();
+	// test_bound();
+	// test_value_comp();  
+	// test_swap();
+	// test_equal();	
+	// test_insert();
+	// test_erase();
+test_string();
+
+		
+	
 		
 
 return 0;	

@@ -52,7 +52,6 @@ typename RBT_iterator< Key, T>::pt_node RBT_iterator< Key, T>::base() const
 template < class Key, class T >
 typename RBT_iterator< Key, T>::reference RBT_iterator< Key, T>::operator*() const
 {
-	std::cout<<"operator*" <<std::endl;
 	// return (*_current->&_pair_data); // recoit la copie
 	return (*_current->value_ptr()); // recoit l adresse de la copie
 }
@@ -183,14 +182,8 @@ typename RBT_const_iterator< Key, T>::reference
 	RBT_const_iterator< Key, T>::operator*( void ) const
 {
 	// return *(static_cast<pt_node>(_current)->value_ptr());
+	return (*_current->value_ptr()); // recoit l adresse de la copie
 
-	// return ( *(this->_current->value_ptr())); // recoit l adresse de la copie
-	// return ((*_current)._pair_data);
-	// return (*(_current)->_pair_data); // recoit l adresse de la copie
-	// return *_current;
-	return(*(_current->value_ptr()));
-	// return((*_current->_pair_data));
-// return _current->_pair_data;
 }
 
 template < class Key, class T >

@@ -27,13 +27,11 @@ template < class InputIterator >
 map<K, T, C, A>::map(typename ft::enable_if< !ft::is_integral< InputIterator> ::value, 
 	InputIterator>::type first, InputIterator last, const key_compare& comp, 
 	const allocator_type& alloc):_tree(){
-std::cout <<"constructor range"<< std::endl;
+// std::cout <<"constructor range"<< std::endl;
 	this->_comp = comp;
 	this->_alloc = alloc;
 	for(; first != last; first++)
-		_tree.insert_node(*first);
-
-
+		insert(*first);
 }
 
 
@@ -63,17 +61,17 @@ template < typename K, typename T, typename C, typename A >
 map< K, T, C, A> &map< K, T, C, A>::operator=( const map &rhs ){
 	if (this != &rhs)
 	{
-		std::cout << "operator="<<std::endl;
+		// std::cout << "operator="<<std::endl;
 		// std::cout << rhs.begin()._current->_pair_data.first<<std::endl;
-		// clear();//The elements stored in the container before the call are either assigned to or destroyed.
+		clear();//The elements stored in the container before the call are either assigned to or destroyed.
 		for (const_iterator it = rhs.begin(); it != rhs.end(); ++it) 
-			_tree.insert_node(it._current->_pair_data);
-			// _tree.insert_node(*it);
+		{
+			insert(*it);
+			// _tree.insert_node(it._current->_pair_data);
+			// _tree.insert_node_it(*it);
+		}
 		this->_alloc= rhs._alloc;
 		this->_comp = rhs._comp;
-		// map(rhs.begin(), rhs.end());
-		// this->insert(rhs.begin(), rhs.end());
-		// _tree.insert_node(rhs.begin());
 	}
 	return (*this);
 }
@@ -199,7 +197,7 @@ ft::pair<typename map< K,T ,C ,A >::iterator, bool>
 // 	// // if map is empty, insert the node
 	if (empty())
 	{
-		ret.first = _tree.insert_node(value);
+		ret.first = _tree.insert_node_it(value);
 		ret.second = true;
 	}
 // 	// // key found -> no duplicate allowed
@@ -211,7 +209,7 @@ ft::pair<typename map< K,T ,C ,A >::iterator, bool>
 // 	// // no key found, proceed with inserting the node
 	else
 	{
-		ret.first = _tree.insert_node(value);
+		ret.first = _tree.insert_node_it(value);
 		ret.second = true;
 	}
 	return ret;
@@ -232,7 +230,7 @@ typename map< K ,T ,C ,A >::iterator map< K ,T ,C ,A >::insert(iterator position
 {
 	iterator searched_key = find(value.first);
 	if (empty())
-		return (_tree.insert_node(value));
+		return (_tree.insert_node_it(value));
 	else if (!searched_key.base()->_is_leaf)
 		return (searched_key);
 	else

@@ -108,6 +108,7 @@ namespace ft{
 	//--------------------------------------- operations -------------------------
 		
 		pt_node				insert_node( value_type pair_data );
+		iterator			insert_node_it( const value_type &value);
 		pt_node				insert_node_position( value_type pair_data, iterator position );
 		iterator			insert_node_pos(iterator position, const value_type &value );
 		void				insert_balancing( pt_node new_node );

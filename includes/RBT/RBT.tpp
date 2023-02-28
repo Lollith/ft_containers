@@ -25,16 +25,16 @@ namespace ft
   template <class Key, class T, class Compare, class Allocator>
   RBT<Key, T, Compare, Allocator>::RBT( const Compare &comp, const allocator_type &alloc )
 {
-	_alloc = alloc;
-	_comp = comp;
 	// _leaf = new node_type(); // ne pas utiliser new cf REBIND , +delete a revoir
 	_leaf = _node_alloc.allocate( sizeof(node_type) );
 	_leaf_max = _node_alloc.allocate( sizeof(node_type) );
 	_leaf_min = _node_alloc.allocate( sizeof(node_type) );
+	_alloc = alloc;
+	_comp = comp;
 
-	_node_alloc.construct( _leaf, pair<Key, T>(0,0) );
-	_node_alloc.construct( _leaf_min, pair<Key, T>(0,0) );
-	_node_alloc.construct( _leaf_max, pair<Key, T>(0,0) );
+	// _node_alloc.construct( _leaf, pair<Key, T>(0,0) );
+	// _node_alloc.construct( _leaf_min, pair<Key, T>(0,0) );
+	// _node_alloc.construct( _leaf_max, pair<Key, T>(0,0) );
 
 	_node_alloc = node_allocator();
 
@@ -70,7 +70,6 @@ RBT<Key, T, Compare, Allocator>::~RBT(void)
     _node_alloc.deallocate(_leaf, sizeof(node_type));
     _node_alloc.deallocate(_leaf_min, sizeof(node_type));
     _node_alloc.deallocate(_leaf_max, sizeof(node_type));
-// desalooc min max??
 	return;
 }
 
@@ -426,6 +425,17 @@ typename RBT<Key, T, Compare, Allocator>::pt_node
 	return(new_node);
   }
 
+template <class Key, class T, class Compare, class Allocator>
+typename RBT<Key, T, Compare, Allocator>::iterator 
+	RBT<Key, T, Compare, Allocator>::insert_node_it( const value_type &value)
+{
+	pt_node	node_inserted;
+
+	node_inserted = insert_node(value);
+	iterator ret(node_inserted);
+
+	return ret;
+}
 
 template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::pt_node	
