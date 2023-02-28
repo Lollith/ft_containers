@@ -96,16 +96,16 @@ const typename RBT_node< Key, T>::value_type *RBT_node< Key, T>::value_ptr() con
 	return &(_pair_data);
 }
 
-template < class Key, class T >
-const typename RBT_node< Key, T>::value_type &RBT_node< Key, T>::value_ref() const
-{
-	return (_pair_data);
-}
-template < class Key, class T >
-typename RBT_node< Key, T>::value_type &RBT_node< Key, T>::value_ref()
-{
-	return (_pair_data);
-}
+// template < class Key, class T >
+// const typename RBT_node< Key, T>::value_type &RBT_node< Key, T>::value_ref() const
+// {
+// 	return (_pair_data);
+// }
+// template < class Key, class T >
+// typename RBT_node< Key, T>::value_type &RBT_node< Key, T>::value_ref()
+// {
+// 	return (_pair_data);
+// }
 
 
 

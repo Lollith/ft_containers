@@ -79,8 +79,8 @@ namespace ft {
 //--------------------------------------ft membres -----------------------------
 		value_type *value_ptr( void );
 		const value_type *value_ptr( void ) const;
-		const value_type &value_ref( void ) const;
-		value_type &value_ref( void );
+		// const value_type &value_ref( void ) const;
+		// value_type &value_ref( void );
 
 	
 	};

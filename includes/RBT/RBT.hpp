@@ -110,10 +110,10 @@ namespace ft{
 		pt_node				insert_node( value_type pair_data );
 		iterator			insert_node_it( const value_type &value);
 		pt_node				insert_node_position( value_type pair_data, iterator position );
-		iterator			insert_node_pos(iterator position, const value_type &value );
+		iterator			insert_node_pos( iterator position, const value_type &value );
 		void				insert_balancing( pt_node new_node );
 
-		void				erase_node(iterator pos);
+		void				erase_node( iterator pos );
 		void				delete_helper( pt_node node, key_type key );
 		void				delete_node( key_type key );
 		void				delete_balancing( pt_node x );
@@ -152,8 +152,6 @@ namespace ft{
 		void					display( void );
 
 		
-	
-	
 	};	
 
 

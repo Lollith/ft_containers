@@ -36,6 +36,11 @@ int main()
 	// std::cout << "node1_color: "<< node1._color<< std::endl;
 	// std::cout << "node2_data_first: " << node2._pair_data.first<< std::endl;
 	// std::cout << "node2_data_second: "<< node2._pair_data.second<< std::endl;
+
+
+	// ft::RBT_node<std::string, int> node1;
+	// ft::RBT_node<std::string, int > node2( ft::pair<std::string,int>("01234567890123456ef", 3));
+
 	//-------------------------------------------------------------------------
 	// std::cout << std::endl;
 	// ft::RBT<int, int, int > rbt1;
@@ -55,16 +60,13 @@ int main()
 
 
 
-	std::string mys ="sdas";
-	std::cout<< mys << std::endl;	
+	// std::string mys ="sdas";
+	// std::cout<< mys << std::endl;	
+	
 	ft::RBT<std::string, int, int > rbt1;
-	// std::cout<< "tree display: "<<std::endl;
-	// rbt1.insert_node(ft::pair< int, int>(9,3));
-	// rbt1.insert_node(ft::pair< int, int>(4,3));
-	// rbt1.insert_node(ft::pair< int, int>(1,3));
-	// rbt1.insert_node(ft::pair< int, int>(5,3));
-	// rbt1.insert_node(ft::pair< int, int>(8,3));
-	// // ft::RBT<int, int, int > rbt2(rbt1);
+	// ft::pair<std::string, int>("1234567890123456",3);
+		rbt1.access_operator("01234567890124345678");
+	// rbt1.insert_node(ft::pair<std::string, int>("1234567890123456",3));
 	// rbt1.display();
 	// rbt1.delete_node(4);
 	// rbt1.delete_node(3);

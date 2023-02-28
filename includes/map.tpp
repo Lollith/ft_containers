@@ -16,6 +16,7 @@ namespace ft{
 // Constructs an empty container, with no elements.
 template < typename K, typename T, typename C, typename A >
 map<K, T, C, A>::map(const key_compare& comp, const allocator_type& alloc):_tree(){
+	std::cout<<"first constructor"<<std::endl;
 	this->_comp = comp;
 	this->_alloc = alloc;
 }
@@ -163,12 +164,12 @@ typename map< K, T, C, A >::mapped_type &map< K, T, C, A >::operator[](const key
 
 
 template < typename K, typename T, typename C, typename A >
-typename map< K, T, C, A >::mapped_type &map< K, T, C, A >::at(const key_type& key){
+typename map< K, T, C, A >::mapped_type &map< K, T, C, A >::at( const key_type& key ){
 	return(_tree.at(key));
 }
 
 template < typename K, typename T, typename C, typename A >
-const typename map< K, T, C, A >::mapped_type &map< K, T, C, A >::at (const key_type& key) const{
+const typename map< K, T, C, A >::mapped_type &map< K, T, C, A >::at( const key_type& key ) const{
 	return(_tree.at(key));
 
 }
@@ -187,7 +188,7 @@ void map< K, T, C, A >::clear( void )
 // whether each inserted element has a key equivalent to the one of an element already in the container, and if so, the element is not inserted, returning an iterator to this existing element (if the function returns a value).
 //1
 template < typename K, typename T, typename C, typename A >
-ft::pair<typename map< K,T ,C ,A >::iterator, bool> 
+ft::pair<typename map< K, T, C, A >::iterator, bool> 
 	map< K, T, C, A >::insert( const value_type &value )
 {
 	ft::pair<iterator, bool> ret;                                            
@@ -222,7 +223,8 @@ template <class InputIterator>
 void map< K, T, C, A >::insert(InputIterator first, InputIterator last)
 {
 	for(;first != last; first++)
-		_tree.insert_node(*first);
+		insert(*first);
+		// _tree.insert_node(*first);
 }
 
 template < typename K, typename T, typename C, typename A >

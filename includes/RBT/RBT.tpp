@@ -791,6 +791,7 @@ void RBT<Key, T, Compare, Allocator>::delete_tree(pt_node root)
 	delete_tree(root->_left);
 	delete_tree(root->_right);
     // delete root;
+	_node_alloc.destroy(root);
 	_node_alloc.deallocate(root, sizeof(node_type));
 	root = _leaf;
 }

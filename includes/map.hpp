@@ -137,8 +137,8 @@ class map {
 			//----------------------------access--------------------------------
 
 		mapped_type				&operator[]( const key_type& x );
-		mapped_type& 			at (const key_type& k);
-		const mapped_type& 		at (const key_type& k) const;
+		mapped_type& 			at( const key_type& k );
+		const mapped_type& 		at( const key_type& k ) const;
 
 			//------------------------modifier----------------------------------
 		pair<iterator, bool>	insert( const value_type& k );
