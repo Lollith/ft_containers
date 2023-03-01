@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:53 by agouet            #+#    #+#             */
-/*   Updated: 2023/03/01 17:04:02 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/01 18:22:47 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ template < typename T, typename Allocator >// si pas de precision Alloc va compi
 vector<T, Allocator>::vector( const Allocator &alloc ) : // = Allocator , permet dappeler le template int seul et sans avoir a demander le template Alloc qui est aors appele par default
 		_start(NULL), _size(0), _capacity(0), _alloc(alloc)// appel le constructeur allocator qui sert a allouer de la memoire
 {
+	// std::cout << "constructor 1 "<< std::endl;
 	return;
 }
 
@@ -37,7 +38,10 @@ vector<T, Allocator>::vector( const Allocator &alloc ) : // = Allocator , permet
 template < typename T, typename Allocator >
 vector<T, Allocator>::vector( size_type n, const value_type& value, const allocator_type& alloc ): // appel class T par default et class Allocator par defaut
 		_start(NULL), _size(n), _capacity(n), _alloc(alloc){
-		// assign( n, value); 
+	std::cout << "constructor 2 "<< std::endl;
+		// assign( n, value);
+	if (n <= 0)
+		return ;
 	if (n > this->max_size())
 		throw std::length_error("max size is exceeded");
 	_start = _alloc.allocate(n);
@@ -56,6 +60,8 @@ vector<T, Allocator>::vector( size_type n, const value_type& value, const alloca
 //  a metafunction is a function that operates on types rather than on values. 
 template < typename T, typename Allocator >
 template <class InputIterator>
+// vector<T, Allocator>::vector(InputIterator first, InputIterator last, const allocator_type& alloc, 
+// 			typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type*)
 vector<T, Allocator>::vector(typename enable_if< !ft::is_integral< InputIterator >::value,
 	InputIterator >::type first, InputIterator last, const allocator_type& alloc)
 {
@@ -77,16 +83,16 @@ vector<T, Allocator>::vector( vector const &copy ){
 
 template < typename T, typename Allocator >
 vector<T, Allocator> &vector<T, Allocator>::operator=( vector<T, Allocator> const& rhs ){
-		if ( this != &rhs )
-		{
-			this->clear();
-			this->reserve(rhs._size); //modifie  la capacite
-			for (size_type i = 0; i < rhs._size; i++)
-				_alloc.construct(this->_start + i, *(rhs._start + i));
-			this->_size = rhs._size;
-		}
-		return (*this);
+	if ( this != &rhs )
+	{
+		this->clear();
+		this->reserve(rhs._size); //modifie  la capacite
+		for (size_type i = 0; i < rhs._size; i++)
+			_alloc.construct(this->_start + i, *(rhs._start + i));
+		this->_size = rhs._size;
 	}
+	return (*this);
+}
 
 
 template < typename T, typename Allocator >
@@ -232,27 +238,27 @@ void vector<T, Allocator>::swap(vector& x){
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator position){
 
-	this->_alloc.destroy(position);
-			for (size_type i = 0; position + i + 1 != this->end(); i++)
-			{
-				this->_alloc.construct(position + i, *(position + i + 1));
-				this->_alloc.destroy(position + i + 1);
-			}
-			this->_size--;
-			return position;
-		}
+	// this->_alloc.destroy(position);
+	// 		for (size_type i = 0; position + i + 1 != this->end(); i++)
+	// 		{
+	// 			this->_alloc.construct(position + i, *(position + i + 1));
+	// 			this->_alloc.destroy(position + i + 1);
+	// 		}
+	// 		this->_size--;
+	// 		return position;
+	// 	}
 
 
 	
-// 	for (size_type i = 1; position + i != end(); i++)
-// 	{
-// 		_alloc.construct(position + i - 1, *(position + i));
-// 		_alloc.destroy(position + i - 1);
-// 	}
-// 	_alloc.destroy(end() - 1);
-// 	_size--;
-// 	return (position);
-// }
+	for (size_type i = 1; position + i != end(); i++)
+	{
+		_alloc.destroy(position + i - 1);
+		_alloc.construct(position + i - 1, *(position + i));
+	}
+	_alloc.destroy(end() - 1);
+	_size--;
+	return (position);
+}
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator first, iterator last){

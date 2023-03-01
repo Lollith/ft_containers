@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:17 by agouet            #+#    #+#             */
-/*   Updated: 2023/03/01 16:23:37 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/01 18:08:30 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,40 +59,44 @@ namespace std{
 
 void fonctions_principales(void)
 {
-	NAME_USE::vector <int> v; //constructeur vide
-	std::cout <<"\e[1;31m"<< "Constructor vide :"<< "\e[0m"<< std::endl;
-	display(v);
+	// NAME_USE::vector <int> v; //constructeur vide
+	// std::cout <<"\e[1;31m"<< "Constructor vide :"<< "\e[0m"<< std::endl;
+	// display(v);
 	
-	v.reserve(10);
-	std::cout <<"\e[1;31m"<< "Reserve(10) :"<< "\e[0m"<< std::endl;
-	display(v);
+	// v.reserve(10);
+	// std::cout <<"\e[1;31m"<< "Reserve(10) :"<< "\e[0m"<< std::endl;
+	// display(v);
 
-	v.assign(5, 0);
-	std::cout <<"\e[1;31m"<< "assign(5, 0) :"<< "\e[0m"<< std::endl;
-	display(v);
+	// v.assign(5, 0);
+	// std::cout <<"\e[1;31m"<< "assign(5, 0) :"<< "\e[0m"<< std::endl;
+	// display(v);
 
-	NAME_USE::vector <int> v1(7,1); // constructeur 2 
-	std::cout <<"\e[1;31m"<< "constructor (2):"<< "\e[0m"<< std::endl;
-	display(v1);
+	// NAME_USE::vector <int> v1(7,1); // constructeur 2 
+	// std::cout <<"\e[1;31m"<< "constructor (2):"<< "\e[0m"<< std::endl;
+	// display(v1);
+	
+	NAME_USE::vector <int> v4(0,-1); // constructeur 2 
+	std::cout <<"\e[1;31m"<< "(0 ,-1):"<< "\e[0m"<< std::endl;
+	display(v4);
 
-	NAME_USE::vector <int> v2;
-	v2 = v1;
-	std::cout <<"\e[1;31m"<< "operator= :"<< "\e[0m"<< std::endl;
-	display(v2);
+	// NAME_USE::vector <int> v2;
+	// v2 = v1;
+	// std::cout <<"\e[1;31m"<< "operator= :"<< "\e[0m"<< std::endl;
+	// display(v2);
 
-	v2.assign(5, 4);
-	std::cout <<"\e[1;31m"<< "assign :"<< "\e[0m"<< std::endl;
-	display(v2);
+	// v2.assign(5, 4);
+	// std::cout <<"\e[1;31m"<< "assign :"<< "\e[0m"<< std::endl;
+	// display(v2);
 
-	NAME_USE::vector <int> v3(v1);	
-	std::cout <<"\e[1;31m"<< "constructor par copy :"<< "\e[0m"<< std::endl;
-	display(v3);
+	// NAME_USE::vector <int> v3(v1);	
+	// std::cout <<"\e[1;31m"<< "constructor par copy :"<< "\e[0m"<< std::endl;
+	// display(v3);
 
-	NAME_USE::vector <int> v5;	
-	std::cout <<"\e[1;31m"<< "swap :"<< "\e[0m"<< std::endl;
-	display(v5);
-	NAME_USE::swap(v5 , v2);
-	display(v5);
+	// NAME_USE::vector <int> v5;	
+	// std::cout <<"\e[1;31m"<< "swap :"<< "\e[0m"<< std::endl;
+	// display(v5);
+	// NAME_USE::swap(v5 , v2);
+	// display(v5);
 }
 
 void resize_test(void)
@@ -195,7 +199,7 @@ int main()
 {
 	std::cout <<"\e[1;33m"<< "Test: "<< NAME_USE::s << "\e[0m"<< std::endl;
 	
-	// fonctions_principales();
+	fonctions_principales();
 	// resize_test();
 	// pushback_test();
 	// popback_test();
@@ -203,9 +207,9 @@ int main()
 	
 	// retour_exeption_test(); //segfault sur la std
 	
-	NAME_USE::vector < std::string> v1;
-	v1.assign(5, "0");
-	v1.assign(0, "jkjkl");
+	// NAME_USE::vector < std::string> v1;
+	// v1.assign(5, "0");
+	// v1.assign(0, "jkjkl");
 
 	return (0);
 

@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:04 by agouet            #+#    #+#             */
-/*   Updated: 2023/03/01 16:45:48 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/01 18:17:50 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ namespace ft {
 		template< class InputIterator >
 		vector(typename enable_if<!ft::is_integral< InputIterator >::value, 
 			InputIterator >::type first, InputIterator last, const allocator_type& alloc = Allocator());
-
 // //(4)copy
 		vector (vector const &copy);
 // //destructeur
