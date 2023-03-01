@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 10:39:30 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/27 13:08:06 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/01 13:23:49 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,18 @@ namespace ft{
 // Compare: A binary predicate that takes two element keys as arguments and returns a bool.
 // va transmettre le less au RBT
 
+
+//less = un type ici
 template < typename Key, typename T, typename Compare = std::less< Key >, typename Alloc = std::allocator<ft::pair<const Key, T> > >
 class map {
-		
-
-	public: 
+	
+		public: 
 		
 //--------------------------Alias for intern class-------------------------------		
 			typedef	Key												key_type;
 			typedef	T												mapped_type;
 			typedef pair< const key_type, mapped_type>				value_type; 
+			typedef	Compare											key_compare;
 
 //------------------------------------intern class-------------------------------
 		// class interne value_comp :Returns a comparison object that can be used to compare 
@@ -55,7 +57,7 @@ class map {
 			 friend class map; // peut utiliser tous les membres privees ou proteges de map 
 
 			protected:
-			Compare 						comp;
+			Compare 											comp;
 
 			value_compare (Compare c) : comp(c) {};  // constructed with map's comparison object
 		
@@ -71,7 +73,6 @@ class map {
 		}; // class value_comp
 		
 //------------------------------------------Alias-------------------------------		
-			typedef	Compare											key_compare;
 			typedef	Alloc											allocator_type;
 			// typedef	value_compare										value_compare;
 
@@ -96,7 +97,7 @@ class map {
 
 			key_compare 							_comp;
 			allocator_type 							_alloc;
-			RBT< Key, T, key_compare, Alloc> 		_tree;  // remplacer key  T par value type ?????????????
+			RBT< Key, T, key_compare, Alloc > 		_tree;  // importance du key compare (=Compare)qui recup linfo de map vers rbt
 
 
 	public: 
@@ -142,14 +143,14 @@ class map {
 
 			//------------------------modifier----------------------------------
 		pair<iterator, bool>	insert( const value_type& k );
-		iterator				insert(iterator position, const value_type& k);
+		iterator				insert( iterator position, const value_type& k );
 
 		template <class InputIterator>
-		void 					insert(InputIterator first, InputIterator last);
+		void 					insert( InputIterator first, InputIterator last );
 
-		void					erase(iterator position);
-		size_type 				erase(const key_type& x);
-		void 					erase(iterator first, iterator last);
+		void					erase( iterator position );
+		size_type 				erase( const key_type& x );
+		void 					erase( iterator first, iterator last );
 
 	void 						swap( map &other );
 	void 						clear( void );

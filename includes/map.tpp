@@ -14,9 +14,8 @@ namespace ft{
 
 //---------------------------constructor// destructor---------------------------
 // Constructs an empty container, with no elements.
-template < typename K, typename T, typename C, typename A >
-map<K, T, C, A>::map(const key_compare& comp, const allocator_type& alloc):_tree(){
-	std::cout<<"first constructor"<<std::endl;
+template < typename Key, typename T, typename Compare, typename Alloc >
+map<Key, T, Compare, Alloc>::map(const Compare& comp, const allocator_type& alloc):_tree(){
 	this->_comp = comp;
 	this->_alloc = alloc;
 }
@@ -224,11 +223,11 @@ void map< K, T, C, A >::insert(InputIterator first, InputIterator last)
 {
 	for(;first != last; first++)
 		insert(*first);
-		// _tree.insert_node(*first);
 }
 
 template < typename K, typename T, typename C, typename A >
-typename map< K ,T ,C ,A >::iterator map< K ,T ,C ,A >::insert(iterator position, const value_type& value)
+typename map< K ,T ,C ,A >::iterator 
+	map< K ,T ,C ,A >::insert(iterator position, const value_type& value)
 {
 	iterator searched_key = find(value.first);
 	if (empty())

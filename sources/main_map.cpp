@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 11:14:39 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/27 17:51:54 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/01 13:44:33 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,6 @@ namespace std{
 }
 
 
-// void test_constructor()
-// {
-	
-// }
 void test_capacity()
 {
 	NAME_USE::map< int, int > mymap;
@@ -138,6 +134,19 @@ void test_insert()
   mymap1.insert (it, NAME_USE::pair<char,int>('b',300));  // max efficiency inserting
   mymap1.insert (it, NAME_USE::pair<char,int>('c',400));  // no max efficiency inserting
 
+	NAME_USE::map<std::string,std::string> mymap2;
+  NAME_USE::map<std::string,std::string>::iterator it2;
+  it2 = mymap2.begin();
+  mymap2.insert (it2, NAME_USE::pair<std::string,std::string>("ade","123"));  // max efficiency inserting
+  mymap2.insert (it2, NAME_USE::pair<std::string, std::string>("gou","465"));  // no max efficiency inserting
+  mymap2.insert (it2, NAME_USE::pair<std::string, std::string>("gfdss","465"));  // no max efficiency inserting
+  mymap2.insert (it2, NAME_USE::pair<std::string, std::string>("gou","465"));  // no max efficiency inserting
+	std::cout << "map_string contains:\n";
+  	for (it2=mymap2.begin(); it2!=mymap2.end(); ++it2)
+    	std::cout << it2->first << " => " << it2->second << '\n';
+
+
+
 	NAME_USE::map<char,int> anothermap;
   	anothermap.insert(mymap1.begin(),mymap1.find('c'));
 
@@ -148,8 +157,7 @@ void test_insert()
   	std::cout << "anothermap contains:\n";
   	for (it=anothermap.begin(); it!=anothermap.end(); ++it)
     std::cout << it->first << " => " << it->second << '\n';
-
-
+  	
 
 }
 
@@ -350,28 +358,28 @@ void test_string()
 		std::cout << it->first << " => " << it->second << '\n';
 }
 
-// int main()
-// { 
-// 	// test_constructor();
-// 	// test_capacity();
-// 	// test_begin_end();
-// 	// test_access();
-// 	// test_find();
-// 	// test_bound();
-// 	// test_value_comp();  
-// 	// test_swap();
-// 	// test_equal();	
-// 	// test_insert();
-// 	// test_erase();
-// test_string();
+int main()
+{ 
+	// test_constructor();
+	// test_capacity();
+	// test_begin_end();
+	// test_access();
+	// test_find();
+	// test_bound();
+	// test_value_comp();  
+	// test_swap();
+	// test_equal();	
+	test_insert();
+	// test_erase();
+	// test_string();
 
-// 	NAME_USE::map<std::string,int> mymap;
-// 	mymap["1234567890123456"]=10;
-// 	NAME_USE::map<std::string,int>::iterator it = mymap.begin();
-// 	std::cout << it->first << " => " << it->second << '\n';
+	NAME_USE::map<std::string,int> mymap;
+	mymap["1234567890123456"]=10;
+	NAME_USE::map<std::string,int>::iterator it = mymap.begin();
+	std::cout << it->first << " => " << it->second << '\n';
 
-// return 0;	
-// }
+return 0;	
+}
 
 //----------------------------------------------------------------------------------
 template <typename T>
@@ -455,7 +463,7 @@ void	printSize(T_MAP const &mp, bool print_content = 1)
 // }
 
 
-//=-----------------------------------------------------------------------------
+// =-----------------------------------------------------------------------------
 // #define T1 int
 // #define T2 std::string
 // typedef NAME_USE::map<T1, T2>::value_type T3;
@@ -515,34 +523,33 @@ void	printSize(T_MAP const &mp, bool print_content = 1)
 // }
 
 
-//------------------------------------------------------------------------------
-#define T1 int
-#define T2 std::string
+// ------------------------------------------------------------------------------
+// #define T1 int
+// #define T2 std::string
 
-struct ft_more {
-	bool	operator()(const T1 &first, const T1 &second) const {
-		return (first > second);
-	}
-};
+// struct ft_more {
+// 	bool	operator()(const T1 &first, const T1 &second) const {
+// 		return (first > second);
+// 	}
+// };
 
-typedef NAME_USE::map<T1, T2, ft_more> ft_mp;
-// typedef NAME_USE::map<T1, T2, ft_more>::iterator ft_mp_it;
+// typedef NAME_USE::map<T1, T2, ft_more> ft_mp;
+// // typedef NAME_USE::map<T1, T2, ft_more>::iterator ft_mp_it;
 
-int		main(void)
-{
-	ft_mp mp;
+// int		main(void)
+// {
+// 	ft_mp mp;
 
-	mp[42] = "fgzgxfn";
-	mp[25] = "funny";
-	mp[80] = "hey";
-	mp[12] = "no";
-	mp[27] = "bee";
-	mp[90] = "8";
-	printSize(mp);
+// 	mp[42] = "fgzgxfn";
+// 	mp[25] = "funny";
+// 	mp[80] = "hey";
+// 	mp[12] = "no";
+// 	mp[27] = "bee";
+// 	mp[90] = "8";
+// 	printSize(mp);
 
-	return (0);
-}
+// 	return (0);
+// }
 
-// a faire 
-insert_node_it ne sert  a rien => insert_node
-debug compare
+// // a faire 
+// insert_node_it ne sert  a rien => insert_node

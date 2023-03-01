@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:40:48 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/27 09:32:18 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/01 11:12:24 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@
 namespace ft{
 
 	// template< class Key, class T, class Compare, class Allocator>
-	template < typename Key, typename T, typename Compare = std::less< Key >, // less is a type
-		    typename Allocator = std::allocator<ft::pair<const Key, T> > >
+	template < typename Key, typename T, typename Compare, typename Allocator > // recup linfo de map , pas besoin de remettre par default
 	class RBT
 	{
 		public:

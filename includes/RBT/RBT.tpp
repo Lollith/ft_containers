@@ -22,8 +22,8 @@ namespace ft
 
   //-----------------------------------constructor--------------------------------
 
-  template <class Key, class T, class Compare, class Allocator>
-  RBT<Key, T, Compare, Allocator>::RBT( const Compare &comp, const allocator_type &alloc )
+  template <class Key, class T, class Compare, class Allocator> 
+  RBT<Key, T, Compare, Allocator>::RBT( const Compare &comp, const allocator_type&alloc )
 {
 	// _leaf = new node_type(); // ne pas utiliser new cf REBIND , +delete a revoir
 	_leaf = _node_alloc.allocate( sizeof(node_type) );
@@ -188,7 +188,7 @@ RBT<Key, T, Compare, Allocator>::searchTreeHelper(pt_node node, Key k)
 {
 	if (node->_is_leaf || k == node->_pair_data.first)
 		return (node);
-	if (k < node->_pair_data.first)
+	if (_comp(k, node->_pair_data.first)) // importance dutiliser _comp et de ne pas le comparer avec < a la main, car template
 		return searchTreeHelper(node->_left, k);
     return searchTreeHelper(node->_right, k);
 }
@@ -201,7 +201,7 @@ RBT<Key, T, Compare, Allocator>::searchTreeHelper(pt_node node, Key const k) con
 		return (NULL); 
 	if (k == node->_pair_data.first)
 		return (node);
-	if (k < node->_pair_data.first)
+	if (_comp(k, node->_pair_data.first))
 		return searchTreeHelper(node->_left, k);
     return searchTreeHelper(node->_right, k);
   }
@@ -248,7 +248,7 @@ typename RBT<Key, T, Compare, Allocator>::iterator
 {
 	iterator it = begin();
 
-	while (it._current!= end()._current)  // normale;emt compare it et end()
+	while (it != end())  // normale;emt compare it et end()
 	{
 		if (!_comp(it->first, key)) //?true si a < b
 			return it;
@@ -263,9 +263,9 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator
 {
 	const_iterator it = begin();
 
-	while (it._current != end().current)
+	while (it != end())
 	{
-		if (!_comp(it->first, key)) //?true si a < b
+		if (!_comp(it->first, key))
 			return it;
 		it++;
 	}
@@ -278,7 +278,7 @@ typename RBT<Key, T, Compare, Allocator>::iterator
 {
 	iterator it = begin();
 
-	while (it._current!= end()._current)  // normale;emt compare it et end()
+	while (it != end())  // normale;emt compare it et end()
 	{
 		if (_comp(key, it->first)) //?true si a < b
 			return it;
@@ -293,7 +293,7 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator
 {
 	const_iterator it = begin();
 
-	while (it._current!= end()._current)  // normale;emt compare it et end()
+	while (it != end())  // normale;emt compare it et end()
 	{
 		if (_comp(key, it->first)) //?true si a < b
 			return it;
@@ -391,7 +391,7 @@ typename RBT<Key, T, Compare, Allocator>::pt_node
     while (!find->_is_leaf)
     {
     	parent = find;
-     	if (new_node->_pair_data.first < find->_pair_data.first)
+     	if (_comp(new_node->_pair_data.first, find->_pair_data.first))// importance de _comp et de ne pas faire a la main >
     		find = find->_left;
     	else
       		find = find->_right;
@@ -403,7 +403,7 @@ typename RBT<Key, T, Compare, Allocator>::pt_node
 		_root = new_node;
     	_root->_color = BLACK; // modif ici
     }
-    else if (new_node->_pair_data.first < parent->_pair_data.first)
+    else if (_comp(new_node->_pair_data.first, parent->_pair_data.first))
     	parent->_left = new_node;
     else
       parent->_right = new_node;
@@ -472,7 +472,7 @@ typename RBT<Key, T, Compare, Allocator>::pt_node
      while (!find->_is_leaf)
     {
     	parent = find;
-     	if (new_node->_pair_data.first < find->_pair_data.first)
+     	if (_comp(new_node->_pair_data.first, find->_pair_data.first))
     		find = find->_left;
     	else
       		find = find->_right;
@@ -484,7 +484,7 @@ typename RBT<Key, T, Compare, Allocator>::pt_node
 		_root = new_node;
     	_root->_color = BLACK; // modif ici
     }
-    else if (new_node->_pair_data.first < parent->_pair_data.first)
+    else if (_comp(new_node->_pair_data.first, parent->_pair_data.first))
     	parent->_left = new_node;
     else
       parent->_right = new_node;
@@ -510,7 +510,8 @@ template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::iterator 
 	RBT<Key, T, Compare, Allocator>::insert_node_pos(iterator position, const value_type &value )
 {
-	pt_node node_inserted;
+	pt_node		node_inserted;
+
 	node_inserted = insert_node_position(value, position);
 	iterator ret(node_inserted);
 	return ret;
@@ -595,7 +596,7 @@ void RBT<Key, T, Compare, Allocator>::delete_helper(pt_node nodeToDelete, key_ty
     {
     	if (nodeToDelete->_pair_data.first == key)
         	to_find = nodeToDelete;
-      	if (nodeToDelete->_pair_data.first <= key)
+      	if (_comp(nodeToDelete->_pair_data.first, key) || nodeToDelete->_pair_data.first == key)
         	nodeToDelete = nodeToDelete->_right;
       	else
        		nodeToDelete = nodeToDelete->_left;
