@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:53 by agouet            #+#    #+#             */
-/*   Updated: 2023/01/18 15:04:03 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/01 17:04:02 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,8 +191,8 @@ void vector<T, Allocator>::assign(size_type n, const T &val){
 
 template < typename T, typename Allocator>
 template <class InputIterator> 
-void vector<T, Allocator>::assign(typename enable_if<!ft::is_integral< InputIterator >::value,
-	InputIterator >::type first, InputIterator last){
+void vector<T, Allocator>::assign( InputIterator first, InputIterator last,
+			typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type*){
 	clear();
 	_insertHelper(begin(), first, last, typename ft::iterator_traits<InputIterator>::iterator_category());
 }
@@ -231,15 +231,28 @@ void vector<T, Allocator>::swap(vector& x){
 //or a range of elements ([first,last)).
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator position){
-	for (size_type i = 1; position + i != end(); i++)
-	{
-		_alloc.destroy(position + i - 1);
-		_alloc.construct(position + i - 1, *(position + i));
-	}
-	_alloc.destroy(end() - 1);
-	_size--;
-	return (position);
-}
+
+	this->_alloc.destroy(position);
+			for (size_type i = 0; position + i + 1 != this->end(); i++)
+			{
+				this->_alloc.construct(position + i, *(position + i + 1));
+				this->_alloc.destroy(position + i + 1);
+			}
+			this->_size--;
+			return position;
+		}
+
+
+	
+// 	for (size_type i = 1; position + i != end(); i++)
+// 	{
+// 		_alloc.construct(position + i - 1, *(position + i));
+// 		_alloc.destroy(position + i - 1);
+// 	}
+// 	_alloc.destroy(end() - 1);
+// 	_size--;
+// 	return (position);
+// }
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator first, iterator last){

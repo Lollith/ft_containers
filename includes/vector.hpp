@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:04 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/22 15:02:04 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/01 16:45:48 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 # include <iostream>
 # include <memory> //class Allocator
-# include "iterator_traits.hpp"
-# include "reverse_iterator.hpp"
-# include "is_integral.hpp"
-# include "enable_if.hpp"
-# include "equal.hpp"
-# include "lexicographical_compare.hpp"
+# include "iterators/iterator_traits.hpp"
+# include "iterators/reverse_iterator.hpp"
+# include "utils/is_integral.hpp"
+# include "utils/enable_if.hpp"
+# include "utils/equal.hpp"
+# include "utils/lexicographical_compare.hpp"
 # include <iterator>
 
 
@@ -108,8 +108,8 @@ namespace ft {
 		insert(iterator pos, InputIterator first, InputIterator last);
 			
 		template <class InputIterator>
-		void assign(typename enable_if<!ft::is_integral< InputIterator >::value, 
-			InputIterator >::type first, InputIterator last);
+		void assign( InputIterator first, InputIterator last,
+			typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type* = NULL);
 
 
 //access

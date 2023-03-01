@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:17 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/09 17:46:20 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/01 16:23:37 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,12 +195,17 @@ int main()
 {
 	std::cout <<"\e[1;33m"<< "Test: "<< NAME_USE::s << "\e[0m"<< std::endl;
 	
-	fonctions_principales();
-	resize_test();
-	pushback_test();
-	popback_test();
-	erase_insert_test();
+	// fonctions_principales();
+	// resize_test();
+	// pushback_test();
+	// popback_test();
+	// erase_insert_test();
+	
 	// retour_exeption_test(); //segfault sur la std
+	
+	NAME_USE::vector < std::string> v1;
+	v1.assign(5, "0");
+	v1.assign(0, "jkjkl");
 
 	return (0);
 
