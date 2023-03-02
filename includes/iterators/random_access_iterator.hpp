@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:44:28 by agouet            #+#    #+#             */
-/*   Updated: 2023/03/02 16:07:44 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/02 17:16:13 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,14 +155,14 @@ namespace ft {
 	bool operator==( const random_access_iterator<T1>& lhs,
 		const Iter & rhs )
 		{
-			return lhs.base() == rhs.base();
+			return lhs.base() == rhs;
 		}
 	
 	template< class T1, class Iter >
 	bool operator==( const Iter & rhs,
 		const random_access_iterator<T1>& lhs )
 		{
-			return lhs.base() == rhs.base();
+			return lhs.base() == rhs;
 		}
 	
 	template< class T1, class T2 >
@@ -234,6 +234,7 @@ namespace ft {
 
 		private:
 			pointer							_current;
+			
 		
 		public:
 			/* CONSTRUCTORS */

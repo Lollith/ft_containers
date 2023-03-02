@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 13:05:27 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/24 13:05:28 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/02 18:20:03 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,14 @@ class stack{
 	
 	
 	public:
-typedef T								value_type;
-typedef Container						container_type;
-typedef std::size_t						size_type;
-	
+typedef T										value_type;
+typedef Container								container_type;
+typedef std::size_t								size_type;
+typedef	typename Container::reference			reference;
+typedef	typename Container::const_reference		const_reference;	
+
 	protected:
+
 container_type 							_c;
 
 	public:

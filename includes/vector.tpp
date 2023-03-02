@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:53 by agouet            #+#    #+#             */
-/*   Updated: 2023/03/02 15:25:56 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/02 18:08:57 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,10 +256,10 @@ typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator pos
 
 	for (size_type i = 1; position + i != end(); i++)
 	{
-		_alloc.destroy(position + i - 1);
-		_alloc.construct(position + i - 1, *(position + i));
+		_alloc.destroy(&(*position) + i - 1);
+		_alloc.construct(&(*position) + i - 1, *(position + i));
 	}
-	_alloc.destroy(end() - 1);
+	_alloc.destroy(&_start[_size - 1]);
 	_size--;
 	return (position);
 }
@@ -282,20 +282,20 @@ typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator fir
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::iterator	
 	vector<T, Allocator>::insert( iterator position, const value_type& val ){
-	size_type dist_before_res = position - _start;
+	size_type dist_before_res = (position - begin());
 	if (_capacity == 0)
 		reserve(1);
 	if (_size + 1 > _capacity)
 		reserve(_capacity * 2);
-	iterator new_pos = _start + dist_before_res;
+	iterator new_pos = begin() + dist_before_res;
 			
 	for (iterator it = end(); it != new_pos; it--)
 	{
-		_alloc.construct(it, *(it - 1)); // met a case davant ds la case suivante
-		_alloc.destroy(it - 1);
+		_alloc.construct(&(*it), *(it - 1)); // met a case davant ds la case suivante
+		_alloc.destroy(&(*it) - 1);
 			
 	}
-		_alloc.construct(new_pos, val);
+		_alloc.construct(&(*new_pos), val);
 		_size++;
 		return (new_pos);
 }
@@ -304,7 +304,8 @@ template < typename T, typename Allocator>
 void	vector<T,Allocator>::insert( iterator position, size_type n, const value_type& val ){
 	if (n <= 0)
 		return ;
-	size_type dist_sp = (position - _start);
+	// size_type dist_sp = std::distance(position, begin());
+	size_type dist_sp = (position - begin());
 	size_type new_size = _size + n;
 	if (_capacity == 0)
 		reserve(n);
@@ -315,18 +316,18 @@ void	vector<T,Allocator>::insert( iterator position, size_type n, const value_ty
 		else
 			reserve(_size * 2);
 	}
-	position = _start + dist_sp;
+	position = begin() + dist_sp;
 	
 	iterator new_pos = (end() - 1) + n;
 	for (iterator it = end() - 1; it != (position - 1); it--) 
 	{
-		_alloc.construct(new_pos, *it);
-		_alloc.destroy(it);
+		_alloc.construct(&(*new_pos), *it); //new pos version castee
+		_alloc.destroy(&(*it));
 		new_pos--;
 	}
 	new_pos++;
 	for (;position != new_pos; position++)
-		_alloc.construct(position, val);
+		_alloc.construct(&(*position), val);
 	_size = _size + n;
 }
 
@@ -343,23 +344,22 @@ vector<T, Allocator>::insert(iterator pos, InputIterator first, InputIterator la
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::iterator vector<T, Allocator>::begin(){
-	return iterator(_start);
+	return (iterator(_start));
 }
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::const_iterator vector<T, Allocator>::begin() const{
-	return const_iterator(_start);
+	return (const_iterator(_start));
 }
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::reverse_iterator vector<T, Allocator>::rbegin(){
-	reverse_iterator it(_start + _size);
-	return it;
+	return(reverse_iterator(end()));
 }
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::const_reverse_iterator vector<T, Allocator>::rbegin() const{
-	return (const_reverse_iterator(_start + _size));
+	return (const_reverse_iterator(end()));
 }
 
 template < typename T, typename Allocator>
@@ -374,12 +374,12 @@ typename vector<T, Allocator>::const_iterator vector<T, Allocator>::end() const{
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::reverse_iterator vector<T, Allocator>::rend(){
-	return (reverse_iterator(_start));
+	return (reverse_iterator(begin()));
 }
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::const_reverse_iterator vector<T, Allocator>::rend() const{
-	return (const_reverse_iterator(_start));
+	return (const_reverse_iterator(begin()));
 }
 
 //---------------------------------------------get_allocator------------------------
