@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 13:26:25 by agouet            #+#    #+#             */
-/*   Updated: 2023/02/22 14:53:06 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/02 15:49:38 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 # include "iterator_traits.hpp"
 # include <iterator>
+#include "random_access_iterator.hpp"
  
 namespace ft {
 template <class Iterator>
@@ -33,10 +34,13 @@ class reverse_iterator : public std::iterator <typename iterator_traits<Iterator
 	public:
 		//Définissez les types de pointeur et de référence pour itérateur 
 		// en utilisant les types de votre conteneur comme modèle. 
+		typedef ft::iterator_traits<Iterator>		traits_type;
 		typedef Iterator											iterator_type;
 		typedef typename iterator_traits<Iterator>::difference_type	difference_type;
 		typedef typename iterator_traits<Iterator>::reference		reference;
 		typedef typename iterator_traits<Iterator>::pointer			pointer;
+		typedef	typename traits_type::iterator_category		iterator_category;
+			typedef	typename traits_type::value_type			value_type;
 
 //----------------------------------------constructor---------------------------	
 									reverse_iterator( void );

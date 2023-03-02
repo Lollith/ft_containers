@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:53 by agouet            #+#    #+#             */
-/*   Updated: 2023/03/01 18:22:47 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/02 15:25:56 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ vector<T, Allocator>::vector( const Allocator &alloc ) : // = Allocator , permet
 template < typename T, typename Allocator >
 vector<T, Allocator>::vector( size_type n, const value_type& value, const allocator_type& alloc ): // appel class T par default et class Allocator par defaut
 		_start(NULL), _size(n), _capacity(n), _alloc(alloc){
-	std::cout << "constructor 2 "<< std::endl;
+	// std::cout << "constructor 2 "<< std::endl;
 		// assign( n, value);
 	if (n <= 0)
 		return ;
@@ -103,6 +103,22 @@ vector<T, Allocator>::~vector( void )
 		_alloc.deallocate(_start, _capacity); // libere
 	_capacity = 0;
 }
+// if (_size > 0)
+// 			{
+// 				for (size_type i = 0; i < _size; ++i)
+// 				{
+// 					_alloc.destroy(&_start[i]);
+// 				}
+// 				_size = 0;
+// 			}
+
+// 			if (_start)
+// 			{
+// 				_alloc.deallocate(_start, _capacity);
+// 				_capacity = 0;
+// 				_start = NULL;
+// 			}
+// }
 		
 
 //-------------------------------------members fct  capacity--------------------
@@ -238,18 +254,6 @@ void vector<T, Allocator>::swap(vector& x){
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator position){
 
-	// this->_alloc.destroy(position);
-	// 		for (size_type i = 0; position + i + 1 != this->end(); i++)
-	// 		{
-	// 			this->_alloc.construct(position + i, *(position + i + 1));
-	// 			this->_alloc.destroy(position + i + 1);
-	// 		}
-	// 		this->_size--;
-	// 		return position;
-	// 	}
-
-
-	
 	for (size_type i = 1; position + i != end(); i++)
 	{
 		_alloc.destroy(position + i - 1);
@@ -262,24 +266,22 @@ typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator pos
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator first, iterator last){
-	for (iterator it = first; it < last ; it++)
-	{
-		_alloc.destroy(it);
-		_size--;
-	}
-	for (iterator it = first; it != end() ; it++)
-	{
-		_alloc.construct(it, *(last)); // met la case davant ds la case suivante
-		_alloc.destroy(last);
-		last++;
-	}
-	return (first);
+
+	size_type dist = std::distance(first, last);
+			while (dist > 0)
+			{
+				this->erase(first);
+				dist--;
+			}
+			return first;
+
 }
 
 //nserting new elements before the element at the specified position,
 // calcl la nouvelle pos ds new tableau de capacite *2 ou 1;
 template < typename T, typename Allocator>
-typename vector<T, Allocator>::iterator	vector<T, Allocator>::insert (iterator position, const value_type& val){
+typename vector<T, Allocator>::iterator	
+	vector<T, Allocator>::insert( iterator position, const value_type& val ){
 	size_type dist_before_res = position - _start;
 	if (_capacity == 0)
 		reserve(1);
@@ -299,7 +301,7 @@ typename vector<T, Allocator>::iterator	vector<T, Allocator>::insert (iterator p
 }
 
 template < typename T, typename Allocator>
-void	vector<T,Allocator>::insert (iterator position, size_type n, const value_type& val){
+void	vector<T,Allocator>::insert( iterator position, size_type n, const value_type& val ){
 	if (n <= 0)
 		return ;
 	size_type dist_sp = (position - _start);
@@ -341,17 +343,18 @@ vector<T, Allocator>::insert(iterator pos, InputIterator first, InputIterator la
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::iterator vector<T, Allocator>::begin(){
-	return (_start);
+	return iterator(_start);
 }
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::const_iterator vector<T, Allocator>::begin() const{
-	return (_start);
+	return const_iterator(_start);
 }
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::reverse_iterator vector<T, Allocator>::rbegin(){
-	return (reverse_iterator(_start + _size));
+	reverse_iterator it(_start + _size);
+	return it;
 }
 
 template < typename T, typename Allocator>
@@ -361,12 +364,12 @@ typename vector<T, Allocator>::const_reverse_iterator vector<T, Allocator>::rbeg
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::iterator vector<T, Allocator>::end(){
-	return (_start + _size);
+	return (iterator(_start + _size));
 }
 
 template < typename T, typename Allocator>
 typename vector<T, Allocator>::const_iterator vector<T, Allocator>::end() const{
-	return (_start + _size);
+	return (const_iterator(_start + _size));
 }
 
 template < typename T, typename Allocator>

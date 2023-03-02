@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:31:04 by agouet            #+#    #+#             */
-/*   Updated: 2023/03/01 18:17:50 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/02 15:34:29 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include "utils/enable_if.hpp"
 # include "utils/equal.hpp"
 # include "utils/lexicographical_compare.hpp"
-# include <iterator>
-
+# include "iterators/random_access_iterator.hpp"
+// # include <iterator>
 
 namespace ft {
 	//allocator = class
@@ -39,13 +39,15 @@ namespace ft {
 		typedef typename allocator_type::pointer				pointer;
 		typedef typename allocator_type::const_pointer			const_pointer;
 		
-		typedef std::ptrdiff_t									diference_type;
+		typedef std::ptrdiff_t									difference_type;
 		typedef std::size_t										size_type;
 
+		// typedef ft::random_access_iterator<pointer>					iterator;
+		// typedef ft::random_access_iterator<const_pointer>		const_iterator;
 		typedef T*												iterator;
-		typedef const T*										const_iterator;
-		typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
-		typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+		typedef T*												const_iterator;
+		typedef ft::reverse_iterator<iterator>			reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 	
 		
@@ -163,8 +165,10 @@ template < class T, class Allocator >
 bool operator==( const vector<T, Allocator >& lhs, const vector< T, Allocator >& rhs );	
 template < class T, class Allocator >
 bool operator!=( const vector< T, Allocator >& lhs, const vector< T, Allocator >& rhs );
+
 template < class T, class Allocator >  
 bool operator<( const vector< T, Allocator >& lhs, const vector< T, Allocator >& rhs );
+
 template < class T, class Allocator >
 bool operator<=( const vector< T, Allocator >& lhs, const vector<T, Allocator >& rhs );
 template < class T, class Allocator >

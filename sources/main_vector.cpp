@@ -6,7 +6,7 @@
 /*   By: agouet <agouet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 14:43:17 by agouet            #+#    #+#             */
-/*   Updated: 2023/03/01 18:08:30 by agouet           ###   ########.fr       */
+/*   Updated: 2023/03/02 16:03:44 by agouet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "vector.hpp"
 #include <vector>
 #include <iterator>
+#include "iterators/random_access_iterator.hpp"
 
 
 #ifdef FT
@@ -59,9 +60,9 @@ namespace std{
 
 void fonctions_principales(void)
 {
-	// NAME_USE::vector <int> v; //constructeur vide
-	// std::cout <<"\e[1;31m"<< "Constructor vide :"<< "\e[0m"<< std::endl;
-	// display(v);
+	NAME_USE::vector <int> v; //constructeur vide
+	std::cout <<"\e[1;31m"<< "Constructor vide :"<< "\e[0m"<< std::endl;
+	display(v);
 	
 	// v.reserve(10);
 	// std::cout <<"\e[1;31m"<< "Reserve(10) :"<< "\e[0m"<< std::endl;
@@ -75,9 +76,9 @@ void fonctions_principales(void)
 	// std::cout <<"\e[1;31m"<< "constructor (2):"<< "\e[0m"<< std::endl;
 	// display(v1);
 	
-	NAME_USE::vector <int> v4(0,-1); // constructeur 2 
-	std::cout <<"\e[1;31m"<< "(0 ,-1):"<< "\e[0m"<< std::endl;
-	display(v4);
+	// NAME_USE::vector <int> v4(0,-1); // constructeur 2 
+	// std::cout <<"\e[1;31m"<< "(0 ,-1):"<< "\e[0m"<< std::endl;
+	// display(v4);
 
 	// NAME_USE::vector <int> v2;
 	// v2 = v1;
@@ -99,117 +100,132 @@ void fonctions_principales(void)
 	// display(v5);
 }
 
-void resize_test(void)
-{
-	NAME_USE::vector <int> v3(7,1);	
-	v3.resize(2,0);
-	std::cout <<"\e[1;31m"<< "resize + petit :"<< "\e[0m"<< std::endl;
-	display(v3);
+// void resize_test(void)
+// {
+// 	NAME_USE::vector <int> v3(7,1);	
+// 	v3.resize(2,0);
+// 	std::cout <<"\e[1;31m"<< "resize + petit :"<< "\e[0m"<< std::endl;
+// 	display(v3);
 	
-	v3.resize(10,0);
-	std::cout <<"\e[1;31m"<< "resize + grand:"<< "\e[0m"<< std::endl;
-	display(v3);
+// 	v3.resize(10,0);
+// 	std::cout <<"\e[1;31m"<< "resize + grand:"<< "\e[0m"<< std::endl;
+// 	display(v3);
 
-	v3.resize(10,1);
-	std::cout <<"\e[1;31m"<< "resize  egal :"<< "\e[0m"<< std::endl;
-	display(v3);
-}
+// 	v3.resize(10,1);
+// 	std::cout <<"\e[1;31m"<< "resize  egal :"<< "\e[0m"<< std::endl;
+// 	display(v3);
+// }
 
-void pushback_test(){
-	 NAME_USE::vector <int> v4(3,1);	
-	std::cout <<"\e[1;31m"<< "pushback :"<< "\e[0m"<< std::endl;
-	display(v4);
-	v4.push_back(5);
-	display(v4);
-	v4.push_back(5);
-	display(v4);
-}
+// void pushback_test(){
+// 	 NAME_USE::vector <int> v4(3,1);	
+// 	std::cout <<"\e[1;31m"<< "pushback :"<< "\e[0m"<< std::endl;
+// 	display(v4);
+// 	v4.push_back(5);
+// 	display(v4);
+// 	v4.push_back(5);
+// 	display(v4);
+// }
 
-void popback_test(){
-	 NAME_USE::vector <int> v4(6,2);	
-	std::cout <<"\e[1;31m"<< "popback :"<< "\e[0m"<< std::endl;
-	v4.pop_back();
-	display(v4);
-	v4.pop_back();
-	display(v4);
-}
+// void popback_test(){
+// 	 NAME_USE::vector <int> v4(6,2);	
+// 	std::cout <<"\e[1;31m"<< "popback :"<< "\e[0m"<< std::endl;
+// 	v4.pop_back();
+// 	display(v4);
+// 	v4.pop_back();
+// 	display(v4);
+// }
 
-void erase_insert_test(){
-	NAME_USE::vector <int> v6;
-	std::cout <<"\e[1;31m"<< "insert :"<< "\e[0m"<< std::endl;
-	display(v6);
-	v6.insert(v6.begin(), 1);
-	v6.insert(v6.begin() + 1, 2);
-	v6.insert(v6.begin(), 0);
-	v6.push_back(3);
-	v6.push_back(4);
-	v6.push_back(5);
-	display(v6);
-	std::cout <<"\e[1;31m"<< "erase [1]:"<< "\e[0m"<< std::endl;
-	v6.erase(v6.begin()+1);
-	display(v6);
-	v6.insert(v6.begin()+1, 1);
-	display(v6);
-	std::cout <<"\e[1;31m"<< "erase [2-4[:"<< "\e[0m"<< std::endl;
-	v6.erase(v6.begin() +2,v6.begin() +4);
-	display(v6);
-	std::cout <<"\e[1;31m"<< "insert (2):"<< "\e[0m"<< std::endl;
-	v6.insert(v6.begin() + 3,5, 0);
-	display(v6);
-}
+// void erase_insert_test(){
+// 	NAME_USE::vector <int> v6;
+// 	std::cout <<"\e[1;31m"<< "insert :"<< "\e[0m"<< std::endl;
+// 	// display(v6);
+// 	v6.insert(v6.begin(), 1);
+// // 	v6.insert(v6.begin() + 1, 2);
+// // 	v6.insert(v6.begin(), 0);
+// // 	v6.push_back(3);
+// // 	v6.push_back(4);
+// // 	v6.push_back(5);
+// // 	display(v6);
+// // 	std::cout <<"\e[1;31m"<< "erase [1]:"<< "\e[0m"<< std::endl;
+// // 	v6.erase(v6.begin()+1);
+// // 	display(v6);
+// // 	v6.insert(v6.begin()+1, 1);
+// // 	display(v6);
+// // 	std::cout <<"\e[1;31m"<< "erase [2-4[:"<< "\e[0m"<< std::endl;
+// // 	v6.erase(v6.begin() +2,v6.begin() +4);
+// // 	display(v6);
+// // 	std::cout <<"\e[1;31m"<< "insert (2):"<< "\e[0m"<< std::endl;
+// // 	v6.insert(v6.begin() + 3,5, 0);
+// // 	display(v6);
+// }
 
-void retour_exeption_test(){
+// void retour_exeption_test(){
 
-	try{
-		NAME_USE::vector <int> v4;	
-		v4.pop_back();
-		display(v4);
-		v4.push_back(5);
-		display(v4);
-	}
-	catch(std::overflow_error const &e){
-		std::cerr << "ERREUR: "<< e.what() << std::endl;
-	}
-	std::cout<<std::endl;
+// 	try{
+// 		NAME_USE::vector <int> v4;	
+// 		v4.pop_back();
+// 		display(v4);
+// 		v4.push_back(5);
+// 		display(v4);
+// 	}
+// 	catch(std::overflow_error const &e){
+// 		std::cerr << "ERREUR: "<< e.what() << std::endl;
+// 	}
+// 	std::cout<<std::endl;
 
 
 
-	try{
-	NAME_USE::vector <int> v7;
-	v7.insert(v7.begin(), 0);
-	v7.insert(v7.begin(), 1);
-	v7.push_back(2);
-	v7.push_back(3);
-	v7.push_back(4);
-	std::cout <<"\e[1;31m"<< "at:"<< "\e[0m"<< std::endl;
-	std::cout << "at(3): " << v7.at(1) << std::endl;
-	std::cout<< "front(): "<< v7.front() << std::endl;
-	std::cout<< "back(): "<< v7.back() << std::endl;
-	std::cout << "at(10): " << v7.at(10) << std::endl;
-	}
+// 	try{
+// 	NAME_USE::vector <int> v7;
+// 	v7.insert(v7.begin(), 0);
+// 	v7.insert(v7.begin(), 1);
+// 	v7.push_back(2);
+// 	v7.push_back(3);
+// 	v7.push_back(4);
+// 	std::cout <<"\e[1;31m"<< "at:"<< "\e[0m"<< std::endl;
+// 	std::cout << "at(3): " << v7.at(1) << std::endl;
+// 	std::cout<< "front(): "<< v7.front() << std::endl;
+// 	std::cout<< "back(): "<< v7.back() << std::endl;
+// 	std::cout << "at(10): " << v7.at(10) << std::endl;
+// 	}
 
-	catch(std::out_of_range const &e){
-		std::cerr << "ERREUR: "<< e.what() << std::endl;
-	}
+// 	catch(std::out_of_range const &e){
+// 		std::cerr << "ERREUR: "<< e.what() << std::endl;
+// 	}
 	
-}
+// }
 
 
 int main() 
 {
 	std::cout <<"\e[1;33m"<< "Test: "<< NAME_USE::s << "\e[0m"<< std::endl;
 	
-	fonctions_principales();
-	// resize_test();
-	// pushback_test();
-	// popback_test();
-	// erase_insert_test();
+	// fonctions_principales();
+// 	resize_test();
+// 	pushback_test();
+// 	popback_test();
+// 	erase_insert_test();
 	
-	// retour_exeption_test(); //segfault sur la std
+// 	retour_exeption_test(); //segfault sur la std
 	
-	// NAME_USE::vector < std::string> v1;
-	// v1.assign(5, "0");
-	// v1.assign(0, "jkjkl");
+// 	NAME_USE::vector < std::string> v1;
+// 	v1.assign(5, "0");
+// 	v1.assign(0, "jkjkl");
+
+
+// //iterator_comparison
+	NAME_USE::vector <int> vect; 
+// 	vect.insert(vect.begin(), 0);
+// 	vect.insert(vect.begin()+1, 1);
+	NAME_USE::vector<int>::iterator it = vect.begin();
+	if(it == vect.begin())
+		std::cout << "=" << std::endl;
+	it++; 
+	if(it != vect.begin())
+		std::cout << "!=" << std::endl;
+	if (it < it)
+		std::cout << "<" << std::endl;
+	
 
 	return (0);
 
