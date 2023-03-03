@@ -160,41 +160,41 @@ void erase_insert_test(){
 	display(v6);
 }
 
-// void retour_exeption_test(){
+void retour_exeption_test(){
 
-// 	try{
-// 		NAME_USE::vector <int> v4;	
-// 		v4.pop_back();
-// 		display(v4);
-// 		v4.push_back(5);
-// 		display(v4);
-// 	}
-// 	catch(std::overflow_error const &e){
-// 		std::cerr << "ERREUR: "<< e.what() << std::endl;
-// 	}
-// 	std::cout<<std::endl;
+	try{
+		NAME_USE::vector <int> v4;	
+		v4.pop_back();
+		display(v4);
+		v4.push_back(5);
+		display(v4);
+	}
+	catch(std::overflow_error const &e){
+		std::cerr << "ERREUR: "<< e.what() << std::endl;
+	}
+	std::cout<<std::endl;
 
 
 
-// 	try{
-// 	NAME_USE::vector <int> v7;
-// 	v7.insert(v7.begin(), 0);
-// 	v7.insert(v7.begin(), 1);
-// 	v7.push_back(2);
-// 	v7.push_back(3);
-// 	v7.push_back(4);
-// 	std::cout <<"\e[1;31m"<< "at:"<< "\e[0m"<< std::endl;
-// 	std::cout << "at(3): " << v7.at(1) << std::endl;
-// 	std::cout<< "front(): "<< v7.front() << std::endl;
-// 	std::cout<< "back(): "<< v7.back() << std::endl;
-// 	std::cout << "at(10): " << v7.at(10) << std::endl;
-// 	}
+	try{
+	NAME_USE::vector <int> v7;
+	v7.insert(v7.begin(), 0);
+	v7.insert(v7.begin(), 1);
+	v7.push_back(2);
+	v7.push_back(3);
+	v7.push_back(4);
+	std::cout <<"\e[1;31m"<< "at:"<< "\e[0m"<< std::endl;
+	std::cout << "at(3): " << v7.at(1) << std::endl;
+	std::cout<< "front(): "<< v7.front() << std::endl;
+	std::cout<< "back(): "<< v7.back() << std::endl;
+	std::cout << "at(10): " << v7.at(10) << std::endl;
+	}
 
-// 	catch(std::out_of_range const &e){
-// 		std::cerr << "ERREUR: "<< e.what() << std::endl;
-// 	}
+	catch(std::out_of_range const &e){
+		std::cerr << "ERREUR: "<< e.what() << std::endl;
+	}
 	
-// }
+}
 
 
 int main() 

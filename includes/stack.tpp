@@ -19,19 +19,19 @@ namespace ft{
 template <class T, class Container>
 stack<T, Container>::stack ( const container_type& ctnr )
 {
-	_c = ctnr;
+	c = ctnr;
 }
 
 template <class T, class Container>
 stack<T, Container>::stack( const stack &other)
 {
-	_c = other._c;
+	c = other.c;
 }
 
 template <class T, class Container>
 stack<T, Container> &stack<T, Container>::operator=( const stack &other)
 {
-	_c = other._c;
+	c = other.c;
 	return *this;
 }
 
@@ -42,44 +42,44 @@ stack<T, Container>::~stack( void ){}
 template <class T, class Container>
 bool stack<T, Container>::empty( void ) const
 {
-	return (_c.empty());
+	return (c.empty());
 }
 
 template <class T, class Container>
 typename stack<T, Container>::size_type stack<T, Container>::size( void ) const
 {
-	return (_c.size());
+	return (c.size());
 }
 
 template <class T, class Container>
 typename stack<T, Container>::value_type &stack<T, Container>::top( void )
 {
-	return (_c.back());
+	return (c.back());
 }
 
 template <class T, class Container>
 const typename stack<T, Container>::value_type &stack<T, Container>::top( void ) const
 {
-	return (_c.back());
+	return (c.back());
 }
 
 template <class T, class Container>
 void stack<T, Container>::push( const value_type &val )
 {
-	_c.push_back(val);
+	c.push_back(val);
 }
 
 template <class T, class Container>
 void stack<T, Container>::pop( void )
 {
-	_c.pop_back();
+	c.pop_back();
 }
 
 //------------------------------------non_member-------------------------------
 template< class T, class Container >
 inline bool operator==( const stack<T,Container>& lhs, const stack<T,Container>& rhs )
 {
-	return lhs._c == rhs._c;
+	return lhs.c == rhs.c;
 }
 
 template< class T, class Container >
@@ -91,7 +91,7 @@ inline bool operator!=( const stack<T,Container>& lhs, const stack<T,Container>&
 template< class T, class Container >
 inline bool operator<( const stack<T,Container>& lhs, const stack<T,Container>& rhs )
 {
-	return lhs._c < rhs._c;
+	return lhs.c < rhs.c;
 }
 
 template< class T, class Container >

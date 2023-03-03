@@ -17,15 +17,15 @@
 # include <iostream>
 # include <memory>
 # include <functional> // std::less
-# include "equal.hpp"
-# include "pair.hpp"
-# include "lexicographical_compare.hpp"
-# include "enable_if.hpp"
-# include "is_integral.hpp"
-# include "RBT.hpp"
-# include "RBT_iterator.hpp" 
+# include "utils/equal.hpp"
+# include "utils/pair.hpp"
+# include "utils/lexicographical_compare.hpp"
+# include "utils/enable_if.hpp"
+# include "utils/is_integral.hpp"
+# include "RBT/RBT.hpp"
+# include "iterators/RBT_iterator.hpp" 
 // # include "iterator_traits.hpp" //iterator/
-# include "reverse_iterator.hpp"
+# include "iterators/reverse_iterator.hpp"
 
 namespace ft{
 
@@ -107,11 +107,11 @@ class map {
 			const allocator_type& alloc = allocator_type() );
 //range (2)	
 		template <class InputIterator>  
-		map(typename ft::enable_if< !ft::is_integral< InputIterator> ::value, 
+		map( typename ft::enable_if< !ft::is_integral< InputIterator> ::value, 
 			InputIterator>::type first, InputIterator last, const key_compare& comp = key_compare(), 
-			const allocator_type& alloc = allocator_type());
+			const allocator_type& alloc = allocator_type() );
 // //copy (3)	
-		map(const map &cpy);
+		map( const map &cpy );
 		
 		~map( void );
 
@@ -152,8 +152,8 @@ class map {
 		size_type 				erase( const key_type& x );
 		void 					erase( iterator first, iterator last );
 
-	void 						swap( map &other );
-	void 						clear( void );
+		void 					swap( map &other );
+		void 					clear( void );
 
 			//-----------------------observers----------------------------------
 	key_compare 				key_comp() const;
@@ -205,8 +205,8 @@ const map<Key,T,Compare,Allocator>& y);
 
 // specialized algorithms:
 template <class Key, class T, class Compare, class Allocator>
-void 	swap(map<Key,T,Compare,Allocator>& x,
-map<Key,T,Compare,Allocator>& y);
+void 	swap(map<Key, T, Compare, Allocator>& x,
+map<Key, T, Compare, Allocator>& y);
 
 
 }// ft

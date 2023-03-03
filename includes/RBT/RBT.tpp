@@ -170,21 +170,21 @@ void RBT<Key, T, Compare, Allocator>::swap(RBT & other)
   //----------------------------------------search -------------------------------
 template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::pt_node 
-RBT<Key, T, Compare, Allocator>::searchTree(Key k)
+	RBT<Key, T, Compare, Allocator>::searchTree(Key k)
 {
 	return searchTreeHelper(this->_root, k);
 }
 
 template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::pt_node 
-RBT<Key, T, Compare, Allocator>::searchTree(Key const k) const
+	RBT<Key, T, Compare, Allocator>::searchTree(Key const k) const
 {
 	return searchTreeHelper(this->_root, k);
 }
 
 template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::pt_node 
-RBT<Key, T, Compare, Allocator>::searchTreeHelper(pt_node node, Key k)
+	RBT<Key, T, Compare, Allocator>::searchTreeHelper(pt_node node, Key k)
 {
 	if (node->_is_leaf || k == node->_pair_data.first)
 		return (node);
@@ -197,10 +197,8 @@ template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::pt_node  // surcharge for count
 RBT<Key, T, Compare, Allocator>::searchTreeHelper(pt_node node, Key const k) const
 {
-	if (node->_is_leaf)
-		return (NULL); 
-	if (k == node->_pair_data.first)
-		return (node);
+	if (node->_is_leaf || k == node->_pair_data.first)
+		return (node); 
 	if (_comp(k, node->_pair_data.first))
 		return searchTreeHelper(node->_left, k);
     return searchTreeHelper(node->_right, k);
@@ -350,7 +348,8 @@ typename RBT<Key, T, Compare, Allocator>::key_compare
 }
 
 template <class Key, class T, class Compare, class Allocator>
-void RBT<Key, T, Compare, Allocator>::getAllocator( void )
+typename RBT<Key, T, Compare, Allocator>::allocator_type 
+	RBT<Key, T, Compare, Allocator>::getAllocator( void ) const
 {
 	return _alloc;
 }
@@ -592,7 +591,7 @@ void RBT<Key, T, Compare, Allocator>::delete_helper(pt_node nodeToDelete, key_ty
 
     // cherche la position ds l arbre du node a supprimer => devient to_find
     //  sinon return
-    while (!nodeToDelete->_is_leaf) // ou !nodeToDelete->is_leaf
+    while (!nodeToDelete->_is_leaf)
     {
     	if (nodeToDelete->_pair_data.first == key)
         	to_find = nodeToDelete;
@@ -622,7 +621,7 @@ void RBT<Key, T, Compare, Allocator>::delete_helper(pt_node nodeToDelete, key_ty
     // case I : repositionne la _leaf  sur le paarent de mon tofind
     successor = to_find;
     int successor_original_color = successor->_color;
-    if (to_find->_left == _leaf)
+    if (to_find->_left->_is_leaf)
     {
     	graft = to_find->_right;
     	rbTransplant(to_find, to_find->_right);
@@ -652,7 +651,7 @@ void RBT<Key, T, Compare, Allocator>::delete_helper(pt_node nodeToDelete, key_ty
 		successor->_left->_parent = successor;
 		successor->_color = to_find->_color;
     }
-    // delete (to_find);
+    _node_alloc.destroy(to_find);
     _node_alloc.deallocate(to_find, sizeof(node_type));
     if (successor_original_color == BLACK)
     	delete_balancing(graft);
@@ -734,6 +733,7 @@ template <class Key, class T, class Compare, class Allocator>
 void  RBT<Key, T, Compare, Allocator>::erase_node(iterator position)
 {
 	pt_node node_to_be_deleted = position._current;
+	
 	if (node_to_be_deleted->_left == _leaf_min)
 		_leaf_min->_parent = NULL;
 	if (node_to_be_deleted->_right == _leaf_max)
@@ -802,9 +802,9 @@ void RBT<Key, T, Compare, Allocator>::copy_tree(pt_node old_root, RBT &new_rbt)
 {
 	if (old_root->_is_leaf || !old_root->_left || !old_root->_right)
     	return;
-    copy_tree(old_root->_left, new_rbt);
-    copy_tree(old_root->_right, new_rbt);
-    new_rbt.insert_node(old_root->_pair_data);
+    copy_tree( old_root->_left, new_rbt );
+    copy_tree( old_root->_right, new_rbt );
+    new_rbt.insert_node( old_root->_pair_data );
 }
 
   // In right-rotation, the arrangement of the nodes on the left x is transformed into

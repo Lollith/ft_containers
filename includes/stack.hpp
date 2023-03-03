@@ -42,7 +42,7 @@ typedef	typename Container::const_reference		const_reference;
 
 	protected:
 
-container_type 							_c;
+container_type 							c;
 
 	public:
 

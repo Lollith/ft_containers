@@ -265,6 +265,17 @@ void test_swap()
   std::cout << "bar contains:\n";
   for (NAME_USE::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
     std::cout << it->first << " => " << it->second << '\n';
+
+
+
+	NAME_USE::swap(foo, bar);
+  std::cout << "foo contains:\n";
+  for (NAME_USE::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
+
+  std::cout << "bar contains:\n";
+  for (NAME_USE::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
 }
 
 void test_equal()
@@ -308,6 +319,7 @@ void test_erase()
 
 	it=mymap.find ('e');
 	mymap.erase ( it, mymap.end() );    // erasing by range
+	mymap.erase(mymap.begin());
 
 //   show content:
 	for (it=mymap.begin(); it!=mymap.end(); ++it)
@@ -321,6 +333,7 @@ void test_erase()
 	itr2 = mymap.rend();
 	std::cout << "rend "<<itr2->first << " - ";
 	std::cout << itr2->second << std::endl;
+    
 }
 
 void	test_constructor()
@@ -356,27 +369,26 @@ void test_string()
 	NAME_USE::map<std::string,int> mymap1 (mymap);
 	for (it=mymap1.begin(); it!=mymap1.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
+
+
 }
 
 int main()
 { 
-	// test_constructor();
-	// test_capacity();
-	// test_begin_end();
-	// test_access();
-	// test_find();
-	// test_bound();
-	// test_value_comp();  
-	// test_swap();
-	// test_equal();	
+	test_constructor();
+	test_capacity();
+	test_begin_end();
+	test_access();
+	test_find();
+	test_bound();
+	test_value_comp();  
+	test_swap();
+	test_equal();	
 	test_insert();
-	// test_erase();
-	// test_string();
+	test_erase();
+	test_string();
 
-	NAME_USE::map<std::string,int> mymap;
-	mymap["1234567890123456"]=10;
-	NAME_USE::map<std::string,int>::iterator it = mymap.begin();
-	std::cout << it->first << " => " << it->second << '\n';
+	
 
 return 0;	
 }

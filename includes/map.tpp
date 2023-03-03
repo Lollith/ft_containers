@@ -157,7 +157,7 @@ typename map< K, T, C, A >::size_type map< K, T, C, A>::max_size( void ) const
 //with the key exists, but throws an exception when it does not.
 
 template < typename K, typename T, typename C, typename A >
-typename map< K, T, C, A >::mapped_type &map< K, T, C, A >::operator[](const key_type& key){
+typename map< K, T, C, A >::mapped_type &map< K, T, C, A >::operator[]( const key_type& key ){
 	return(_tree.access_operator(key));
 }
 
@@ -319,8 +319,14 @@ typename map< Key ,T ,C ,A >::const_iterator map< Key, T, C, A >::find(const Key
 template < typename Key, typename T, typename C, typename A >
 typename map< Key ,T ,C ,A >::size_type map< Key ,T ,C ,A >::count(const Key& key) const
 {
-	if(_tree.searchTree(key))
-		return 1;
+	const_iterator it = begin();
+
+	while (!it.base()->_is_leaf)
+	{
+		if (key == (*it).first)
+			return 1;
+		++it;
+	}
 	return 0;
 }
 
@@ -416,8 +422,8 @@ inline bool operator>=( const ft::map<Key,T,Compare,Alloc>& lhs,
 	return !(lhs < rhs);
 }
 
-template< class Key, class Compare, class Alloc >
-void swap( ft::map<Key,Compare,Alloc>& lhs, ft::map<Key,Compare,Alloc>& rhs )
+template< class Key, class T, class Compare, class Allocator >
+void swap( ft::map<Key, T, Compare, Allocator>& lhs, ft::map<Key, T, Compare, Allocator>& rhs )
 {
 	lhs.swap(rhs);
 }

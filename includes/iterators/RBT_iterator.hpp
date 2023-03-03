@@ -113,7 +113,9 @@ struct RBT_iterator
 		RBT_const_iterator( void );
 		RBT_const_iterator( pt_node input);
 		RBT_const_iterator(const RBT_const_iterator &cpy);
-		RBT_const_iterator &operator=( const RBT_const_iterator &other );
+		RBT_const_iterator(const iterator & cpy); // test iterator
+		const_iterator &operator=( const const_iterator &other );
+		const_iterator & operator=( const iterator & other ); //util pour find()
 		~RBT_const_iterator ( void );
 		
 	//--------------------------------------accessor----------------------------

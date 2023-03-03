@@ -102,7 +102,7 @@ namespace ft{
 	//-----------------------observers------------------------------------------
 	
 		key_compare 		key_comp( void ) const;
-		void				getAllocator( void );
+		allocator_type		getAllocator( void ) const;
 	
 	//--------------------------------------- operations -------------------------
 		

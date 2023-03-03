@@ -161,10 +161,22 @@ RBT_const_iterator< Key, T>::RBT_const_iterator(const RBT_const_iterator &cpy)
 }
 
 template < class Key, class T >
-RBT_const_iterator<Key, T> &RBT_const_iterator< Key, T>::operator=( const RBT_const_iterator &other )
+RBT_const_iterator< Key, T>::RBT_const_iterator(const iterator & cpy){
+	_current = cpy.base();
+}
+
+template < class Key, class T >
+typename RBT_const_iterator< Key, T>::const_iterator &RBT_const_iterator< Key, T>::operator=( const const_iterator &other )
 {
 	_current = other.base();
 	return (*this);
+}
+
+template < class Key, class T >
+typename RBT_const_iterator< Key, T>::const_iterator & RBT_const_iterator< Key, T>::operator=( const iterator & other )
+{
+	_current = other.base();
+	return *this;
 }
 
 template < class Key, class T >
