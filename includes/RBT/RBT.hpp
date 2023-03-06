@@ -26,7 +26,6 @@
 
 namespace ft{
 
-	// template< class Key, class T, class Compare, class Allocator>
 	template < typename Key, typename T, typename Compare, typename Allocator > // recup linfo de map , pas besoin de remettre par default
 	class RBT
 	{
@@ -51,7 +50,7 @@ namespace ft{
 			
 		private:
 			pt_node										_root;
-			pt_node										_leaf;//TNULL _null_node
+			pt_node										_leaf;
 			pt_node										_leaf_max;
 			pt_node										_leaf_min;
 			allocator_type								_alloc;
@@ -143,7 +142,6 @@ namespace ft{
 		const_reverse_iterator 	rend( void ) const;
 		
 	//----------------------------------------affichage ------------------------
-		// void preOrderHelper	(pt_node node);
 
 		//helper permettent d appeler des attribut prive => appel dune 2eme fct 
 		//qui appel helper qui elle peut etre utlisee ds le main

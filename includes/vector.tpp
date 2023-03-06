@@ -12,6 +12,7 @@
 
 // The container keeps an internal copy of alloc, which is used to allocate storage throughout its lifetime.
 //Le constructeur a un paramètre, alloc, qui est une référence à un objet de type Allocateur.
+
 //  mot-clé explicit indique que ce constructeur ne peut être utilisé pour créer un 
 //objet vector que lorsqu'il est invoqué avec un argument de type Allocateur.
 
@@ -23,13 +24,12 @@
 
 //---------------------------------------------constructor----------------------
 namespace ft {
-	//size_type :: redefinir la class vector pour appeler le size_type
+	//size_type penser a redefinir la class vector pour appeler le size_type
 
 template < typename T, typename Allocator >// si pas de precision Alloc va compiler comme type T de la classe std::allocator
 vector<T, Allocator>::vector( const Allocator &alloc ) : // = Allocator , permet dappeler le template int seul et sans avoir a demander le template Alloc qui est aors appele par default
 		_start(NULL), _size(0), _capacity(0), _alloc(alloc)// appel le constructeur allocator qui sert a allouer de la memoire
 {
-	// std::cout << "constructor 1 "<< std::endl;
 	return;
 }
 
@@ -38,8 +38,6 @@ vector<T, Allocator>::vector( const Allocator &alloc ) : // = Allocator , permet
 template < typename T, typename Allocator >
 vector<T, Allocator>::vector( size_type n, const value_type& value, const allocator_type& alloc ): // appel class T par default et class Allocator par defaut
 		_start(NULL), _size(n), _capacity(n), _alloc(alloc){
-	// std::cout << "constructor 2 "<< std::endl;
-		// assign( n, value);
 	if (n <= 0)
 		return ;
 	if (n > this->max_size())
@@ -57,11 +55,10 @@ vector<T, Allocator>::vector( size_type n, const value_type& value, const alloca
 // type that can be used as an integer, such as int or long). This is to prevent
 //  the constructor from being called with arguments that are not iterators, 
 // which would result in a compile-time error.
-//  a metafunction is a function that operates on types rather than on values. 
+//  a metafunction is a function that operates on types rather than on values.
+
 template < typename T, typename Allocator >
 template <class InputIterator>
-// vector<T, Allocator>::vector(InputIterator first, InputIterator last, const allocator_type& alloc, 
-// 			typename enable_if<!ft::is_integral< InputIterator >::value, void* >::type*)
 vector<T, Allocator>::vector(typename enable_if< !ft::is_integral< InputIterator >::value,
 	InputIterator >::type first, InputIterator last, const allocator_type& alloc)
 {
@@ -75,7 +72,7 @@ vector<T, Allocator>::vector(typename enable_if< !ft::is_integral< InputIterator
 //initialise lhs = copie construite // rhs : ce que je copie
 template < typename T, typename Allocator >
 vector<T, Allocator>::vector( vector const &copy ){
-	_start = NULL; // util?? a tester??????????????????????????????????????????????
+	_start = NULL;
 	_size = 0;
 	_capacity = 0;
 	*this = copy;
@@ -100,30 +97,15 @@ vector<T, Allocator>::~vector( void )
 {
 	clear(); //destroy 1 par 1
 	if (_capacity > 0)
-		_alloc.deallocate(_start, _capacity); // libere
+		_alloc.deallocate(_start, _capacity);
 	_capacity = 0;
 }
-// if (_size > 0)
-// 			{
-// 				for (size_type i = 0; i < _size; ++i)
-// 				{
-// 					_alloc.destroy(&_start[i]);
-// 				}
-// 				_size = 0;
-// 			}
 
-// 			if (_start)
-// 			{
-// 				_alloc.deallocate(_start, _capacity);
-// 				_capacity = 0;
-// 				_start = NULL;
-// 			}
-// }
-		
 
 //-------------------------------------members fct  capacity--------------------
 //allocator::destroy = detruit le pointeur sur lobjet, ne desaloue pas le stockage pour liberer l place
 //allocator::deallocate = libere le block de stckage alloue, non detruit
+
 template < typename T, typename Allocator >
 typename vector<T, Allocator>::size_type vector<T, Allocator>::size( void ) const
 { 
@@ -191,7 +173,8 @@ void vector<T, Allocator>::reserve(size_type n)
 } 
 
 //-------------------------------------members fct modifier---------------------
-//clear = remove all element s , destroyed the objet( not the pointer), size =0
+//clear = remove all elements , destroyed the objet( not the pointer), size =0
+
 template < typename T, typename Allocator>
 void vector<T, Allocator>::clear( void ){
 	for(size_type i = 0; i < _size; i++)
@@ -291,7 +274,7 @@ typename vector<T, Allocator>::iterator
 			
 	for (iterator it = end(); it != new_pos; it--)
 	{
-		_alloc.construct(&(*it), *(it - 1)); // met a case davant ds la case suivante
+		_alloc.construct(&(*it), *(it - 1)); // met la case precedente ds la case suivante
 		_alloc.destroy(&(*it) - 1);
 			
 	}
@@ -304,7 +287,6 @@ template < typename T, typename Allocator>
 void	vector<T,Allocator>::insert( iterator position, size_type n, const value_type& val ){
 	if (n <= 0)
 		return ;
-	// size_type dist_sp = std::distance(position, begin());
 	size_type dist_sp = (position - begin());
 	size_type new_size = _size + n;
 	if (_capacity == 0)
@@ -321,7 +303,7 @@ void	vector<T,Allocator>::insert( iterator position, size_type n, const value_ty
 	iterator new_pos = (end() - 1) + n;
 	for (iterator it = end() - 1; it != (position - 1); it--) 
 	{
-		_alloc.construct(&(*new_pos), *it); //new pos version castee
+		_alloc.construct(&(*new_pos), *it); //new_pos castee
 		_alloc.destroy(&(*it));
 		new_pos--;
 	}

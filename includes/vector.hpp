@@ -52,9 +52,6 @@ namespace ft {
 	
 		
 //---------------------------------------------constructor----------------------
-// un constructeur avec un plage d'iterateur a mettre a l'iterieur a l'initalisation
-
-
 //(1)empty
 // Vector();
  		explicit vector( const allocator_type &alloc = allocator_type() );
@@ -62,13 +59,14 @@ namespace ft {
 //(2)fill count element , initialized with a Value val
 		explicit vector( size_type n, const T& value = T(), const Allocator& alloc = Allocator() ); // appel class T par default et class Allocator par defaut
 
-// //(3)range
+//(3)range
 		template< class InputIterator >
 		vector(typename enable_if<!ft::is_integral< InputIterator >::value, 
 			InputIterator >::type first, InputIterator last, const allocator_type& alloc = Allocator());
-// //(4)copy
+//(4)copy
 		vector (vector const &copy);
-// //destructeur
+		
+//destructeur
 		~vector( void );
 //operator=
 		vector &operator=( vector const& rhs );
@@ -127,13 +125,13 @@ namespace ft {
 //---------------------------------------------get_allocator------------------------
 
 		allocator_type	get_allocator( void ) const;
-	
-//---------------------------------------------attributs------------------------
-		//The container keeps an internal copy of alloc, which is used to allocate storage throughout its lifetime.
+
+//----------------------------------------------helper------------------------------	
 		private:
 			template<typename _InputIterator>
 			void _insertHelper(iterator pos, _InputIterator first, 
 				_InputIterator last, std::input_iterator_tag);
+
 			template<typename _ForwardIterator>
 			void _insertHelper(iterator pos, _ForwardIterator first, 
 				_ForwardIterator last, std::forward_iterator_tag);
@@ -141,10 +139,14 @@ namespace ft {
 			template<typename _InputIterator>
 			void _assignHelper(_InputIterator first, _InputIterator last, 
 				std::input_iterator_tag);
+				
 			template<typename _ForwardIterator>
 			void _assignHelper(_ForwardIterator first, _ForwardIterator last, 
 				std::forward_iterator_tag);
 		
+//---------------------------------------------attributs------------------------
+		//The container keeps an internal copy of alloc, which is used to allocate storage throughout its lifetime.
+
 			pointer			_start;// Un pointeur sur un tableau de valeurs de type générique T. Cela représentera notre espace de stockage pour les éléments du vecteur.
 			size_type		_size;//Un entier size qui indiquera le nombre d'éléments actuellement contenus dans le vecteur.
 			size_type		_capacity;// indique la capacité actuelle de l'espace de stockage alloué pour le vecteur.
@@ -162,7 +164,8 @@ inline void swap (vector<T, Allocator> &a, vector<T, Allocator> &b);
 
 //-----------------------------------------relational operators-----------------
 template < class T, class Allocator >  
-bool operator==( const vector<T, Allocator >& lhs, const vector< T, Allocator >& rhs );	
+bool operator==( const vector<T, Allocator >& lhs, const vector< T, Allocator >& rhs );
+
 template < class T, class Allocator >
 bool operator!=( const vector< T, Allocator >& lhs, const vector< T, Allocator >& rhs );
 
@@ -171,8 +174,10 @@ bool operator<( const vector< T, Allocator >& lhs, const vector< T, Allocator >&
 
 template < class T, class Allocator >
 bool operator<=( const vector< T, Allocator >& lhs, const vector<T, Allocator >& rhs );
+
 template < class T, class Allocator >
 bool operator>( const vector< T, Allocator >& lhs, const vector< T, Allocator >& rhs );
+
 template < class T, class Allocator >
 bool operator>=( const vector< T, Allocator >& lhs, const vector< T, Allocator >& rhs );
 

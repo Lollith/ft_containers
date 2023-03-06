@@ -27,7 +27,6 @@ template < class InputIterator >
 map<K, T, C, A>::map(typename ft::enable_if< !ft::is_integral< InputIterator> ::value, 
 	InputIterator>::type first, InputIterator last, const key_compare& comp, 
 	const allocator_type& alloc):_tree(){
-// std::cout <<"constructor range"<< std::endl;
 	this->_comp = comp;
 	this->_alloc = alloc;
 	for(; first != last; first++)
@@ -39,11 +38,7 @@ map<K, T, C, A>::map(typename ft::enable_if< !ft::is_integral< InputIterator> ::
 template < typename K, typename T, typename C, typename A >
 map<K, T, C, A>::map( const map &copy )
 {
-				// this->insert(copy.begin(), copy.end());
 	*this = copy;
-	// for (const_iterator it = copy.begin(); it != copy.end(); ++it) 
-				// _tree.insert_node(*it);
-	// 		}
 }
 
 // This destroys all container elements, and deallocates all the storage capacity 
@@ -52,7 +47,6 @@ template < typename K, typename T, typename C, typename A >
 map< K, T, C, A >::~map( void )
 {
 	clear();
-	//deallocate
 }
 
 //------------------------------operator=---------------------------
@@ -61,15 +55,9 @@ template < typename K, typename T, typename C, typename A >
 map< K, T, C, A> &map< K, T, C, A>::operator=( const map &rhs ){
 	if (this != &rhs)
 	{
-		// std::cout << "operator="<<std::endl;
-		// std::cout << rhs.begin()._current->_pair_data.first<<std::endl;
 		clear();//The elements stored in the container before the call are either assigned to or destroyed.
 		for (const_iterator it = rhs.begin(); it != rhs.end(); ++it) 
-		{
 			insert(*it);
-			// _tree.insert_node(it._current->_pair_data);
-			// _tree.insert_node_it(*it);
-		}
 		this->_alloc= rhs._alloc;
 		this->_comp = rhs._comp;
 	}
@@ -190,23 +178,22 @@ template < typename K, typename T, typename C, typename A >
 ft::pair<typename map< K, T, C, A >::iterator, bool> 
 	map< K, T, C, A >::insert( const value_type &value )
 {
+ // find return un iterator sur le 1er element
 	ft::pair<iterator, bool> ret;                                            
 	iterator searched_key = find( value.first );
-	// find return un iterator sur le 1er element
-
-// 	// // if map is empty, insert the node
+// if map is empty, insert the node
 	if (empty())
 	{
 		ret.first = _tree.insert_node_it(value);
 		ret.second = true;
 	}
-// 	// // key found -> no duplicate allowed
+// key found -> no duplicate allowed
 	else if (!searched_key.base()->_is_leaf)
 	{
 		ret.first = searched_key;
 		ret.second = false;
 	}
-// 	// // no key found, proceed with inserting the node
+// no key found, proceed with inserting the node
 	else
 	{
 		ret.first = _tree.insert_node_it(value);
@@ -283,8 +270,6 @@ void  map< Key ,T ,C ,A >::erase(iterator first, iterator last)
 	}
 }
 
-
-
 //-----------------------observers----------------------------------------------
 template < typename Key, typename T, typename C, typename A >
 typename map< Key ,T ,C ,A >::key_compare map< Key ,T ,C ,A >::key_comp() const
@@ -311,6 +296,7 @@ template < typename Key, typename T, typename C, typename A >
 typename map< Key ,T ,C ,A >::const_iterator map< Key, T, C, A >::find(const Key &k) const{
 	return (_tree.find(k));
 }
+
 // Searches the container for elements with a key equivalent to k and returns 
 //the number of matches.Because all elements in a map container are unique, the 
 //function can only return 1 (if the element is found) or zero (otherwise).
@@ -354,7 +340,6 @@ typename map< Key ,T ,C ,A >::const_iterator map< Key ,T ,C ,A >::upper_bound(co
 {
 	return _tree.upper_bound(key);
 }
-
 	
 template < typename Key, typename T, typename C, typename A >
 ft::pair<typename  map< Key ,T ,C ,A >::iterator, typename  map< Key ,T ,C ,A >::iterator> 
@@ -427,10 +412,5 @@ void swap( ft::map<Key, T, Compare, Allocator>& lhs, ft::map<Key, T, Compare, Al
 {
 	lhs.swap(rhs);
 }
-
-
-
-
-
 
 }//ft

@@ -24,7 +24,6 @@
 # include "utils/is_integral.hpp"
 # include "RBT/RBT.hpp"
 # include "iterators/RBT_iterator.hpp" 
-// # include "iterator_traits.hpp" //iterator/
 # include "iterators/reverse_iterator.hpp"
 
 namespace ft{
@@ -74,8 +73,6 @@ class map {
 		
 //------------------------------------------Alias-------------------------------		
 			typedef	Alloc											allocator_type;
-			// typedef	value_compare										value_compare;
-
 			typedef	value_type										&reference;
 			typedef	const value_type								&const_reference;
 			typedef typename Alloc::pointer 						pointer;
@@ -176,6 +173,7 @@ class map {
 
 			//--------------------------------allocator-------------------------
 	allocator_type 				get_allocator( void ) const;
+	
 	}; //map
 
 

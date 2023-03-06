@@ -29,26 +29,6 @@ RBT_node< Key, T >::RBT_node( void ){
 	_is_leaf = true;
 }
 
-// template < class Key, class T >
-// RBT_node< Key, T >::RBT_node( RBT_node *parent ){
-//     _pair_data = ft::make_pair(Key(), T());
-// 	_color = BLACK;
-// 	_left = NULL;
-// 	_right = NULL;
-// 	_parent = parent;
-// 	// _leaf = true;
-	
-// }
-
-
-// template < class Key, class T >
-// RBT_node< Key, T >::RBT_node( t_color color, RBT_node *parent, RBT_node *left, RBT_node *right, value_type pair_data ){
-// 	_pair_data = pair_data;
-// 	_color = color;
-// 	_left = left;
-// 	_right = right;
-// 	_parent = parent;
-// }
 
 template < class Key, class T >
 RBT_node< Key, T >::RBT_node( value_type pair_init ){
@@ -84,29 +64,13 @@ typename RBT_node< Key, T>::value_type *RBT_node< Key, T>::value_ptr()
 	value_type *tmp;
 	tmp = &(_pair_data);
 	return (tmp); // fait une copie de l adresse => pointe vers le meme objet
-	// return &(_pair_data);
 }
 
 template < class Key, class T >
 const typename RBT_node< Key, T>::value_type *RBT_node< Key, T>::value_ptr() const
 {
-	// const value_type *tmp;
-	// tmp = &(_pair_data);
-	// return (tmp); // fait une copie de l adresse => pointe vers le meme objet
 	return &(_pair_data);
 }
-
-// template < class Key, class T >
-// const typename RBT_node< Key, T>::value_type &RBT_node< Key, T>::value_ref() const
-// {
-// 	return (_pair_data);
-// }
-// template < class Key, class T >
-// typename RBT_node< Key, T>::value_type &RBT_node< Key, T>::value_ref()
-// {
-// 	return (_pair_data);
-// }
-
 
 
 }//ft 

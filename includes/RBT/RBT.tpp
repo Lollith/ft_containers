@@ -66,7 +66,6 @@ template <class Key, class T, class Compare, class Allocator>
 RBT<Key, T, Compare, Allocator>::~RBT(void)
 {
 	delete_tree(this->_root); // desalouer et nno dilete
-    // delete _leaf;                      /// desalouer et non delete
     _node_alloc.deallocate(_leaf, sizeof(node_type));
     _node_alloc.deallocate(_leaf_min, sizeof(node_type));
     _node_alloc.deallocate(_leaf_max, sizeof(node_type));
@@ -211,14 +210,6 @@ typename RBT<Key, T, Compare, Allocator>::iterator
 {
 	pt_node node_to_find = searchTree(key);
 
-	// std::cout << "find apres seach" << std::endl;
-	// std::cout << node_to_find->_pair_data.first << std::endl;
-	
-	
-	// if (node_to_find == _root)
-	// {
-	// 	return (_root);
-	// }
 	iterator ret(node_to_find); //creates a new object of type "iterator" and initializes it with the value of "node_to_find".
 	return (ret);
 }
@@ -229,8 +220,6 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator
 {
 	pt_node node_to_find = searchTree(key);
 
-	// if (node_to_find == _leaf)
-	// 	return (end());
 	const_iterator ret(node_to_find);
 	return (ret);
 }
@@ -246,9 +235,9 @@ typename RBT<Key, T, Compare, Allocator>::iterator
 {
 	iterator it = begin();
 
-	while (it != end())  // normale;emt compare it et end()
+	while (it != end())
 	{
-		if (!_comp(it->first, key)) //?true si a < b
+		if (!_comp(it->first, key))
 			return it;
 		it++;
 	}
@@ -276,9 +265,9 @@ typename RBT<Key, T, Compare, Allocator>::iterator
 {
 	iterator it = begin();
 
-	while (it != end())  // normale;emt compare it et end()
+	while (it != end())
 	{
-		if (_comp(key, it->first)) //?true si a < b
+		if (_comp(key, it->first))
 			return it;
 		it++;
 	}
@@ -291,9 +280,9 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator
 {
 	const_iterator it = begin();
 
-	while (it != end())  // normale;emt compare it et end()
+	while (it != end())
 	{
-		if (_comp(key, it->first)) //?true si a < b
+		if (_comp(key, it->first))
 			return it;
 		it++;
 	}
@@ -390,7 +379,7 @@ typename RBT<Key, T, Compare, Allocator>::pt_node
     while (!find->_is_leaf)
     {
     	parent = find;
-     	if (_comp(new_node->_pair_data.first, find->_pair_data.first))// importance de _comp et de ne pas faire a la main >
+     	if (_comp(new_node->_pair_data.first, find->_pair_data.first))
     		find = find->_left;
     	else
       		find = find->_right;
@@ -443,8 +432,6 @@ typename RBT<Key, T, Compare, Allocator>::pt_node
 		 // pt_node new_node = new node_type(RED, NULL, _leaf, _leaf, pair_data) ;/// NEW => rebind
     pt_node new_node = _node_alloc.allocate(sizeof(node_type));
 	_node_alloc.construct(new_node, pair<Key, T>(pair_data.first, pair_data.second) );
-    // new_node->_pair_data.first = pair_data.first;
-    // new_node->_pair_data.second = pair_data.second;
     new_node->_parent = NULL;
     new_node->_left = _leaf;
     new_node->_right = _leaf;
@@ -481,7 +468,7 @@ typename RBT<Key, T, Compare, Allocator>::pt_node
     if (parent == NULL)
     {
 		_root = new_node;
-    	_root->_color = BLACK; // modif ici
+    	_root->_color = BLACK;
     }
     else if (_comp(new_node->_pair_data.first, parent->_pair_data.first))
     	parent->_left = new_node;
@@ -741,8 +728,6 @@ void  RBT<Key, T, Compare, Allocator>::erase_node(iterator position)
 
 	delete_node(node_to_be_deleted->_pair_data.first);
 	replace_extremity();
-
-			// --_node_count;
 }
  
   //---------------------------------------------tools----------------------------
@@ -791,7 +776,6 @@ void RBT<Key, T, Compare, Allocator>::delete_tree(pt_node root)
     	return;
 	delete_tree(root->_left);
 	delete_tree(root->_right);
-    // delete root;
 	_node_alloc.destroy(root);
 	_node_alloc.deallocate(root, sizeof(node_type));
 	root = _leaf;
@@ -853,30 +837,19 @@ void RBT<Key, T, Compare, Allocator>::replace_extremity( void )
 	pt_node tmp = minimum(_root);
 	if (_leaf_min->_parent)
 	{
-		// std::cout << "here" << std::endl;
 		if (_leaf_min->_parent->_left == _leaf_min)
 			_leaf_min->_parent->_left = _leaf;
-		// tmp->_left = _leaf_min;
-		// _leaf_min->_parent = tmp;
 	}
-	// else
-	// {
 	tmp->_left = _leaf_min;
 	_leaf_min->_parent = tmp;
-	// }
 	tmp = maximum(_root);
 	if (_leaf_max->_parent)
 	{
 		if (_leaf_max->_parent->_right == _leaf_max)
 			_leaf_max->_parent->_right = _leaf;
-	// 	// tmp->_right = _leaf;
-	// 	// _leaf_max->_parent = tmp;
 	}
-	// // else
-	// // {
 	tmp->_right = _leaf_max;
 	_leaf_max->_parent = tmp;
-	// // }
   }
 
   //----------------------------------iterator--------------------------------
@@ -894,7 +867,6 @@ typename RBT<Key, T, Compare, Allocator>::iterator
 		node = _leaf_min; 
 	else	
 		node = _leaf_min->_parent;
-	// std::cout << node->_pair_data.first << std::endl;
 	iterator ret(node);
 	return ret;
 }
@@ -923,25 +895,12 @@ typename RBT<Key, T, Compare, Allocator>::const_iterator
 
 // pb : prendre, comme node de fin, le maximum(_root)->right = leaf = or une fois ds LA leaf => impossiblde de 
 //remonter de 1 en utilisant les reverse iterator
-// template <class Key, class T, class Compare, class Allocator>
-// typename RBT<Key, T, Compare, Allocator>::iterator 
-// 	RBT<Key, T, Compare, Allocator>::end(void)
-// {
-// 	pt_node node;
 
-// 	if(_root == _leaf)
-// 		return (begin());
-
-// 	node = maximum(_root)->_right;
-// 	iterator ret(node);
-//     return (ret);			
-// }
 
 template <class Key, class T, class Compare, class Allocator>
 typename RBT<Key, T, Compare, Allocator>::iterator 
 	RBT<Key, T, Compare, Allocator>::end(void)
-{
-			
+{	
 	iterator ret(_leaf_max);
 	return ret;
 }
@@ -988,16 +947,6 @@ typename RBT<Key, T, Compare, Allocator>::const_reverse_iterator
 	return (ret);
 }
   //----------------------------------------affichage ------------------------
-
-  // template< class Key, class T, class Compare, class Allocator >
-  // void RBT<Key,T, Compare, Allocator>::preOrderHelper	(pt_node node){
-  // 	if	(node != _null)
-  // 	{
-  // 		std::cout << node->_pair_data.first<< " ";
-  // 		preOrderHelper(node->_left);
-  // 		preOrderHelper(node->_right);
-  // 	}
-  // }
 
   // Le parcours en profondeur d’un arbre binaire non vide consiste à le parcourir
   // récursivement : on parcourt son sous-arbre gauche, puis son sous-arbre droit,

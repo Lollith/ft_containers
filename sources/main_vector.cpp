@@ -37,9 +37,19 @@ static void display(NAME_USE::vector<T, Allocator>& vect)
 	for (typename NAME_USE::vector<T>::iterator it = vect.begin(); it != vect.end(); it++)
 		std::cout << *it << ", ";
 	std::cout << std::endl;
+
 	std::cout <<"reverse ite :" << std::endl;
 	for (typename NAME_USE::vector<T>::reverse_iterator it2 = vect.rbegin(); it2 != vect.rend(); it2++)
 		std::cout << *it2 << ", ";
+	std::cout << std::endl;
+	
+	
+	std::cout <<"const ite :" << std::endl;
+	for (typename NAME_USE::vector<T>::const_iterator it3 = vect.begin(); it3 != vect.end(); it3++)
+		std::cout << *it3 << ", ";
+	std::cout << std::endl;
+	
+	
 	std::cout << std::endl;
 	std::cout << "size: " << vect.size() << std::endl;
 	std::cout << "max_size: " << vect.max_size() << std::endl;
@@ -80,6 +90,10 @@ void fonctions_principales(void)
 	NAME_USE::vector <int> v4(0,-1); // constructeur 2 
 	std::cout <<"\e[1;31m"<< "(0 ,-1):"<< "\e[0m"<< std::endl;
 	display(v4);
+	
+	v.assign(5, 3);
+	std::cout <<"\e[1;31m"<< "assign(5, 3) :"<< "\e[0m"<< std::endl;
+	display(v);
 
 	NAME_USE::vector <int> v2;
 	v2 = v1;
@@ -101,6 +115,20 @@ void fonctions_principales(void)
 	display(v5);
 }
 
+void iterator_comparison()
+{
+	NAME_USE::vector <int> vect; 
+	vect.insert(vect.begin(), 0);
+	vect.insert(vect.begin()+1, 1);
+	NAME_USE::vector<int>::iterator it = vect.begin();
+	if(it == vect.begin())
+		std::cout << "=" << std::endl;
+	it++; 
+	if(it != vect.begin())
+		std::cout << "!=" << std::endl;
+	if (it < it  )
+		std::cout << "<" << std::endl;
+}
 void resize_test(void)
 {
 	NAME_USE::vector <int> v3(7,1);	
@@ -201,31 +229,21 @@ int main()
 {
 	std::cout <<"\e[1;33m"<< "Test: "<< NAME_USE::s << "\e[0m"<< std::endl;
 	
-	// fonctions_principales();
+	fonctions_principales();
 	resize_test();
 	pushback_test();
 	popback_test();
 	erase_insert_test();
+	iterator_comparison();
 	
 // 	retour_exeption_test(); //segfault sur la std
 	
-	NAME_USE::vector < std::string> v1;
-	v1.assign(5, "0");
-	v1.assign(0, "jkjkl");
+	// NAME_USE::vector < std::string> v1;
+	// v1.assign(5, "0");
+	// v1.assign(0, "jkjkl");
 
 
-// //iterator_comparison
-	NAME_USE::vector <int> vect; 
-// 	vect.insert(vect.begin(), 0);
-// 	vect.insert(vect.begin()+1, 1);
-	NAME_USE::vector<int>::iterator it = vect.begin();
-	if(it == vect.begin())
-		std::cout << "=" << std::endl;
-	// it++; 
-	if(it != vect.begin())
-		std::cout << "!=" << std::endl;
-	if (it < it  )
-		std::cout << "<" << std::endl;
+
 	
 
 	return (0);
